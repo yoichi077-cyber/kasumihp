@@ -1,0 +1,659 @@
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap');
+
+:root {
+  --oat: #f3efe4;
+  --surface: #fffdf8;
+  --ink: #362f26;
+  --ink-soft: #766c5c;
+  --wood: #8a5a34;
+  --wood-deep: #5f3b1f;
+  --blue: #5f7f95;
+  --rose: #c98a87;
+  --border: rgba(54, 47, 38, 0.12);
+  --shadow: rgba(54, 47, 38, 0.16);
+
+  /* 入口ギミック専用(絵本・夜空トーン) */
+  --night-deep: #131a3a;
+  --night-mid: #262c58;
+  --night-soft: #3b3a6b;
+  --cloud-pink: #e9b3c9;
+  --cloud-lilac: #b3a6dd;
+  --cloud-blue: #8fa5d9;
+  --moon: #f6e8c3;
+  --star: #fff6df;
+  --paper-dark: #4a2f1c;
+  --paper-mid: #8a5a34;
+  --paper-light: #c99a5f;
+  --cat-fur: #d09a4d;
+  --cat-cream: #f9f2e2;
+  --glow: #f0c987;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--oat);
+  color: var(--ink);
+  font-family: "Zen Kaku Gothic New", "Hiragino Sans", sans-serif;
+  line-height: 1.75;
+}
+
+img { max-width: 100%; display: block; }
+
+h1, h2, h3 {
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-weight: 700;
+  text-wrap: balance;
+  margin: 0;
+}
+
+a { color: inherit; }
+
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---------- entrance gimmick(絵本の8場面をカメラで進む) ---------- */
+.entrance {
+  position: relative;
+  height: 0; /* JS が読み込み後に高さ(px)を付与する。JS無効時は何も表示せず本編へ */
+  /* 注意: ここに overflow:hidden を付けると子の position:sticky が効かなくなる */
+}
+
+.entrance-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh; /* JSが px 指定で上書きする。フォールバック用の初期値 */
+  overflow: hidden;
+  background: #cfe4f2; /* 絵の空の色。読み込み前のちらつき防止 */
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+.scene img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+/* 最初の場面だけは最初から見えている状態にする(JSが動く前のちらつき防止) */
+.scene[data-scene="0"] { opacity: 1; }
+
+.scene-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 13%;
+  z-index: 3;
+  margin: 0;
+  text-align: center;
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-weight: 700;
+  font-size: clamp(16px, 2.8vw, 22px);
+  color: #fffdf6;
+  letter-spacing: 0.04em;
+  text-shadow: 0 2px 14px rgba(40, 60, 30, 0.55), 0 0 30px rgba(40, 60, 30, 0.35);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.scroll-hint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 40px;
+  z-index: 3;
+  margin: 0;
+  text-align: center;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 8px rgba(40, 60, 30, 0.6);
+  animation: bob 1.6s ease-in-out infinite;
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+.entrance-skip {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  z-index: 5;
+  background: rgba(255, 255, 255, 0.75);
+  border: none;
+  border-radius: 999px;
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-size: 12.5px;
+  color: #4a5a3a;
+  cursor: pointer;
+  padding: 8px 16px;
+  box-shadow: 0 2px 10px rgba(40, 60, 30, 0.2);
+}
+.entrance-skip:hover { background: #fff; }
+
+/* ---------- header ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(243, 239, 228, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--border);
+  transition: opacity 0.2s linear;
+}
+.site-header .wrap {
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: 0.03em;
+}
+.logo span { color: var(--wood); font-size: 0.72em; font-weight: 500; letter-spacing: 0.16em; }
+.nav {
+  display: flex;
+  gap: 28px;
+  font-size: 14px;
+}
+.nav a {
+  text-decoration: none;
+  color: var(--ink-soft);
+}
+.nav a:hover { color: var(--wood); }
+
+/* 季節お知らせバナー(通常は非表示、テーマ適用時のみ script.js が表示) */
+.season-banner {
+  background: var(--wood);
+  color: var(--surface);
+  text-align: center;
+  font-size: 13.5px;
+  padding: 8px 12px;
+}
+
+/* ---------- hero ---------- */
+.hero {
+  position: relative;
+  min-height: 78vh;
+  display: flex;
+  align-items: flex-end;
+  background-size: cover;
+  background-position: center 30%;
+  background-image: linear-gradient(
+      to top,
+      rgba(30, 22, 12, 0.75) 0%,
+      rgba(30, 22, 12, 0.15) 55%,
+      rgba(30, 22, 12, 0.25) 100%
+    ),
+    url("images/hero-section.jpg"); /* 2026-09-13: 入口の最後の写真(hero-normal.jpg)と同じ写真が続いていたので、人が写っていない店内全体の写真に変更 */
+}
+.hero-inner {
+  padding: 48px 24px 56px;
+  max-width: 1080px;
+  margin: 0 auto;
+  width: 100%;
+  color: #fff;
+}
+.hero-eyebrow {
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-bottom: 12px;
+}
+.hero h1 {
+  font-size: clamp(28px, 5vw, 44px);
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+.hero p {
+  font-size: 15px;
+  max-width: 40ch;
+  opacity: 0.92;
+  margin-bottom: 26px;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  padding: 13px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14.5px;
+}
+.btn:hover { background: #fff; }
+
+/* ---------- section shell ---------- */
+section { padding: 80px 0; }
+.section-head {
+  margin-bottom: 40px;
+  max-width: 60ch;
+}
+.eyebrow {
+  font-size: 12.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--wood);
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+.section-head h2 { font-size: clamp(22px, 3vw, 28px); margin-bottom: 12px; }
+.section-head p { color: var(--ink-soft); font-size: 14.5px; }
+
+/* ---------- concept ---------- */
+.concept {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+.concept img {
+  border-radius: 4px;
+  box-shadow: 0 24px 48px -24px var(--shadow);
+}
+.concept-text p {
+  color: var(--ink-soft);
+  font-size: 14.5px;
+  margin-bottom: 16px;
+}
+.concept-steps {
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.concept-steps li {
+  display: flex;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.concept-steps .num {
+  flex: none;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--oat);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: var(--wood);
+}
+
+/* ---------- hours ---------- */
+.hours {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.hours-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.hours-card {
+  background: var(--surface);
+  padding: 28px 24px;
+}
+.hours-card .time {
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--wood);
+  margin-bottom: 8px;
+  font-variant-numeric: tabular-nums;
+}
+.hours-card .label { font-size: 13.5px; color: var(--ink-soft); }
+
+/* ---------- menu ---------- */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+.menu-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.menu-card .thumb {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+}
+.menu-card .thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.menu-card .body { padding: 18px 20px 22px; }
+.menu-card h3 { font-size: 15.5px; margin-bottom: 6px; }
+.menu-card p { font-size: 13px; color: var(--ink-soft); margin: 0; }
+
+.menu-more {
+  margin-top: 28px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  border-top: 1px dashed var(--border);
+  padding-top: 20px;
+}
+.menu-more b { color: var(--ink); }
+
+/* ---------- access ---------- */
+.access {
+  background: var(--wood-deep);
+  color: #fff;
+}
+.access .section-head p,
+.access .eyebrow { color: rgba(255,255,255,0.7); }
+.access-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+.access dl {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  gap: 14px 16px;
+  font-size: 14.5px;
+}
+.access dt { color: rgba(255,255,255,0.55); }
+.access dd { margin: 0; }
+
+.sns-row {
+  display: flex;
+  gap: 14px;
+  margin-top: 24px;
+}
+.sns-row a {
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 999px;
+  padding: 9px 18px;
+  font-size: 13.5px;
+  text-decoration: none;
+}
+.sns-row a:hover { background: rgba(255,255,255,0.1); }
+
+/* ---------- footer ---------- */
+footer {
+  padding: 28px 0;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 860px) {
+  .nav { display: none; }
+  .concept { grid-template-columns: 1fr; }
+  .hours-grid { grid-template-columns: 1fr; }
+  .menu-grid { grid-template-columns: 1fr 1fr; }
+  .access-grid { grid-template-columns: 1fr; gap: 28px; }
+}
+@media (max-width: 560px) {
+  .menu-grid { grid-template-columns: 1fr; }
+  section { padding: 56px 0; }
+}
+
+/* 入口ギミック: 明るい絵の上でも字幕・案内が読めるように下地を敷く */
+.scroll-hint {
+  display: inline-block;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(40, 60, 30, 0.42);
+  color: #fff;
+  text-shadow: none;
+  animation: bob-centered 1.6s ease-in-out infinite;
+}
+@keyframes bob-centered {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 8px); }
+}
+.scene-caption {
+  text-shadow: 0 2px 14px rgba(40, 60, 30, 0.7), 0 0 34px rgba(40, 60, 30, 0.55), 0 1px 2px rgba(0,0,0,0.5);
+}
+
+
+/* 2026-09-05: 風の歪み演出はトシっちから「花が揺れているように見えない」とNG。動画差し替え待ちのため無効化 */
+
+/* 場面の動画版: 静止画の上にぴったり重ねる(縦横比が違う分は cover で切り取る) */
+
+
+/* ---------- 夜カフェ(昼→夜に変わるスクロール演出) ---------- */
+.night {
+  position: relative;
+  height: 0;      /* night.js が画面4つ分の高さ(px)を付ける */
+  padding: 0;
+  background: #0b0d1a;
+}
+.night-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;  /* JSが px で上書き */
+  overflow: hidden;
+  background: #0b0d1a;
+}
+.night-day,
+.night-interior img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.night-day { object-position: 50% 40%; transform-origin: 50% 45%; will-change: transform; }
+.night-interior { position: absolute; inset: 0; opacity: 0; }
+.night-dark {
+  position: absolute;
+  inset: 0;
+  /* 真っ黒ではなく、上がわずかに紺、下がほぼ黒の夜空 */
+  background: linear-gradient(180deg, #0b0f24 0%, #07091a 45%, #05060e 100%);
+  opacity: 0;
+}
+.night-sky { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; }
+.night-moon {
+  position: absolute;
+  left: 50%;
+  top: 70%;
+  width: min(38vw, 240px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  /* 本物の月のライトの写真(interior-landscape.jpg から切り抜き)。クレーターも実物 */
+  background: #06070f url("images/night/moon.png") center / 104% no-repeat; /* 少し拡大して切り抜きの縁を隠す */
+  box-shadow: 0 0 30px 6px rgba(240, 236, 224, 0.28), 0 0 120px 40px rgba(240, 236, 224, 0.10);
+  opacity: 0;
+}
+.night-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 74%;
+  margin: 0;
+  text-align: center;
+  color: #f6efdc;
+  font-family: "Zen Maru Gothic", sans-serif;
+  opacity: 0;
+  pointer-events: none;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
+}
+.night-caption span { display: block; font-size: clamp(14px, 2.4vw, 18px); letter-spacing: 0.22em; }
+.night-caption b { display: block; font-size: clamp(32px, 7vw, 58px); font-weight: 700; letter-spacing: 0.08em; line-height: 1.3; }
+
+/* 動きを減らす設定の時の静止表示 */
+.night--static .night-sticky { position: relative; height: 80vh; }
+.night--static .night-day,
+.night--static .night-dark,
+.night--static .night-sky { display: none; }
+.night--static .night-interior,
+.night--static .night-caption { opacity: 1; }
+
+.night-menu {
+  background: #0f1120;
+  color: #efe8d6;
+}
+.night-menu .eyebrow,
+.night-menu .section-head p { color: rgba(239, 232, 214, 0.7); }
+.night-photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 680px;
+  margin: 0 auto 40px;
+}
+.night-photos figure { margin: 0; }
+.night-photos img { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 4px; }
+.night-photos figcaption { text-align: center; font-size: 13px; color: rgba(239, 232, 214, 0.75); margin-top: 8px; }
+.night-list { list-style: none; margin: 0 auto; padding: 0; max-width: 560px; }
+.night-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(239, 232, 214, 0.14);
+}
+.night-list .name { font-family: "Zen Maru Gothic", sans-serif; font-weight: 700; font-size: 16px; }
+.night-list .note { flex: 1; font-size: 12.5px; color: rgba(239, 232, 214, 0.6); }
+.night-list .price { font-variant-numeric: tabular-nums; }
+.night-note { text-align: center; font-size: 12.5px; color: rgba(239, 232, 214, 0.6); margin: 20px 0 0; }
+
+/* 夜カフェの場面が見えている間は、上部のバーも夜の色にする(night.js が body に .is-night を付ける) */
+.is-night .site-header { background: rgba(11, 13, 26, 0.88); box-shadow: none; }
+.is-night .site-header .logo,
+.is-night .site-header .nav a { color: #efe8d6; }
+
+/* 夜カフェ紹介: ユウナさんが月を持ち上げる写真 */
+.night-yuna-figure {
+  margin: 0 auto 40px;
+  max-width: 460px;
+}
+.night-yuna-figure img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: 50% 30%;
+  border-radius: 4px;
+}
+.night-yuna-figure figcaption {
+  text-align: center;
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-size: 14px;
+  color: rgba(239, 232, 214, 0.85);
+  margin-top: 12px;
+  letter-spacing: 0.06em;
+}
+
+/* メニューは横2列(スマホでも2列)で縦に並べる(2026-09-18 トシっち指示) */
+.menu-grid--2col { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.menu-card .price {
+  margin-top: 8px;
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--wood);
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 600px) {
+  .menu-grid--2col { gap: 12px; }
+  .menu-card .body { padding: 12px 12px 14px; }
+  .menu-card h3 { font-size: 13.5px; line-height: 1.45; }
+  .menu-card p { font-size: 11.5px; line-height: 1.6; }
+  .menu-card .price { font-size: 13.5px; }
+}
+
+/* 夜カフェのメニューカード(暗い背景用の色) */
+.night-cards { max-width: 760px; margin: 0 auto; }
+.night-cards .menu-card {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(239, 232, 214, 0.16);
+}
+.night-cards .menu-card h3 { color: #efe8d6; }
+.night-cards .menu-card p { color: rgba(239, 232, 214, 0.7); }
+.night-cards .menu-card .price { color: #f3dfa8; }
+
+/* お店紹介: 1階入口→踊り場→扉 の写真(リール素材からの静止画、2026-09-23追加) */
+.concept-strip {
+  list-style: none;
+  margin: 40px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.concept-strip img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 16px 32px -20px var(--shadow);
+}
+.concept-strip figcaption {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  text-align: center;
+}
+.hours-note {
+  margin: 20px 0 0;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+}
+@media (max-width: 600px) {
+  .concept-strip { gap: 8px; }
+  .concept-strip figcaption { font-size: 11.5px; }
+  .hours-card { padding: 18px 14px; }
+  .hours-card .time { font-size: 17px; }
+  .hours-card .label { font-size: 12.5px; }
+  .access dl { grid-template-columns: 72px 1fr; font-size: 13.5px; }
+}
+
+.concept-strip figure { margin: 0; }
+@media (max-width: 600px) {
+  .concept { grid-template-columns: 1fr; gap: 24px; }
+  .access-grid { grid-template-columns: 1fr; gap: 28px; }
+  .wrap { padding: 0 18px; }
+}
+/* 夜カフェの写真は縦長なので、商品が全部入るように縦長の枠にする(2026-09-25) */
+.night-cards .menu-card .thumb { aspect-ratio: 3 / 4; }
+
+/* 夜カフェの場面(暗転後)だけ、ロゴの横に NIGHT CAFE を添える */
+.logo-night {
+  display: inline-block;
+  margin-left: 10px;
+  padding-left: 10px;
+  border-left: 1px solid rgba(239, 232, 214, 0.35);
+  font-style: normal;
+  font-size: 0.62em;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  color: #f3dfa8;
+  opacity: 0;
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: baseline;
+  transition: opacity 0.5s ease, max-width 0.5s ease;
+}
+.is-night .logo-night { opacity: 1; max-width: 12em; }

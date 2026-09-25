@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KASUMI(かすみ)| 京都・四条河原町のドライフラワーカフェ</title>
+<meta name="description" content="京都市中京区、四条河原町から徒歩3分。店内一面のドライフラワーに包まれたカフェ KASUMI。モーニングからグランドメニュー、夜カフェまで一日中同じメニューでお過ごしいただけます。">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="entrance" id="entrance">
+  <button class="entrance-skip" type="button" id="entranceSkip">スキップ →</button>
+  <div class="entrance-sticky">
+
+    <!-- 絵本の4場面+店内写真。スクロールに合わせてカメラが寄っていく(2026-09-10 トシっち指示で8場面→4場面に短縮。外した絵 03/05/06/07 は images/entrance に残置) -->
+    <!-- 縦長(9:16)の絵(2026-09-13 Codex版 02_path_vertical.png=鍵穴)。鍵穴は中央やや上にあるので、そこへ強めに寄る。Flow版は scene-01-flow.jpg、正方形版は scene-01-square.jpg に残置 -->
+    <div class="scene" data-scene="0" style="--origin-x:50%; --origin-y:46%; --zoom:3.2">
+      <img src="images/entrance/scene-01.jpg" alt="KASUMIの入口、鍵穴の向こうに広がる草原">
+    </div>
+    <div class="scene" data-scene="1" style="--origin-x:32%; --origin-y:56%; --zoom:1.22">
+      <img src="images/entrance/scene-02.jpg" alt="草原の小道と、遠くに眠るヤイチ班長" loading="lazy" style="object-position:30% 55%">
+    </div>
+    <!-- 縦長(9:16)版の絵(2026-09-13 Codexで作成)。顔は左下寄りなので、PC(横画面)では object-position で顔側を見せる -->
+    <div class="scene" data-scene="2" style="--origin-x:32%; --origin-y:72%; --zoom:1.1">
+      <img src="images/entrance/scene-05.jpg" alt="ウインクするヤイチ班長" loading="lazy" style="object-position:32% 70%">
+    </div>
+    <!-- 縦長(9:16)の絵(2026-09-13 Codex版 08_door_vertical.png)。扉は中央やや下。正方形版は scene-08-square.jpg に残置 -->
+    <div class="scene" data-scene="3" style="--origin-x:50%; --origin-y:62%; --zoom:3.2">
+      <img src="images/entrance/scene-08.jpg" alt="KASUMIの看板がかかった家の扉" loading="lazy">
+    </div>
+    <div class="scene scene-photo" data-scene="4" style="--origin-x:50%; --origin-y:30%; --zoom:1">
+      <img src="images/hero-normal.jpg" alt="ドライフラワーに包まれたKASUMIの店内">
+    </div>
+
+    <p class="scene-caption" data-caption="0">鍵穴の向こうへ。</p>
+    <p class="scene-caption" data-caption="1">小道の先に、お店があります。</p>
+    <p class="scene-caption" data-caption="2">看板猫のヤイチが、お出迎え。</p>
+    <p class="scene-caption" data-caption="3">扉を開けて、店内へ。</p>
+
+    <p class="scroll-hint">スクロールして進む ↓</p>
+  </div>
+</div>
+
+<header class="site-header">
+  <p class="season-banner" data-season-banner hidden></p>
+  <div class="wrap">
+    <div class="logo">KASUMI<span> KYOTO</span><em class="logo-night" aria-hidden="true">NIGHT CAFE</em></div>
+    <nav class="nav">
+      <a href="#concept">お店紹介</a>
+      <a href="#hours">営業時間</a>
+      <a href="#menu">メニュー</a>
+      <a href="#night-menu">夜カフェ</a>
+      <a href="#access">アクセス</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" data-hero-image>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Kyoto / Shijo-Kawaramachi</p>
+    <h1>花に包まれて、<br>朝も、夜も。</h1>
+    <p>四条河原町から徒歩3分。天井いっぱいのドライフラワーの下で、朝のモーニングから夜カフェまで、KASUMIの一日をどうぞ。</p>
+    <a class="btn" href="#menu">メニューを見る →</a>
+  </div>
+</section>
+
+<section id="concept">
+  <div class="wrap concept">
+    <img src="images/interior-dining.jpg" alt="ドライフラワーに囲まれたKASUMIの店内">
+    <div class="concept-text">
+      <p class="eyebrow">Concept</p>
+      <h2>階段を上がった先に広がる、<br>花に包まれた時間。</h2>
+      <p>KASUMIは1階の専用入口から階段を上がった2階にあるお店です。踊り場を抜けて店内に入ると、天井から壁一面まで、色とりどりのドライフラワーが広がります。</p>
+      <ul class="concept-steps">
+        <li><span class="num">1</span>1階の専用階段からお入りください</li>
+        <li><span class="num">2</span>階段を上がると、踊り場で大きい猫のイラストがお出迎え</li>
+        <li><span class="num">3</span>2階の扉を開けると、ドライフラワーの店内へ</li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap">
+    <!-- 写真は 2024-10-06_hinako-chan/stills_entrance(オーナー指示で作成、使用可)。昼の撮影 -->
+    <ul class="concept-strip">
+      <li><figure><img src="images/entrance-sign.jpg" alt="1階の入口。KASUMIの看板と、花のかごが並ぶ" loading="lazy"><figcaption>1階の入口</figcaption></figure></li>
+      <li><figure><img src="images/entrance-stairs.jpg" alt="階段の踊り場。大きな猫の壁画と、スタッフのひなこちゃん" loading="lazy"><figcaption>踊り場で大きい猫がお出迎え</figcaption></figure></li>
+      <li><figure><img src="images/entrance-door.jpg" alt="扉を開けると、ドライフラワーに包まれた店内" loading="lazy"><figcaption>扉を開けて店内へ</figcaption></figure></li>
+    </ul>
+  </div>
+</section>
+
+<section id="hours" class="hours">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Hours</p>
+      <h2>営業時間</h2>
+      <p>朝8:00から夜23:00まで、定休日なし。フードは20:30まで、ランチ・ディナーの垣根なくずっと同じグランドメニューをご注文いただけます。</p>
+    </div>
+    <!-- 時刻は 07_共通知識/営業情報.md(版4)の確認済みの事実・Google登録値に合わせる -->
+    <div class="hours-grid">
+      <div class="hours-card">
+        <div class="time">8:00 – 11:00</div>
+        <div class="label">モーニングメニュー</div>
+      </div>
+      <div class="hours-card">
+        <div class="time">8:00 – 20:30</div>
+        <div class="label">グランドメニュー(終日同一内容)</div>
+      </div>
+      <div class="hours-card">
+        <div class="time">16:00 –</div>
+        <div class="label">ライトダウン。照明を落として夜の雰囲気に。夜カフェメニューの一部もご注文いただけます</div>
+      </div>
+      <div class="hours-card">
+        <div class="time">20:30 – 23:00</div>
+        <div class="label">夜カフェ(最終入店 22:00)</div>
+      </div>
+    </div>
+    <p class="hours-note">定休日はありません。ご予約は承っておりませんので、そのままお越しください。</p>
+  </div>
+</section>
+
+<section id="menu">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Grand Menu</p>
+      <h2>グランドメニュー</h2>
+      <p>8:00〜20:30、ずっと同じメニュー。京都らしい家庭の味の定食から、カフェタイムの甘いものまで。価格はすべて税込です。</p>
+    </div>
+    <!-- 名前と価格は 07_共通知識/メニュー・価格.md(版3)の確認済みの事実に合わせる。写真は素材利用情報の使用可のものだけ -->
+    <div class="menu-grid menu-grid--2col">
+      <div class="menu-card">
+        <div class="thumb"><img src="images/menu-obanzai.jpg" alt="10種類のおばんざいセット" loading="lazy"></div>
+        <div class="body">
+          <h3>10種類のおばんざいセット</h3>
+          <p>京都の家庭の味、10種の小鉢をひとつのお膳に。</p>
+          <p class="price">¥1,880</p>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="thumb"><img src="images/menu-kakuni.jpg" alt="豚バラなんこつ角煮とおばんざいセット" loading="lazy"></div>
+        <div class="body">
+          <h3>豚バラなんこつ角煮とおばんざいセット</h3>
+          <p>とろとろに煮込んだ角煮に、おばんざいの小鉢を添えて。</p>
+          <p class="price">¥1,850</p>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="thumb"><img src="images/menu-karaage.jpg" alt="鶏の唐揚げとおばんざいセット" loading="lazy"></div>
+        <div class="body">
+          <h3>鶏の唐揚げとおばんざいセット</h3>
+          <p>カリッと揚げた鶏の唐揚げの定食。</p>
+          <p class="price">¥1,750</p>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="thumb"><img src="images/menu-hamburg.jpg" alt="ハンバーグセット" loading="lazy"></div>
+        <div class="body">
+          <h3>ハンバーグセット</h3>
+          <p>熱々の鉄板で楽しむ、ハンバーグの定食。</p>
+          <p class="price">¥1,650</p>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="thumb"><img src="images/menu-wagyu.jpg" alt="黒毛和牛ステーキセット" loading="lazy"></div>
+        <div class="body">
+          <h3>黒毛和牛ステーキセット</h3>
+          <p>黒毛和牛のステーキを、ご飯とお椀とともに。</p>
+          <p class="price">¥4,700</p>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="thumb"><img src="images/menu-acai.jpg" alt="アサイーボウル(プレーン)" loading="lazy"></div>
+        <div class="body">
+          <h3>アサイーボウル</h3>
+          <p>プレーン／チョコバナナ／フルーツミックス／マンゴートロピカル／クラッキング。</p>
+          <p class="price">¥1,500〜1,800</p>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="thumb"><img src="images/menu-basque.jpg" alt="バスクチーズケーキ" loading="lazy"></div>
+        <div class="body">
+          <h3>バスクチーズケーキ</h3>
+          <p>香ばしく焼き上げた、濃厚なチーズケーキ。生チョコ版(¥850)もあります。</p>
+          <p class="price">¥750</p>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="thumb"><img src="images/menu-creamsoda.jpg" alt="クリームソーダ" loading="lazy"></div>
+        <div class="body">
+          <h3>クリームソーダ</h3>
+          <p>青空／夕焼け／メロン／コーラ／ブラックミルクティー／コーヒー／カフェラテの7種。猫の顔クッキーが乗ることも。</p>
+          <p class="price">各¥850</p>
+        </div>
+      </div>
+    </div>
+    <p class="menu-more"><b>ほかにも、</b>麻辣豚バラなんこつ角煮とおばんざいセット(¥1,850)、アイスクリーム5種(各¥390)、コーヒー・カフェオレ・紅茶7種・ソフトドリンク(各¥550)、チョコミルク・宇治抹茶ラテ(各¥660)など。<b>モーニング(8:00〜11:00)</b>は、フルーツたっぷりフレンチトースト(¥1,200)と、チーズフォンデュトーストとサラダとコーンポタージュのセット(¥1,200／¥1,500)をご用意しています。</p>
+  </div>
+</section>
+
+<!-- ===== 夜カフェ(スクロールで昼→夜に変わる演出) =====
+     流れ: 昼の明るい店内写真 → 店内が暗くなる → 星空、右側から満月が昇る → 「20:30から、夜カフェ。」 → 夜の店内(月のライト) → 夜カフェのメニュー(ユウナさんが月を持ち上げる写真はこちらに)
+     高さは night.js が画面4つ分(px)で付ける。JS無効/動きを減らす設定の時は静止表示 -->
+<section class="night" id="night" aria-label="夜カフェの演出">
+  <div class="night-sticky">
+    <img class="night-day" src="images/night/day-interior.jpg" alt="昼の明るい店内。天井のドライフラワーと、白い球のライト" loading="lazy">
+    <div class="night-dark" aria-hidden="true"></div>
+    <canvas class="night-sky" aria-hidden="true"></canvas>
+    <div class="night-moon" aria-hidden="true"></div>
+    <p class="night-caption"><span>20:30から、</span><b>夜カフェ。</b></p>
+    <picture class="night-interior">
+      <source media="(orientation: portrait)" srcset="images/night/interior-portrait.jpg">
+      <img src="images/night/interior-landscape.jpg" alt="夜の店内。満月のライトが灯る" loading="lazy">
+    </picture>
+  </div>
+</section>
+
+<section class="night-menu" id="night-menu">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Night Cafe</p>
+      <h2>夜カフェ</h2>
+      <p>20:30〜23:00(最終入店 22:00)。フードの注文が終わったあとは、夜だけのメニューでゆっくりどうぞ。</p>
+    </div>
+    <figure class="night-yuna-figure">
+      <img src="images/night/yuna-moon.jpg" alt="スタッフのユウナが、店内の月のライトを片手で持ち上げている" loading="lazy">
+      <figcaption>満月のライトが灯ったら、夜カフェのはじまり。</figcaption>
+    </figure>
+    <!-- 写真は ヒーロー写真/「夜カフェ　プリンセスポテトを持っている」(2026-09-25 トシっち提供) -->
+    <figure class="night-yuna-figure">
+      <img src="images/night/yuna-potato.jpg" alt="スタッフのユウナが、プリンセスポテトの紙袋を開けている" loading="lazy">
+      <figcaption>プリンセスポテト。いろんなフレーバーの中から味をお選びください。</figcaption>
+    </figure>
+    <div class="menu-grid menu-grid--2col night-cards">
+      <div class="menu-card">
+        <div class="thumb"><img src="images/night-potato.jpg" alt="プリンセスポテト" loading="lazy"></div>
+        <div class="body">
+          <h3>プリンセスポテト</h3>
+          <p>夜カフェ限定のフライドポテト。コンソメ／バター醤油／3種のチーズ／明太子バター／塩キャラメル／バーベキュー／タコスの7種。</p>
+          <p class="price">各¥700</p>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="thumb"><img src="images/night-bpsoda.jpg" alt="バタフライピーソーダ" loading="lazy"></div>
+        <div class="body">
+          <h3>バタフライピーソーダ</h3>
+          <p>自家製レモネードのソーダ。ストロベリームーン／アイリス／ブルームーンの3種。</p>
+          <p class="price">各¥700</p>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="thumb"><img src="images/night-parfait-moon.jpg" alt="月のアサイーパフェ" loading="lazy"></div>
+        <div class="body">
+          <h3>月のアサイーパフェ</h3>
+          <p>三日月のクッキーとイチゴを飾った、夜だけのアサイーパフェ。</p>
+          <p class="price">¥850</p>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="thumb"><img src="images/night-parfait-star.jpg" alt="星のアサイーパフェ" loading="lazy"></div>
+        <div class="body">
+          <h3>星のアサイーパフェ</h3>
+          <p>星のクッキーとマンゴーを飾った、夜だけのアサイーパフェ。</p>
+          <p class="price">¥850</p>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="thumb"><img src="images/night-milktea.jpg" alt="フルーツミルクティー" loading="lazy"></div>
+        <div class="body">
+          <h3>フルーツミルクティー</h3>
+          <p>イチゴ／マンゴーの2種。</p>
+          <p class="price">各¥750</p>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="thumb"><img src="images/night-creamsoda.jpg" alt="クリームソーダ(青空)" loading="lazy"></div>
+        <div class="body">
+          <h3>クリームソーダ</h3>
+          <p>昼も夜も注文できる7種のクリームソーダ。夜の店内で飲むと、また違う雰囲気に。</p>
+          <p class="price">各¥850</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="access" class="access">
+  <div class="wrap access-grid">
+    <div>
+      <p class="eyebrow">Access</p>
+      <h2>アクセス</h2>
+      <!-- 住所・電話は Googleビジネスプロフィールの登録値(07_共通知識/店舗基本情報.md、公開案内に使ってよい) -->
+      <dl>
+        <dt>住所</dt><dd>〒604-8046<br>京都府京都市中京区新京極通蛸薬師下る東側町508 2F</dd>
+        <dt>電話</dt><dd><a href="tel:0752312922">075-231-2922</a></dd>
+        <dt>最寄駅</dt><dd>阪急京都線 京都河原町駅(四条河原町)より徒歩3分</dd>
+        <dt>営業時間</dt><dd>8:00 – 23:00(フードの注文は20:30まで、最終入店22:00)</dd>
+        <dt>定休日</dt><dd>なし</dd>
+        <dt>席数</dt><dd>32席・完全禁煙</dd>
+        <dt>予約</dt><dd>承っておりません(予約なしでお越しください)</dd>
+        <dt>メニュー</dt><dd>すべてのメニューに英語表記があります</dd>
+      </dl>
+    </div>
+    <div>
+      <p class="eyebrow">Follow</p>
+      <h2>SNS</h2>
+      <p style="font-size:14.5px; color:rgba(255,255,255,0.75); margin-top:12px;">新メニューや内装の様子は SNS で発信しています。</p>
+      <!-- Googleマップは 07_共通知識/店舗基本情報.md のURL(Google投稿で使用・公開済み)。Instagram/TikTok は 2026-09-25 トシっち指定 -->
+      <div class="sns-row">
+        <a href="https://www.instagram.com/kasumi_kyoto/" target="_blank" rel="noopener" data-sns="instagram">Instagram</a>
+        <a href="https://www.tiktok.com/@ayuko_cafegirl" target="_blank" rel="noopener" data-sns="tiktok">TikTok</a>
+        <a href="https://maps.app.goo.gl/QVpJ8UWYc7qEV3ALA" target="_blank" rel="noopener">Google マップ</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © KASUMI, Kyoto — 京都府京都市中京区新京極通蛸薬師下る東側町508 2F
+</footer>
+
+<script src="themes.js"></script>
+<script src="entrance.js"></script>
+<script src="night.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
