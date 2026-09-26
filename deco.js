@@ -504,6 +504,61 @@
   }
 
   // ---- メニューのカードを木の屋台にする ----
+  // ---- 光る陶器の家(ランタンハウス)を棚に並べた帯 ----
+  // ニュルンベルクの屋台で、窓や星の穴から灯りがもれる白い小さな家がずらりと並ぶ
+  function lanterns(el, seed) {
+    const W = Math.max(320, el.clientWidth);
+    const H = 150;
+    const R = rng(seed);
+    const s = svg(W, H);
+    add(s, "rect", { x: 0, y: H - 14, width: W, height: 14, fill: "url(#xmwood)" });
+    let x = 6;
+    while (x < W - 30) {
+      const w = 44 + R() * 34;
+      const h = 44 + R() * 50;
+      const roof = w * (0.45 + R() * 0.25);
+      const y = H - 14 - h;
+      const g = add(s, "g", {});
+      // 家から外へもれる光
+      const halo = add(g, "ellipse", { cx: x + w / 2, cy: y + h * 0.55, rx: w * 0.9, ry: h * 0.8, fill: "#ffbf66", opacity: 0.22, filter: "url(#xmglow)", class: "xm-twinkle" });
+      halo.style.animationDuration = (3 + R() * 3).toFixed(2) + "s";
+      halo.style.animationDelay = (R() * 3).toFixed(2) + "s";
+      add(g, "path", { d: `M${x} ${y + h} V${y} L${x + w / 2} ${y - roof} L${x + w} ${y} V${y + h} Z`, fill: "#f4eee2", stroke: "#d8cdb8", "stroke-width": 1 });
+      add(g, "path", { d: `M${x - 3} ${y + 2} L${x + w / 2} ${y - roof - 2} L${x + w + 3} ${y + 2}`, fill: "none", stroke: "#ffffff", "stroke-width": 3.5, "stroke-linecap": "round" });
+      // くり抜いた窓・扉・星から灯り
+      const glow = "#ffc768";
+      const cols = w > 62 ? 3 : 2;
+      for (let c = 0; c < cols; c++) {
+        const wx = x + (w / cols) * (c + 0.5) - 4;
+        if (R() < 0.85) add(g, "path", { d: `M${wx} ${y + h * 0.22 + 8} v-3 a4 4 0 0 1 8 0 v3 Z`, fill: glow });
+      }
+      if (h > 60) for (let c = 0; c < cols; c++) {
+        const wx = x + (w / cols) * (c + 0.5) - 3.5;
+        if (R() < 0.7) add(g, "rect", { x: wx, y: y + h * 0.5, width: 7, height: 9, rx: 1, fill: glow });
+      }
+      add(g, "path", { d: `M${x + w / 2 - 6} ${y + h} v-12 a6 6 0 0 1 12 0 v12 Z`, fill: glow });
+      if (R() < 0.6) star(g, x + w / 2, y - roof * 0.45, Math.min(6, roof * 0.2), "#ffd98f");
+      x += w + 4 + R() * 10;
+    }
+    el.replaceChildren(s);
+  }
+
+  // ---- 電球で縁取った看板文字(ニュルンベルクの「Christkindlesmarkt」の看板のように) ----
+  function marquee(el) {
+    const text = el.dataset.text || "Christmas Market";
+    const W = 900;
+    const H = 150;
+    const s = svg(W, H);
+    s.removeAttribute("width");
+    s.removeAttribute("height");
+    const base = { x: W / 2, y: 108, "text-anchor": "middle", "font-family": "UnifrakturMaguntia, serif", "font-size": 104 };
+    add(s, "text", Object.assign({}, base, { fill: "rgba(255, 190, 100, 0.10)" }), text);
+    const glow = add(s, "text", Object.assign({}, base, { fill: "none", stroke: "#ffcf7a", "stroke-width": 7, "stroke-dasharray": "0 9", "stroke-linecap": "round", filter: "url(#xmglow)", class: "xm-twinkle" }), text);
+    glow.style.animationDuration = "3.2s";
+    add(s, "text", Object.assign({}, base, { fill: "none", stroke: "#fff5dc", "stroke-width": 3.2, "stroke-dasharray": "0 9", "stroke-linecap": "round" }), text);
+    el.replaceChildren(s);
+  }
+
   // ニュルンベルクの屋台: 赤白の縞の布屋根、縁取りの垂れ幕、もみのガーランド、軒の電球
   // (写真の上には何も重ねない。飾りはすべて屋根の中に収める)
   function makeHuts() {
@@ -517,7 +572,7 @@
     });
   }
 
-  const DRAW = { canopy, lights, garland, stars, pyramid, tree, skyline, arch, hang, holly, divider };
+  const DRAW = { canopy, lights, garland, stars, pyramid, tree, skyline, arch, hang, holly, divider, lanterns, marquee };
   makeHuts();
   let seedBase = 7;
   const items = Array.from(document.querySelectorAll("[data-deco]")).map((el) => ({ el, seed: (seedBase += 97), w: -1 }));
