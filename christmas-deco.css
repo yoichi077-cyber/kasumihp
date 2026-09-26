@@ -552,3 +552,43 @@ body.xmas .site-header .nav a:hover { color: #ffd08a; }
   .xm-lanterns { height: 110px; margin-top: -50px; }
   .xm-marquee { margin-top: 100px; }
 }
+
+/* ---------- 去年のクリスマスカフェ(動画を屋台の窓にはめ込む) ---------- */
+.xm-lastxmas { padding: 170px 0 110px !important; }
+.xm-lastxmas .wrap { position: relative; z-index: 2; }
+.xm-videos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 44px;
+  margin-top: 130px;
+}
+.xm-vhut {
+  position: relative;
+  background: var(--wood-2);
+  border: 9px solid var(--wood-1);
+  border-top-width: 6px;
+  border-radius: 0 0 6px 6px;
+  box-shadow: inset 0 0 0 1.5px #b8913f, 0 0 60px rgba(255, 180, 100, 0.2), 0 30px 40px -20px rgba(0, 0, 0, 0.8);
+}
+.xm-vhut video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+  background: #000;
+}
+.xm-videos-note { margin-top: 26px; font-size: 12.5px; color: var(--cream-soft); }
+@media (max-width: 700px) {
+  /* スマホは横にすべらせて1本ずつ見る */
+  .xm-videos {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 68%;
+    gap: 30px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 90px 18px 10px;
+    margin: 20px -18px 0;
+  }
+  .xm-vhut { scroll-snap-align: center; }
+}

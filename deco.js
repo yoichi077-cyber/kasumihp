@@ -561,7 +561,7 @@
   // ニュルンベルクの屋台: 赤白の縞の布屋根、縁取りの垂れ幕、もみのガーランド、軒の電球
   // (写真の上には何も重ねない。飾りはすべて屋根の中に収める)
   function makeHuts() {
-    document.querySelectorAll(".xmas-menu .menu-card").forEach((card) => {
+    document.querySelectorAll(".xmas-menu .menu-card, .xm-vhut").forEach((card) => {
       if (card.querySelector(".xm-roof")) return;
       const roof = document.createElement("div");
       roof.className = "xm-roof";
@@ -586,6 +586,20 @@
     });
   }
   drawAll();
+
+  // 去年の動画: 画面に見えている間だけ再生する(電池と通信の節約)
+  const videos = document.querySelectorAll(".xm-vhut video");
+  if (videos.length && "IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) e.target.play().catch(() => {});
+        else e.target.pause();
+      });
+    }, { threshold: 0.2 });
+    videos.forEach((v) => io.observe(v));
+  } else {
+    videos.forEach((v) => { v.autoplay = true; v.play().catch(() => {}); });
+  }
   let rt = 0;
   window.addEventListener("resize", () => {
     clearTimeout(rt);
@@ -617,7 +631,7 @@
   }
   size();
   window.addEventListener("resize", size);
-  const PHOTOS = ".hero, .concept img, .concept-strip img, .menu-card .thumb, .xe-photo";
+  const PHOTOS = ".hero, .concept img, .concept-strip img, .menu-card .thumb, .xe-photo, .xm-vhut video";
   let holes = [];
   let holesAt = -1e9;
   function photoRects() {
