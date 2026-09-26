@@ -587,18 +587,31 @@
   }
   drawAll();
 
-  // 去年の動画: 画面に見えている間だけ再生する(電池と通信の節約)
-  const videos = document.querySelectorAll(".xm-vhut video");
-  if (videos.length && "IntersectionObserver" in window) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) e.target.play().catch(() => {});
-        else e.target.pause();
-      });
-    }, { threshold: 0.2 });
-    videos.forEach((v) => io.observe(v));
-  } else {
-    videos.forEach((v) => { v.autoplay = true; v.play().catch(() => {}); });
+  // 去年の動画: 1つの窓で3本を順番にくり返し流す。画面に見えている間だけ再生する(電池と通信の節約)
+  const pl = document.querySelector(".xm-playlist");
+  if (pl) {
+    const list = pl.dataset.list.split(/\s+/).filter(Boolean);
+    const dots = Array.from(document.querySelectorAll(".xm-vdots i"));
+    let idx = 0;
+    let inView = false;
+    pl.addEventListener("ended", () => {
+      idx = (idx + 1) % list.length;
+      pl.src = list[idx];
+      dots.forEach((d, i) => d.classList.toggle("on", i === idx));
+      if (inView) pl.play().catch(() => {});
+    });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          inView = e.isIntersecting;
+          if (inView) pl.play().catch(() => {});
+          else pl.pause();
+        });
+      }, { threshold: 0.2 }).observe(pl);
+    } else {
+      inView = true;
+      pl.play().catch(() => {});
+    }
   }
   let rt = 0;
   window.addEventListener("resize", () => {

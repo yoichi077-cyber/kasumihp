@@ -592,3 +592,65 @@ body.xmas .site-header .nav a:hover { color: #ffd08a; }
   }
   .xm-vhut { scroll-snap-align: center; }
 }
+
+/* 去年のクリスマスカフェ: 窓1つ + 英語と日本語の説明(2026-09-26 オーナー指示で3窓から変更) */
+.xm-lx {
+  display: grid;
+  grid-template-columns: minmax(260px, 380px) 1fr;
+  gap: 70px;
+  align-items: center;
+  padding-top: 120px;
+}
+.xm-lx .xm-vhut { max-width: 380px; }
+.xm-vdots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -30px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.xm-vdots i { width: 8px; height: 8px; border-radius: 50%; background: rgba(241, 230, 204, 0.3); transition: background 0.4s; }
+.xm-vdots i.on { background: #ffd08a; box-shadow: 0 0 8px rgba(255, 208, 138, 0.8); }
+.xm-lx-en {
+  margin: 6px 0 10px;
+  font-family: "Pinyon Script", cursive;
+  font-size: clamp(40px, 5.2vw, 64px);
+  line-height: 1.1;
+  background: var(--gold-text);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 12px rgba(255, 200, 110, 0.3));
+}
+.xm-lx-text h2 {
+  font-family: "Zen Old Mincho", serif;
+  font-size: clamp(20px, 2.6vw, 26px);
+  letter-spacing: 0.1em;
+  color: #f6e3b0;
+}
+.xm-lx-ja {
+  font-family: "Zen Old Mincho", serif;
+  font-size: 15px;
+  line-height: 2.2;
+  letter-spacing: 0.08em;
+  color: var(--cream-t);
+  margin: 0 0 18px;
+}
+.xm-lx-en-body {
+  font-family: "Zen Old Mincho", serif;
+  font-style: italic;
+  font-size: 13.5px;
+  line-height: 1.9;
+  letter-spacing: 0.04em;
+  color: var(--cream-soft);
+  max-width: 44ch;
+  margin: 0 0 20px;
+}
+.xm-lastxmas .xm-videos { display: none; }
+@media (max-width: 760px) {
+  .xm-lx { grid-template-columns: 1fr; gap: 56px; padding-top: 100px; }
+  .xm-lx .xm-vhut { max-width: 300px; margin: 0 auto; width: 78%; }
+}

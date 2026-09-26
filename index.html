@@ -150,19 +150,24 @@
      音なし・自動再生・くり返し。動画の上には飾りを重ねない -->
 <section id="last-xmas" class="xm-night xm-lastxmas">
   <div class="xm-canopy" data-deco="canopy" data-h="120"></div>
-  <div class="wrap">
-    <div class="section-head">
+  <div class="wrap xm-lx">
+    <!-- 窓は1つ。3本を順番にくり返し流す(3つ並べるとうるさい、とオーナー指示 2026-09-26) -->
+    <div class="xm-vhut">
+      <video class="xm-playlist" muted playsinline preload="auto"
+        data-list="images/christmas/video/last-xmas-1.mp4 images/christmas/video/last-xmas-2.mp4 images/christmas/video/last-xmas-3.mp4"
+        src="images/christmas/video/last-xmas-1.mp4" poster="images/christmas/video/last-xmas-1.jpg"
+        aria-label="去年のクリスマスカフェの様子。ツリーの横のクリスマスプレート、雪のツリーの店内、入口のポインセチア"></video>
+      <div class="xm-vdots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+    </div>
+    <div class="xm-lx-text">
       <p class="eyebrow"><span class="xm-holly" data-deco="holly"></span>Last Christmas<span class="xm-holly xm-holly--flip" data-deco="holly"></span></p>
-      <h2>去年のクリスマスカフェ</h2>
+      <p class="xm-lx-en">Christmas<br>Memories</p>
+      <h2>去年の、KASUMIのクリスマス。</h2>
       <div class="xm-divider" data-deco="divider"></div>
-      <p>2025年のKASUMIのクリスマスカフェの様子です。今年も、この景色の中でお待ちしています。</p>
+      <p class="xm-lx-ja">天井いっぱいのドライフラワーに、雪のツリー。<br>あたたかいマグと、クリスマスのプレート。<br>今年も、この景色の中でお待ちしています。</p>
+      <p class="xm-lx-en-body">Dried flowers overhead, snowy trees and warm mugs &mdash; a glimpse of our Christmas cafe last winter. We look forward to welcoming you again this season.</p>
+      <p class="xm-videos-note">※映像は2025年のものです。メニューの内容・価格は今年と異なります。</p>
     </div>
-    <div class="xm-videos">
-      <div class="xm-vhut"><video src="images/christmas/video/last-xmas-1.mp4" poster="images/christmas/video/last-xmas-1.jpg" muted loop playsinline preload="metadata" aria-label="去年のクリスマスカフェ。ツリーの横でクリスマスプレートを楽しむ様子"></video></div>
-      <div class="xm-vhut"><video src="images/christmas/video/last-xmas-2.mp4" poster="images/christmas/video/last-xmas-2.jpg" muted loop playsinline preload="metadata" aria-label="去年のクリスマスカフェ。雪のツリーと店内、クリスマスのドリンク"></video></div>
-      <div class="xm-vhut"><video src="images/christmas/video/last-xmas-3.mp4" poster="images/christmas/video/last-xmas-3.jpg" muted loop playsinline preload="metadata" aria-label="去年のクリスマスカフェ。入口のポインセチアから店内、デザートプレート"></video></div>
-    </div>
-    <p class="xm-videos-note">※映像は2025年のものです。メニューの内容・価格は今年と異なります。</p>
   </div>
 </section>
 
