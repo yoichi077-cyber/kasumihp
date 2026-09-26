@@ -701,3 +701,31 @@ body.xmas .site-header .nav a:hover { color: #ffd08a; }
   .xm-art--angel { width: 100px; height: 100px; bottom: calc(100% + 90px); }
   .xm-art--carousel { width: 180px; height: 180px; opacity: 0.7; }
 }
+
+/* 大聖堂の置き方の調整(2026-09-26 絵が届いてから): アーチ看板の奥から上へそびえる */
+.xmas-dates { padding-top: 360px !important; }
+.xm-archsign { position: relative; }
+.xm-art--cathedral {
+  left: 50%;
+  bottom: 38%;
+  width: 118%;
+  height: auto;
+  aspect-ratio: 1800 / 1400;
+  transform: translateX(-50%);
+  z-index: -1;
+  opacity: 1;
+  filter: brightness(0.82) saturate(0.95);
+}
+.xm-arch { position: relative; z-index: 1; }
+.xm-archsign-text {
+  z-index: 2;
+  border-radius: 50% 50% 8px 8px / 40% 40% 8px 8px;
+  background: radial-gradient(ellipse 70% 75% at 50% 58%, rgba(10, 13, 32, 0.95) 0 58%, rgba(10, 13, 32, 0.75) 78%, rgba(10, 13, 32, 0) 100%);
+}
+/* アクセス: メリーゴーランドは右下へ(左の文字と重ならないように)。ツリーはここでは出さない */
+.xm-art--carousel { left: auto; right: 2%; bottom: 40px; }
+.xm-tree--access { display: none; }
+@media (max-width: 600px) {
+  .xmas-dates { padding-top: 250px !important; }
+  .xm-art--carousel { right: 0; bottom: 30px; }
+}
