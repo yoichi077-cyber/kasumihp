@@ -4,12 +4,12 @@
  * 参考: 海外(ドイツ・フランスなど)のクリスマスマーケットの写真
  *   - 夜。灯りは暖かい電球色だけ(カラフルな電球は使わない)
  *   - 頭上に電球のひもが何本も交差する / 木の屋台(雪の三角屋根・赤白の縞の布屋根)
- *   - レープクーヘンのハート、木のクリスマスピラミッド、ろうそくの木のアーチ、古い街並み
+ *   - 麦わらの星、木のクリスマスピラミッド、ろうそくの木のアーチ、古い街並み
  *   (調査メモ: 第2の脳/リサーチ/店舗ネタ/2026-09-26_海外のクリスマスマーケットの見た目)
  *
  * data-deco="..." を付けた要素の中に SVG を描き込む。
  *   canopy … 頭上で交差する電球のひも      lights  … 1本の電球のひも
- *   garland … もみの木のガーランド         hearts  … 吊るしたレープクーヘンのハート
+ *   garland … もみの木のガーランド         stars   … 吊るした麦わらの星とガラスのオーナメント(ハートは使わない)
  *   pyramid … 木のクリスマスピラミッド     tree    … 電球色の灯りの大きなツリー
  *   skyline … 古い街並みの影絵             arch    … ろうそくの木のアーチ(看板)
  *   hang    … 揺れるオーナメント           holly / divider … 小さな飾り
@@ -60,9 +60,6 @@
     });
     const f = add(d, "filter", { id: "xmglow", x: "-150%", y: "-150%", width: "400%", height: "400%" });
     add(f, "feGaussianBlur", { stdDeviation: "3" });
-    const hg = add(d, "linearGradient", { id: "xmginger", x1: "0", y1: "0", x2: "0", y2: "1" });
-    add(hg, "stop", { offset: "0", "stop-color": "#b8743a" });
-    add(hg, "stop", { offset: "1", "stop-color": "#7e4a20" });
     const wg = add(d, "linearGradient", { id: "xmwood", x1: "0", y1: "0", x2: "0", y2: "1" });
     add(wg, "stop", { offset: "0", "stop-color": "#8a5a30" });
     add(wg, "stop", { offset: "1", "stop-color": "#5a3719" });
@@ -226,41 +223,38 @@
     el.replaceChildren(s);
   }
 
-  // ---- レープクーヘンのハート ----
-  const HEART_WORDS = ["KASUMI", "Joy", "Noël", "Merry X'mas", "Liebe", "2026"];
-  function heartShape(g, x, y, w, word, ribbon) {
-    const h = w * 0.92;
-    const p = `M${x} ${y + h * 0.28} C${x - w * 0.02} ${y + h * 0.05} ${x - w * 0.5} ${y - h * 0.05} ${x - w * 0.5} ${y + h * 0.3} C${x - w * 0.5} ${y + h * 0.6} ${x - w * 0.15} ${y + h * 0.78} ${x} ${y + h} C${x + w * 0.15} ${y + h * 0.78} ${x + w * 0.5} ${y + h * 0.6} ${x + w * 0.5} ${y + h * 0.3} C${x + w * 0.5} ${y - h * 0.05} ${x + w * 0.02} ${y + h * 0.05} ${x} ${y + h * 0.28} Z`;
-    add(g, "path", { d: `M${x - w * 0.18} ${y + h * 0.1} Q${x} ${y - h * 0.4} ${x + w * 0.18} ${y + h * 0.1}`, fill: "none", stroke: ribbon, "stroke-width": 3 });
-    add(g, "path", { d: p, fill: "url(#xmginger)", stroke: "#5c3413", "stroke-width": 1.2 });
-    add(g, "path", { d: p, fill: "none", stroke: "#fffaf0", "stroke-width": 2.2, "stroke-dasharray": "1 4.5", "stroke-linecap": "round", transform: `translate(${x} ${y + h * 0.5}) scale(0.86) translate(${-x} ${-(y + h * 0.5)})` });
-    [[-0.26, 0.24], [0.26, 0.24]].forEach(([dx, dy]) => {
-      add(g, "circle", { cx: x + w * dx, cy: y + h * dy, r: w * 0.05, fill: "#c0202c" });
-      add(g, "circle", { cx: x + w * dx + w * 0.07, cy: y + h * dy + 2, r: w * 0.03, fill: "#2f7a4f" });
-    });
-    add(g, "text", {
-      x, y: y + h * 0.52, "text-anchor": "middle",
-      "font-family": "Pinyon Script, cursive", "font-size": (w * (word.length > 7 ? 0.17 : 0.22)).toFixed(1),
-      fill: "#fffaf0",
-    }, word);
+  // ---- 吊るした麦わらの星(ドイツのマーケットの定番の飾り)とガラスのオーナメント ----
+  // ハートの形と茶色は使わない(2月のバレンタインカフェ用に取っておく。2026-09-26 オーナー指示)
+  function strawStar(g, x, y, r, R) {
+    const rays = add(g, "g", { stroke: "#f3dc9a", "stroke-width": 1.6, "stroke-linecap": "round" });
+    const n = 8;
+    for (let k = 0; k < n; k++) {
+      const a = (Math.PI * 2 * k) / n;
+      add(rays, "line", { x1: x - Math.cos(a) * r, y1: y - Math.sin(a) * r, x2: x + Math.cos(a) * r, y2: y + Math.sin(a) * r, "stroke-width": k % 2 ? 1.2 : 2 });
+      if (k % 2 === 0) {
+        add(rays, "line", { x1: x + Math.cos(a - 0.12) * r * 0.55, y1: y + Math.sin(a - 0.12) * r * 0.55, x2: x + Math.cos(a) * r, y2: y + Math.sin(a) * r, "stroke-width": 1 });
+        add(rays, "line", { x1: x + Math.cos(a + 0.12) * r * 0.55, y1: y + Math.sin(a + 0.12) * r * 0.55, x2: x + Math.cos(a) * r, y2: y + Math.sin(a) * r, "stroke-width": 1 });
+      }
+    }
+    add(g, "circle", { cx: x, cy: y, r: r * 0.18, fill: "#c0202c" });
+    add(g, "circle", { cx: x, cy: y, r: r * 0.08, fill: "#f3dc9a" });
   }
-  function hearts(el, seed) {
+  function stars(el, seed) {
     const W = Math.max(60, el.clientWidth);
     const n = Number(el.dataset.count) || 3;
     const R = rng(seed);
     const maxLen = Number(el.dataset.len) || 150;
-    const s = svg(W, maxLen + 110);
-    const ribbons = ["#a3202b", "#1f5a3f", "#d4a94a"];
-    for (let i = 0; i < n; i++) {
-      const x = ((i + 0.5) / n) * W;
+    const s = svg(W, maxLen + 80);
+    const per = n * 2;
+    for (let i = 0; i < per; i++) {
+      const x = ((i + 0.5) / per) * W;
       const len = 20 + R() * (maxLen - 20);
-      const w = 62 + R() * 30;
       const g = add(s, "g", { class: "xm-sway" });
       g.style.transformOrigin = `${x.toFixed(1)}px 0px`;
       g.style.animationDelay = (-R() * 4).toFixed(2) + "s";
-      const rb = ribbons[i % ribbons.length];
-      add(g, "line", { x1: x, y1: 0, x2: x, y2: len, stroke: rb, "stroke-width": 3 });
-      heartShape(g, x, len + 6, w, HEART_WORDS[Math.floor(R() * HEART_WORDS.length)], rb);
+      add(g, "line", { x1: x, y1: 0, x2: x, y2: len, stroke: i % 2 ? "#c0202c" : "#d4a94a", "stroke-width": 1.4 });
+      if (i % 2 === 0) strawStar(g, x, len + 26, 24 + R() * 8, R);
+      else bauble(g, x, len, 12 + R() * 5, [0, 1, 4][Math.floor(R() * 3)]);
     }
     el.replaceChildren(s);
   }
@@ -522,7 +516,7 @@
     });
   }
 
-  const DRAW = { canopy, lights, garland, hearts, pyramid, tree, skyline, arch, hang, holly, divider };
+  const DRAW = { canopy, lights, garland, stars, pyramid, tree, skyline, arch, hang, holly, divider };
   makeHuts();
   let seedBase = 7;
   const items = Array.from(document.querySelectorAll("[data-deco]")).map((el) => ({ el, seed: (seedBase += 97), w: -1 }));

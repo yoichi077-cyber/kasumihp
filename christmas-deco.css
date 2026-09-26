@@ -107,8 +107,8 @@ body.xmas .site-header .nav a:hover { color: #ffd08a; }
 /* ---------- トップ ---------- */
 .hero { position: relative; overflow: hidden; }
 .xm-canopy--hero { top: 0; }
-.xm-hearts { position: absolute; top: 0; z-index: 2; }
-.xm-hearts--hero { right: 3%; width: min(30vw, 330px); top: 10px; }
+.xm-stars { position: absolute; top: 0; z-index: 2; }
+.xm-stars--hero { right: 3%; width: min(30vw, 330px); top: 10px; }
 
 /* ---------- 期間: ろうそくの木のアーチ ---------- */
 .xmas-dates {
@@ -162,7 +162,7 @@ body.xmas .site-header .nav a:hover { color: #ffd08a; }
 /* ---------- お店紹介 ---------- */
 .xm-concept { padding-top: 130px; }
 .xm-garland { position: absolute; left: 0; right: 0; top: 0; height: 96px; z-index: 3; }
-.xm-hearts--right { right: 2%; width: 200px; top: 70px; }
+.xm-stars--right { right: 2%; width: 200px; top: 70px; }
 .xm-hang { position: absolute; top: 0; z-index: 2; }
 .xm-hang--left { left: 1%; width: 150px; top: 60px; }
 .xm-tree { position: absolute; z-index: 1; width: 220px; height: 340px; }
@@ -237,7 +237,7 @@ body.xmas .site-header .nav a:hover { color: #ffd08a; }
 }
 .xm-pyramid { position: absolute; z-index: 2; width: 200px; height: 330px; }
 .xm-pyramid--hours { left: 2%; bottom: 20px; }
-.xm-hearts--hours { right: 3%; width: 180px; top: 100px; }
+.xm-stars--hours { right: 3%; width: 180px; top: 100px; }
 .xm-skyline--hours { position: absolute; left: 0; right: 0; bottom: 0; height: 170px; margin: 0; }
 
 /* ---------- メニュー: 屋台が並ぶ通り ---------- */
@@ -246,8 +246,8 @@ body.xmas .site-header .nav a:hover { color: #ffd08a; }
 .xm-canopy--menu { top: 60px; }
 .xm-lights--awning { display: none; }
 .xm-sign { margin-top: 110px; }
-.xm-hearts--menuL { left: 1%; width: 150px; top: 200px; }
-.xm-hearts--menuR { right: 1%; width: 150px; top: 180px; }
+.xm-stars--menuL { left: 1%; width: 150px; top: 200px; }
+.xm-stars--menuR { right: 1%; width: 150px; top: 180px; }
 .xm-tree--menu { left: 0; bottom: 0; }
 .xm-pyramid--menu { right: 1%; bottom: 10px; }
 .xmas-menu > .wrap { position: relative; z-index: 2; }
@@ -333,13 +333,13 @@ body.xmas .site-header .nav a:hover { color: #ffd08a; }
 
 /* ---------- スマホ ---------- */
 @media (max-width: 860px) {
-  .xm-hearts--menuL, .xm-hearts--menuR, .xm-hang--left { display: none; }
+  .xm-stars--menuL, .xm-stars--menuR, .xm-hang--left { display: none; }
   .xm-tree--concept, .xm-tree--menu { opacity: 0.5; }
   .xm-pyramid--hours { transform: scale(0.7); transform-origin: bottom left; opacity: 0.8; }
 }
 @media (max-width: 600px) {
-  .xm-hearts--hero { width: 42vw; }
-  .xm-hearts--right, .xm-hearts--hours { display: none; }
+  .xm-stars--hero { width: 42vw; }
+  .xm-stars--right, .xm-stars--hours { display: none; }
   .xm-tree { transform: scale(0.6); transform-origin: bottom right; }
   .xm-tree--menu { transform-origin: bottom left; }
   .xm-pyramid { transform: scale(0.55); transform-origin: bottom left; }
