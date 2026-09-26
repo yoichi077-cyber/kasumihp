@@ -1,9 +1,9 @@
 /**
  * クリスマス版: サンタとトナカイのソリが夜空を駆ける演出
  *
- * 明るい画面が夜になる → カメラが屋根の上から夜空へゆっくり上がっていく
- * → ソリが左下から右上へ、月の前を横切って駆け抜ける(後ろに金の光の粉が残る)
- * → 「Christmas Menu」の文字が浮かぶ → 明るい画面に戻ってメニュー紹介へ
+ * ヨーロッパの旧市街の屋根の上で、ソリが左下から右上へ月の前を横切る(後ろに金の光の粉が残る)
+ * → カメラがそのまま雪の降る星空をずっと昇っていく(街・月・雲が下へ流れ去る)
+ * → 昇りきった星空に金色の文字が浮かぶ → メニュー紹介へ(2026-09-26 オーナー案)
  *
  * 星と月はコードで描く。夜空・屋根・雲・ソリは Codex の水彩画を使う(無い間は仮の図形)。
  * ソリはスクロールに直接つなぐとカクつくので、表示位置をスクロール位置へ少しずつ追いつかせる。
@@ -24,7 +24,14 @@
   const caption = sec.querySelector(".xs-caption");
   const dusk = sec.querySelector(".xs-dusk");
 
-  const SCREENS = 4;
+  // 空を昇っていく時間を取るため、画面7つ分
+  const SCREENS = 7;
+  // 空の上のほうほど深い紺にする重ね(昇るほど濃くなる)
+  const deep = document.createElement("div");
+  deep.className = "xs-deep";
+  deep.setAttribute("aria-hidden", "true");
+  skyEl.after(deep);
+  let starShift = 0;
   const sctx = stars.getContext("2d");
   const tctx = trail.getContext("2d");
   let W = 0;
@@ -45,12 +52,12 @@
     H = sticky.clientHeight;
     sizeCanvas(stars, sctx);
     sizeCanvas(trail, tctx);
-    const n = Math.round((W * H) / 9000);
+    const n = Math.round((W * H) / 4500);
     starList = [];
     for (let i = 0; i < n; i++) {
       starList.push({
         x: Math.random() * W,
-        y: Math.random() * H * 0.8,
+        y: Math.random() * H * 2,
         r: 0.4 + Math.random() * (Math.random() < 0.12 ? 1.6 : 0.8),
         a: 0.3 + Math.random() * 0.5,
         s: 0.2 + Math.random() * 0.6,
@@ -73,8 +80,11 @@
       const w = 0.5 + 0.5 * Math.sin(sec2 * s.s * Math.PI * 2 + s.ph);
       sctx.globalAlpha = Math.min(1, s.a * (0.6 + 0.6 * w));
       sctx.fillStyle = "#fff4d6";
+      // 空を昇ると、星はゆっくり下へ流れていく(2画面分の星空をくり返す)
+      const y = ((s.y + starShift) % (H * 2)) - H * 0.5;
+      if (y < -5 || y > H + 5) continue;
       sctx.beginPath();
-      sctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      sctx.arc(s.x, y, s.r, 0, Math.PI * 2);
       sctx.fill();
     }
     sctx.globalAlpha = 1;
@@ -142,21 +152,26 @@
   }
 
   function render(p) {
-    // 明るい画面 → 夜 (0〜0.14)、最後に明るい画面へ戻る (0.9〜1)
-    // 上下の区画も夜の色なので、夜の紺でつなぐ
-    dusk.style.opacity = Math.max(1 - ramp(p, 0, 0.14), ramp(p, 0.9, 1)).toFixed(3);
+    // 入りと出口は夜の紺でつなぐ(上下の区画も夜の色)
+    dusk.style.opacity = Math.max(1 - ramp(p, 0, 0.08), ramp(p, 0.95, 1)).toFixed(3);
     dusk.style.backgroundColor = "#0f1428";
 
-    // カメラが上がる: 屋根は下へ流れ、空と月はゆっくり下りてくる(奥ほど動きが小さい)
-    const cam = ease(ramp(p, 0.05, 0.8));
-    roofs.style.transform = `translateY(${(cam * 38).toFixed(2)}%)`;
-    skyEl.style.transform = `translateY(${(-6 + cam * 6).toFixed(2)}%) scale(1.12)`;
-    moon.style.transform = `translate(-50%, -50%) translateY(${(-10 + cam * 10).toFixed(2)}vh)`;
-    cloudA.style.transform = `translate(${(-cam * 6).toFixed(2)}vw, ${(cam * 16).toFixed(2)}vh)`;
-    cloudB.style.transform = `translate(${(cam * 5).toFixed(2)}vw, ${(cam * 24).toFixed(2)}vh)`;
+    // 流れ:
+    //   0.00〜0.45 屋根の上から、ソリが夜の街を横切る(カメラは少しだけ上がる)
+    //   0.42〜0.85 カメラがそのまま雪の降る星空をずっと昇っていく(街・月・雲が下へ流れ去る)
+    //   0.80〜0.90 金色の文字が浮かぶ → 0.95〜 次のメニューへ
+    const near = ease(ramp(p, 0.02, 0.45));
+    const rise = ease(ramp(p, 0.42, 0.88));
+    roofs.style.transform = `translateY(${(near * 16 + rise * 110).toFixed(2)}%)`;
+    skyEl.style.transform = `translateY(${(-6 + near * 3 + rise * 8).toFixed(2)}%) scale(1.12)`;
+    moon.style.transform = `translate(-50%, -50%) translateY(${(-10 + near * 8 + rise * 95).toFixed(2)}vh)`;
+    cloudA.style.transform = `translate(${(-near * 6).toFixed(2)}vw, ${(near * 12 + rise * 130).toFixed(2)}vh)`;
+    cloudB.style.transform = `translate(${(near * 5).toFixed(2)}vw, ${(near * 18 + rise * 150).toFixed(2)}vh)`;
+    deep.style.opacity = rise.toFixed(3);
+    starShift = (near * 0.15 + rise * 1.6) * H;
 
-    // ソリ (0.2〜0.74)
-    const st = ramp(p, 0.2, 0.74);
+    // ソリ (0.08〜0.46): 左下から右上へ、月の前を横切る
+    const st = ramp(p, 0.08, 0.46);
     const pos = sleighPos(st);
     const w = sleigh.offsetWidth;
     const h = sleigh.offsetHeight;
@@ -171,10 +186,11 @@
       lastPos = null;
     }
 
-    // 文字 (0.74〜0.82 で浮かび、0.9 までに消える)
-    const cap = Math.min(ramp(p, 0.74, 0.82), 1 - ramp(p, 0.88, 0.94));
+    // 金色の文字 (昇りきった星空で 0.80〜0.90 に浮かび、最後まで残る)
+    const cap = Math.min(ramp(p, 0.8, 0.9), 1 - ramp(p, 0.97, 1));
     caption.style.opacity = cap.toFixed(3);
-    caption.style.transform = `translate(-50%, -50%) translateY(${((1 - cap) * 12).toFixed(1)}px)`;
+    caption.style.transform = `translate(-50%, -50%) translateY(${((1 - cap) * 18).toFixed(1)}px) scale(${(0.94 + 0.06 * cap).toFixed(3)})`;
+    caption.style.setProperty("--shine", ramp(p, 0.84, 0.95).toFixed(3));
   }
 
   let lastLoop = 0;

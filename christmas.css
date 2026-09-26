@@ -622,3 +622,23 @@ body.xmas .hero {
 /* ふたの絵は上端に余白(高さの約12%)があるので、そこを軸に回す */
 .xe-flap.has-art { transform-origin: 50% 12%; }
 .xe-seal { top: 55%; }
+
+/* 空を昇るほど、上から深い紺が降りてくる */
+.xs-deep {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, #03051a 0%, #070b26 55%, rgba(10, 14, 40, 0.6) 100%);
+}
+.xs-stars { z-index: 1; }
+/* 昇りきった星空に浮かぶ金色の文字 */
+.xs-caption-en {
+  font-size: clamp(56px, 11vw, 120px);
+  filter:
+    drop-shadow(0 0 calc(6px + var(--shine, 0) * 14px) rgba(255, 214, 130, calc(0.35 + var(--shine, 0) * 0.5)))
+    drop-shadow(0 0 calc(var(--shine, 0) * 40px) rgba(255, 190, 100, calc(var(--shine, 0) * 0.45)));
+  animation: xe-shimmer 5s linear infinite;
+}
+.xs-caption { top: 44%; }
