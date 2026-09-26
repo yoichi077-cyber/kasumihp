@@ -227,7 +227,7 @@
   }
 
   // ---- レープクーヘンのハート ----
-  const HEART_WORDS = ["KASUMI", "Kyoto", "Noël", "Merry X'mas", "Liebe", "2026"];
+  const HEART_WORDS = ["KASUMI", "Joy", "Noël", "Merry X'mas", "Liebe", "2026"];
   function heartShape(g, x, y, w, word, ribbon) {
     const h = w * 0.92;
     const p = `M${x} ${y + h * 0.28} C${x - w * 0.02} ${y + h * 0.05} ${x - w * 0.5} ${y - h * 0.05} ${x - w * 0.5} ${y + h * 0.3} C${x - w * 0.5} ${y + h * 0.6} ${x - w * 0.15} ${y + h * 0.78} ${x} ${y + h} C${x + w * 0.15} ${y + h * 0.78} ${x + w * 0.5} ${y + h * 0.6} ${x + w * 0.5} ${y + h * 0.3} C${x + w * 0.5} ${y - h * 0.05} ${x + w * 0.02} ${y + h * 0.05} ${x} ${y + h * 0.28} Z`;
@@ -331,49 +331,117 @@
   }
 
   // ---- 古い街並みの影絵(切妻屋根・木組み・教会の塔) ----
+  // data-town="1" のときは、ソリの場面用の「クリスマス一色のヨーロッパの旧市街」を描く
+  // (色のついた壁・木組み・階段状の破風・煙突・教会の塔・屋根の電球・窓のリース)
   function skyline(el, seed) {
     const W = Math.max(320, el.clientWidth);
-    const H = Number(el.dataset.h) || 180;
+    const H = Math.max(120, el.clientHeight || Number(el.dataset.h) || 180);
+    const town = el.dataset.town === "1";
     const R = rng(seed);
     const s = svg(W, H);
-    // 奥の列 → 教会の塔 → 手前の列 の順に重ねる(雪と窓も、その列の中で描く)
-    function house(g, x, w, h, lit, timber, body) {
-      const roof = w * (0.32 + R() * 0.3);
-      const y = H - h;
-      add(g, "path", { d: `M${x} ${H} V${y} L${x + w / 2} ${y - roof} L${x + w} ${y} V${H} Z`, fill: body });
-      // 屋根の雪(屋根の線に沿った細い帯)
-      add(g, "path", { d: `M${x - 3} ${y + 2} L${x + w / 2} ${y - roof - 1} L${x + w + 3} ${y + 2} L${x + w - 2} ${y + 4} L${x + w / 2} ${y - roof + 5} L${x + 2} ${y + 4} Z`, fill: "#e6ebf5", opacity: 0.85 });
-      if (timber) {
-        add(g, "path", { d: `M${x + 3} ${y + h * 0.33} H${x + w - 3} M${x + 3} ${y + h * 0.66} H${x + w - 3} M${x + w * 0.25} ${y + 4} V${H} M${x + w * 0.75} ${y + 4} V${H} M${x + 3} ${y + 6} L${x + w * 0.25} ${y + h * 0.33}`, stroke: "#3a3150", "stroke-width": 1.3, fill: "none" });
+    const WALLS = town ? ["#3b2f4f", "#2e3a5c", "#4a3044", "#35405e", "#503a3a", "#2c4250"] : ["#1b2146"];
+    function roofLights(g, pts) {
+      for (let i = 0; i < pts.length - 1; i++) {
+        const [x0, y0] = pts[i];
+        const [x1, y1] = pts[i + 1];
+        const n = Math.max(1, Math.round(Math.hypot(x1 - x0, y1 - y0) / 11));
+        for (let k = 0; k < n; k++) {
+          const t = k / n;
+          const x = x0 + (x1 - x0) * t;
+          const y = y0 + (y1 - y0) * t;
+          const c = add(g, "circle", { cx: x, cy: y + 2, r: 3.4, fill: "#ffd98f", filter: "url(#xmglow)", class: "xm-twinkle" });
+          c.style.animationDelay = (R() * 3).toFixed(2) + "s";
+          add(g, "circle", { cx: x, cy: y + 2, r: 1.2, fill: "#fff6dc" });
+        }
       }
-      const rows = Math.max(1, Math.floor((h - 14) / 26));
-      const cols = Math.max(1, Math.floor(w / 20));
+    }
+    function wreath(g, x, y, r) {
+      add(g, "circle", { cx: x, cy: y, r, fill: "none", stroke: "#2f6547", "stroke-width": r * 0.55 });
+      add(g, "path", { d: `M${x - r * 0.5} ${y + r * 0.9} l${r * 0.5} ${-r * 0.4} l${r * 0.5} ${r * 0.4}`, stroke: "#c0202c", "stroke-width": 1.6, fill: "none" });
+    }
+    function house(g, x, w, h, lit, front) {
+      const y = H - h;
+      const wall = WALLS[Math.floor(R() * WALLS.length)];
+      const kind = town ? R() : 0;
+      const roofH = w * (0.55 + R() * 0.45);
+      let outline;
+      if (kind > 0.72) {
+        // 階段状の破風
+        const st = 4;
+        let d = `M${x} ${H} V${y}`;
+        const pts = [[x, y]];
+        for (let i = 1; i <= st; i++) {
+          const xx = x + (w / 2) * (i / st);
+          const yy = y - roofH * (i / st);
+          d += ` V${yy} H${xx}`;
+          pts.push([x + (w / 2) * ((i - 1) / st), yy], [xx, yy]);
+        }
+        for (let i = st - 1; i >= 0; i--) {
+          const xx = x + w - (w / 2) * (i / st);
+          const yy = y - roofH * (i / st);
+          d += ` H${xx} V${yy}`;
+        }
+        d += ` V${H} Z`;
+        add(g, "path", { d, fill: wall });
+        outline = [[x, y], [x + w / 2, y - roofH], [x + w, y]];
+        add(g, "path", { d: `M${x + w * 0.3} ${y - roofH * 0.62} h${w * 0.4}`, stroke: "#eef2f8", "stroke-width": 3, opacity: 0.8 });
+      } else {
+        add(g, "path", { d: `M${x} ${H} V${y} L${x + w / 2} ${y - roofH} L${x + w} ${y} V${H} Z`, fill: wall });
+        add(g, "path", { d: `M${x - 4} ${y + 2} L${x + w / 2} ${y - roofH - 2} L${x + w + 4} ${y + 2} L${x + w - 1} ${y + 5} L${x + w / 2} ${y - roofH + 5} L${x + 1} ${y + 5} Z`, fill: "#eef2f8", opacity: 0.9 });
+        outline = [[x - 2, y + 3], [x + w / 2, y - roofH], [x + w + 2, y + 3]];
+      }
+      if (town && R() < 0.5) {
+        const cx = x + w * (0.65 + R() * 0.15);
+        add(g, "rect", { x: cx, y: y - roofH * 0.7, width: 7, height: roofH * 0.5, fill: "#2a1f28" });
+        add(g, "rect", { x: cx - 1, y: y - roofH * 0.72, width: 9, height: 3, fill: "#eef2f8" });
+      }
+      if (town && R() < 0.45) {
+        // 木組み
+        add(g, "path", { d: `M${x + 3} ${y + h * 0.3} H${x + w - 3} M${x + 3} ${y + h * 0.58} H${x + w - 3} M${x + w * 0.2} ${y} V${H} M${x + w * 0.8} ${y} V${H} M${x + w * 0.2} ${y + h * 0.3} L${x + w * 0.5} ${y + h * 0.58} L${x + w * 0.8} ${y + h * 0.3}`, stroke: "#1a1420", "stroke-width": 2, fill: "none", opacity: 0.8 });
+      }
+      const rows = Math.max(1, Math.floor((h - 16) / 30));
+      const cols = Math.max(1, Math.floor(w / (town ? 26 : 20)));
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
           if (R() > lit) continue;
-          const wx = x + (w / cols) * (c + 0.5) - 4;
-          const wy = y + 12 + r * 26;
-          add(g, "rect", { x: wx, y: wy, width: 8, height: 11, rx: 1, fill: R() < 0.8 ? "#ffcf7a" : "#ffe6ad", opacity: 0.9 });
+          const ww = town ? 10 : 8;
+          const wh = town ? 15 : 11;
+          const wx = x + (w / cols) * (c + 0.5) - ww / 2;
+          const wy = y + 12 + r * 30;
+          if (wy + wh > H - 4) continue;
+          add(g, "rect", { x: wx, y: wy, width: ww, height: wh, rx: town ? 4 : 1, fill: R() < 0.8 ? "#ffcf7a" : "#ffe6ad", opacity: 0.95 });
+          if (town) {
+            add(g, "path", { d: `M${wx + ww / 2} ${wy + 2} V${wy + wh} M${wx} ${wy + wh * 0.5} H${wx + ww}`, stroke: wall, "stroke-width": 1.2 });
+            if (R() < 0.18) wreath(g, wx + ww / 2, wy + wh / 2, 3.6);
+          }
         }
       }
+      if (town && front && R() < 0.75) roofLights(g, outline);
     }
     const back = add(s, "g", {});
     let x = -20;
     while (x < W) {
-      const w = 46 + R() * 44;
-      house(back, x, w, H * (0.42 + R() * 0.3), 0.3, false, "#262d58");
-      x += w - 4;
+      const w = town ? 50 + R() * 40 : 46 + R() * 44;
+      house(back, x, w, H * (town ? 0.5 + R() * 0.25 : 0.42 + R() * 0.3), 0.35, false);
+      x += w - 2;
     }
+    // 教会の塔
     const tower = add(s, "g", {});
     const cx = W * (0.3 + R() * 0.4);
-    add(tower, "path", { d: `M${cx - 14} ${H} V${H * 0.34} L${cx} ${H * 0.02} L${cx + 14} ${H * 0.34} V${H} Z`, fill: "#141934" });
-    add(tower, "circle", { cx, cy: H * 0.46, r: 5, fill: "#ffe6ad", opacity: 0.85 });
+    const tw = town ? 36 : 28;
+    add(tower, "rect", { x: cx - tw / 2, y: H * 0.3, width: tw, height: H * 0.7, fill: town ? "#2b2440" : "#141934" });
+    add(tower, "path", { d: `M${cx - tw / 2 - 3} ${H * 0.3} L${cx} ${H * -0.08} L${cx + tw / 2 + 3} ${H * 0.3} Z`, fill: town ? "#1f2a3e" : "#141934" });
+    add(tower, "circle", { cx, cy: H * 0.4, r: tw * 0.28, fill: "#ffe6ad", opacity: 0.9 });
+    if (town) {
+      star(tower, cx, H * -0.1, 7);
+      roofLights(tower, [[cx - tw / 2 - 3, H * 0.3], [cx, H * -0.06], [cx + tw / 2 + 3, H * 0.3]]);
+    }
     const front = add(s, "g", {});
     x = -30;
     while (x < W) {
-      const w = 56 + R() * 46;
-      house(front, x, w, H * (0.24 + R() * 0.2), 0.5, R() < 0.5, "#0d1128");
-      x += w + 2 + R() * 6;
+      const w = town ? 58 + R() * 44 : 56 + R() * 46;
+      house(front, x, w, H * (town ? 0.3 + R() * 0.2 : 0.24 + R() * 0.2), 0.55, true);
+      x += w + (town ? 0 : 2 + R() * 6);
     }
     el.replaceChildren(s);
   }

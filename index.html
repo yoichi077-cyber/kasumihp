@@ -181,8 +181,8 @@
 </section>
 
 <!-- ===== ソリの演出: 夜空をサンタとトナカイのソリが駆ける =====
-     カメラがゆっくり夜空へ上がり、ソリが月の前を横切って、金の光の粉が残る → 「Christmas Menu」
-     星と月はコードで描く。夜空・屋根・雲・ソリは Codex の水彩画(無い間は仮の図形)。高さは sleigh.js が付ける -->
+     ヨーロッパの旧市街の屋根の上から、カメラがゆっくり夜空へ上がり、ソリが月の前を横切って、金の光の粉が残る → 「Christmas Menu」
+     星と月はコードで描く。夜空・雲・ソリは Codex の水彩画。街並みは Codex の絵が届くまでコードで描く。高さは sleigh.js が付ける -->
 <section class="xs" id="sleigh" aria-label="サンタのソリが夜空を駆ける演出">
   <div class="xs-sticky">
     <div class="xs-sky" data-art="images/christmas/sleigh-sky.jpg"></div>
@@ -211,32 +211,9 @@
         </g>
       </svg>
     </div>
-    <div class="xs-roofs" data-art="images/christmas/sleigh-rooftops.png" aria-hidden="true">
-      <svg class="xs-fallback" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice">
-        <!-- 仮の京都の屋根並み(影絵)。Codex の sleigh-rooftops.png が届いたら自動で差し替わる -->
-        <g fill="#141a38">
-          <path d="M0 300 V190 l40 -26 h90 l40 26 V300 Z" />
-          <path d="M160 300 V176 l50 -30 h110 l50 30 V300 Z" />
-          <path d="M360 300 V200 l36 -22 h80 l36 22 V300 Z" />
-          <path d="M760 300 V184 l46 -28 h100 l46 28 V300 Z" />
-          <path d="M940 300 V196 l40 -24 h96 l40 24 V300 Z" />
-          <path d="M1100 300 V180 l30 -20 h70 V300 Z" />
-          <!-- 五重塔 -->
-          <g transform="translate(560 40)">
-            <rect x="46" y="-30" width="4" height="34" />
-            <path d="M8 40 h80 l-14 -14 h-52 Z M14 80 h68 l-12 -14 h-44 Z M18 120 h60 l-11 -14 h-38 Z M22 160 h52 l-10 -13 h-32 Z M26 200 h44 l-9 -12 h-26 Z" />
-            <rect x="30" y="40" width="36" height="220" />
-          </g>
-        </g>
-        <g fill="#f3d99a" opacity="0.85">
-          <rect x="60" y="220" width="14" height="18" /><rect x="96" y="220" width="14" height="18" />
-          <rect x="220" y="210" width="16" height="20" /><rect x="290" y="236" width="16" height="20" />
-          <rect x="410" y="232" width="12" height="16" />
-          <rect x="820" y="214" width="16" height="20" /><rect x="880" y="244" width="16" height="20" />
-          <rect x="1000" y="226" width="14" height="18" /><rect x="1150" y="212" width="12" height="16" />
-        </g>
-      </svg>
-    </div>
+    <!-- 手前: クリスマス一色のヨーロッパの旧市街(和の要素は入れない。2026-09-26 オーナー指示)。
+         Codex の sleigh-town.png が届いたら自動で差し替わる。届くまではコードで描いた街並み -->
+    <div class="xs-roofs" data-art="images/christmas/sleigh-town.png" data-deco="skyline" data-town="1" aria-hidden="true"></div>
     <p class="xs-caption"><span class="xs-caption-en">Christmas Menu</span><span class="xs-caption-ja">クリスマスのごちそうを、どうぞ。</span></p>
     <div class="xs-dusk" aria-hidden="true"></div>
   </div>

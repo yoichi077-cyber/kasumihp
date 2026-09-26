@@ -617,8 +617,8 @@ body.xmas .hero {
 .xe-pocket.has-art { clip-path: polygon(0 8%, 50% 49%, 100% 8%, 100% 100%, 0 100%); filter: none; }
 .xe-body.has-art::before { display: none; }
 .xe-card { top: 9%; height: 82%; }
-.xs-roofs { height: 62vh; }
-@media (max-width: 600px) { .xs-roofs { height: 40vh; } }
+.xs-roofs { height: 46vh; }
+@media (max-width: 600px) { .xs-roofs { height: 32vh; } }
 /* ふたの絵は上端に余白(高さの約12%)があるので、そこを軸に回す */
 .xe-flap.has-art { transform-origin: 50% 12%; }
 .xe-seal { top: 55%; }

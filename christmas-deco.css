@@ -428,3 +428,7 @@ body.xmas .site-header .nav a:hover { color: #ffd08a; }
   padding-left: 0.5em;
   color: #e7c16f;
 }
+
+/* ソリの場面の街並み: 絵(Codex)が届いたら、コードの街並みを消して絵だけにする */
+.xs-roofs.has-art > svg { display: none; }
+.xs-roofs svg { width: 100%; height: 100%; }
