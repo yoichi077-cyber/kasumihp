@@ -11,6 +11,7 @@
     const img = new Image();
     img.onload = () => {
       el.style.backgroundImage = `url("${src}")`;
+      el.style.setProperty("--art", `url("${src}")`); // 灯りのまたたきを、絵の形の中だけに出すため
       el.classList.add("has-art");
     };
     img.src = src;

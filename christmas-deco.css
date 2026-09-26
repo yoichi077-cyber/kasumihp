@@ -654,3 +654,50 @@ body.xmas .site-header .nav a:hover { color: #ffd08a; }
   .xm-lx { grid-template-columns: 1fr; gap: 56px; padding-top: 100px; }
   .xm-lx .xm-vhut { max-width: 300px; margin: 0 auto; width: 78%; }
 }
+
+/* ============================================================
+   ChatGPT(Codex)の絵に差し替わった飾り
+   絵は data-art の画像。届いたら .has-art が付き、コードで描いた仮の絵を消す。
+   灯りのまたたきは吾輩(コード)が担当: 絵の形(--art)で切り抜いた光の粒を重ねる
+   ============================================================ */
+.xm-art { position: absolute; display: none; pointer-events: none; }
+.xm-art.has-art { display: block; background-size: contain !important; background-position: center bottom !important; }
+.xm-tree.has-art > svg,
+.xm-pyramid.has-art > svg { display: none; }
+.xm-tree.has-art,
+.xm-pyramid.has-art { background-size: contain !important; background-position: center bottom !important; }
+.xm-tree.has-art::after,
+.xm-pyramid.has-art::after,
+.xm-sparkle.has-art::after {
+  content: "";
+  display: block !important;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle, #fff3cf 0 1.4px, rgba(255, 206, 120, 0.55) 2.4px, transparent 4.5px) 0 0 / 23px 29px,
+    radial-gradient(circle, #fff6dc 0 1.2px, rgba(255, 214, 140, 0.5) 2.2px, transparent 4px) 11px 14px / 31px 37px;
+  -webkit-mask: var(--art) center bottom / contain no-repeat;
+  mask: var(--art) center bottom / contain no-repeat;
+  mix-blend-mode: screen;
+  animation: xm-glint 2.8s ease-in-out infinite alternate;
+}
+@keyframes xm-glint {
+  0% { opacity: 0.25; background-position: 0 0, 11px 14px; }
+  50% { opacity: 1; }
+  100% { opacity: 0.45; background-position: 6px 4px, 3px 20px; }
+}
+/* 置き場所 */
+.xm-art--cathedral { left: 50%; bottom: 60px; width: min(760px, 96vw); height: 520px; transform: translateX(-50%); z-index: 0; opacity: 0.9; }
+.xmas-dates .xm-archsign { z-index: 2; }
+.xm-art--nutL, .xm-art--nutR { top: 150px; width: 110px; height: 220px; z-index: 3; }
+.xm-art--nutL { left: calc(50% - 540px); }
+.xm-art--nutR { right: calc(50% - 540px); transform: scaleX(-1); }
+.xm-art--angel { left: 50%; bottom: calc(100% + 120px); width: 150px; height: 150px; transform: translateX(-50%); z-index: 5; }
+.xm-art--carousel { left: 1%; bottom: 20px; width: 300px; height: 300px; z-index: 1; }
+@media (max-width: 1100px) { .xm-art--nutL, .xm-art--nutR { display: none !important; } }
+@media (max-width: 600px) {
+  .xm-art--cathedral { height: 380px; }
+  .xm-art--angel { width: 100px; height: 100px; bottom: calc(100% + 90px); }
+  .xm-art--carousel { width: 180px; height: 180px; opacity: 0.7; }
+}
