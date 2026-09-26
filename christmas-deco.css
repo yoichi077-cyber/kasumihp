@@ -729,3 +729,36 @@ body.xmas .site-header .nav a:hover { color: #ffd08a; }
   .xmas-dates { padding-top: 250px !important; }
   .xm-art--carousel { right: 0; bottom: 30px; }
 }
+
+/* ---------- 手描きの絵(2026-09-26 依頼分)の置き場所 ---------- */
+/* メニュー: 写真が撮れるまでは手描きのイメージ絵(「イメージ」と明記) */
+.thumb--soon .thumb-note { display: none; }
+.thumb--soon.has-art {
+  background-color: #fbf3e1 !important;
+  background-size: 92% auto !important;
+}
+.thumb--soon.has-art span { display: none; }
+.thumb--soon.has-art .thumb-note {
+  display: block;
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  font-style: normal;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+}
+.menu-card .thumb { position: relative; }
+/* 開催期間: 広場の1枚絵が届いたら、大聖堂・陶器の家・影絵を下げてこれ1枚にする */
+.xm-art--square {
+  left: 50%;
+  bottom: 18%;
+  width: 150%;
+  height: auto;
+  aspect-ratio: 2400 / 1300;
+  transform: translateX(-50%);
+  z-index: -1;
+}
+.xmas-dates:has(.xm-art--square.has-art) .xm-art--cathedral,
+.xmas-dates:has(.xm-art--square.has-art) .xm-lanterns,
+.xmas-dates:has(.xm-art--square.has-art) .xm-skyline { display: none !important; }
