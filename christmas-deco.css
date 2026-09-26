@@ -45,9 +45,6 @@ body.xmas {
 .xm-walk { animation: xm-walk 7s linear infinite alternate; }
 .xm-walk--rev { animation-direction: alternate-reverse; }
 @keyframes xm-walk { from { transform: translateX(calc(var(--walk) * -0.3)); } to { transform: translateX(calc(var(--walk) * 0.3)); } }
-@media (prefers-reduced-motion: reduce) {
-  .xm-twinkle, .xm-sway, .xm-flicker, .xm-spin, .xm-walk { animation: none; }
-}
 
 /* 夜の区画(下に灯りのにじみ) */
 .xm-night {

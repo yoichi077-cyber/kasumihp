@@ -5,7 +5,7 @@
  * → 金色の文字が1行ずつ浮かぶ → 文字が光り、光が画面いっぱいに広がる → クリスマスの店内写真
  *
  * スクロール量(0〜1)で全部の動きを決める(基本版の入口と同じ方式)。
- * JS無効時 / prefers-reduced-motion 時は .entrance の高さを 0 のままにして、
+ * JS無効時は .entrance の高さを 0 のままにして、
  * 普通にヘッダー→ヒーローから始まる通常のページとして表示する(壊れない設計)。
  */
 (function () {
@@ -13,7 +13,8 @@
   const header = document.querySelector(".site-header");
   const skipBtn = document.getElementById("entranceSkip");
   if (!root || !header) return;
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  // スマホの「動きを減らす」設定がオンでも演出は出す(2026-09-26 オーナー判断。基本版と同じ)
+  root.classList.add("is-ready"); // JSが動いた時だけ、入口の絵を表示する
 
   const sticky = root.querySelector(".xe-sticky");
   const env = root.querySelector(".xe-env");

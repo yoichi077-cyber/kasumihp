@@ -7,7 +7,7 @@
  *
  * 星と月はコードで描く。夜空・屋根・雲・ソリは Codex の水彩画を使う(無い間は仮の図形)。
  * ソリはスクロールに直接つなぐとカクつくので、表示位置をスクロール位置へ少しずつ追いつかせる。
- * prefers-reduced-motion の時は静止表示(.xs--static)にする。
+ * スマホの「動きを減らす」設定がオンでも演出は出す(2026-09-26 オーナー判断)。
  */
 (function () {
   const sec = document.getElementById("sleigh");
@@ -23,11 +23,6 @@
   const trail = sec.querySelector(".xs-trail");
   const caption = sec.querySelector(".xs-caption");
   const dusk = sec.querySelector(".xs-dusk");
-
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    sec.classList.add("xs--static");
-    return;
-  }
 
   const SCREENS = 4;
   const sctx = stars.getContext("2d");

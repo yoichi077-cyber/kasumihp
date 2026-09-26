@@ -21,7 +21,6 @@
   const GREEN = ["#123024", "#1a3d2c", "#24533b", "#2f6547"];
   const BAUBLE = ["#a3202b", "#d4a94a", "#8c1c2a", "#c99a3c", "#e7d7b0"];
   const WARM = ["#ffd98f", "#ffe7b3", "#ffcf7a", "#fff1cf"];
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function rng(seed) {
     let s = seed >>> 0 || 1;
@@ -595,7 +594,6 @@
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawAll);
 
   // ---- 雪(画面全体) ----
-  if (reduce) return;
   const cv = document.createElement("canvas");
   cv.className = "xm-snow";
   cv.setAttribute("aria-hidden", "true");
