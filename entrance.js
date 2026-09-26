@@ -6,8 +6,10 @@
  * 絵そのものはイラストレーター(ChatGPT生成)が描いたものを使い、
  * ここではカメラワーク(ズームとクロスフェード)だけを担当している。
  *
- * JS無効時 / prefers-reduced-motion 時は .entrance の高さを 0 のままにして、
+ * JS無効時は .entrance の高さを 0 のままにして、
  * 普通にヘッダー→ヒーローから始まる通常のページとして表示する(壊れない設計)。
+ * スマホの「動きを減らす」設定がオンでも演出は出す(スクロールに合わせて動くだけで、
+ * 指を止めれば止まるため。2026-09-26 オーナー判断。以前はこの設定で演出が消えていた)。
  */
 (function () {
   const entrance = document.getElementById("entrance");
@@ -15,10 +17,8 @@
   const skipBtn = document.getElementById("entranceSkip");
   if (!entrance || !header) return;
 
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduceMotion) return; // 高さ0のまま = ギミックなしで通常表示
-
   const sticky = entrance.querySelector(".entrance-sticky");
+  entrance.classList.add("is-ready"); // JSが動いた時だけ、入口の絵を表示する
   const scenes = Array.from(entrance.querySelectorAll(".scene"));
   const captions = Array.from(entrance.querySelectorAll(".scene-caption"));
   const scrollHint = entrance.querySelector(".scroll-hint");

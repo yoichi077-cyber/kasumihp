@@ -657,3 +657,6 @@ footer {
   transition: opacity 0.5s ease, max-width 0.5s ease;
 }
 .is-night .logo-night { opacity: 1; max-width: 12em; }
+
+/* JSが動く前・JS無効の時は、入口の絵を出さない(高さ0の入口から絵の切れ端がはみ出して見えていた) */
+.entrance:not(.is-ready) .entrance-sticky { display: none; }
