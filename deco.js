@@ -186,23 +186,24 @@
 
   // ---- ガーランド(電球色の灯りを編み込む) ----
   function garland(el, seed) {
-    const W = Math.max(320, el.clientWidth);
-    const H = 96;
+    const flat = el.dataset.flat === "1"; // 屋台の軒に巻く、まっすぐな帯(下に垂れる飾りなし)
+    const W = Math.max(flat ? 60 : 320, el.clientWidth);
+    const H = flat ? 30 : 96;
     const R = rng(seed);
     const s = svg(W, H);
-    const spans = Math.max(2, Math.round(W / 250));
+    const spans = Math.max(flat ? 1 : 2, Math.round(W / 250));
     const seg = W / spans;
     const needles = add(s, "g", { "stroke-linecap": "round" });
     const deco = add(s, "g", {});
     for (let i = 0; i < spans; i++) {
       const x0 = i * seg;
-      const sag = 26 + R() * 8;
+      const sag = flat ? 2 : 26 + R() * 8;
       for (let x = x0; x <= x0 + seg; x += 5) {
         const t = (x - x0) / seg;
-        const y = 12 + sag * 4 * t * (1 - t);
+        const y = (flat ? 14 : 12) + sag * 4 * t * (1 - t);
         for (let k = 0; k < 6; k++) {
           const a = R() * Math.PI * 2;
-          const len = 7 + R() * 11;
+          const len = flat ? 5 + R() * 7 : 7 + R() * 11;
           add(needles, "line", {
             x1: x.toFixed(1), y1: y.toFixed(1),
             x2: (x + Math.cos(a) * len).toFixed(1), y2: (y + Math.sin(a) * len * 0.8).toFixed(1),
@@ -212,6 +213,7 @@
         if (R() < 0.1) berries(deco, x + (R() - 0.5) * 12, y + (R() - 0.5) * 8, 2.4);
         if (R() < 0.22) bulb(deco, x + (R() - 0.5) * 14, y - 4 + (R() - 0.5) * 8, R, 0.8);
       }
+      if (flat) { bow(deco, x0 + 4, 12, 0.6); continue; }
       const mx = x0 + seg / 2;
       const my = 12 + sag;
       const len = 6 + R() * 16;
@@ -219,7 +221,7 @@
       bauble(deco, mx, my + len, 9 + R() * 4, Math.floor(R() * BAUBLE.length));
       bow(deco, x0, 14, 0.95);
     }
-    bow(deco, W, 14, 0.95);
+    bow(deco, flat ? W - 4 : W, flat ? 12 : 14, flat ? 0.6 : 0.95);
     el.replaceChildren(s);
   }
 
@@ -502,16 +504,15 @@
   }
 
   // ---- メニューのカードを木の屋台にする ----
+  // ニュルンベルクの屋台: 赤白の縞の布屋根、縁取りの垂れ幕、もみのガーランド、軒の電球
+  // (写真の上には何も重ねない。飾りはすべて屋根の中に収める)
   function makeHuts() {
-    document.querySelectorAll(".xmas-menu .menu-card").forEach((card, i) => {
-      if (card.querySelector(".xm-hut-roof")) return;
+    document.querySelectorAll(".xmas-menu .menu-card").forEach((card) => {
+      if (card.querySelector(".xm-roof")) return;
       const roof = document.createElement("div");
-      roof.className = "xm-hut-roof" + (i % 3 === 1 ? " xm-hut-roof--stripe" : "");
+      roof.className = "xm-roof";
       roof.setAttribute("aria-hidden", "true");
-      const eave = document.createElement("div");
-      eave.className = "xm-hut-eave";
-      eave.dataset.deco = "lights";
-      roof.appendChild(eave);
+      roof.innerHTML = '<div class="xm-valance"></div><div class="xm-hut-eave" data-deco="lights"></div><div class="xm-roof-garland" data-deco="garland" data-flat="1"></div>';
       card.prepend(roof);
     });
   }
@@ -563,6 +564,17 @@
   }
   size();
   window.addEventListener("resize", size);
+  const PHOTOS = ".hero, .concept img, .concept-strip img, .menu-card .thumb, .xe-photo";
+  let holes = [];
+  let holesAt = -1e9;
+  function photoRects() {
+    const out = [];
+    document.querySelectorAll(PHOTOS).forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < H && r.width > 0 && getComputedStyle(el).opacity !== "0") out.push(r);
+    });
+    return out;
+  }
   let last = 0;
   function tick(t) {
     const dt = Math.min(50, last ? t - last : 16) / 16;
@@ -570,6 +582,15 @@
     if (!document.hidden) {
       ctx.clearRect(0, 0, W, H);
       ctx.fillStyle = "#fff";
+      // 写真の上には雪を降らせない(写真に飾りを重ねない)
+      if (t - holesAt > 250) { holes = photoRects(); holesAt = t; }
+      ctx.save();
+      if (holes.length) {
+        ctx.beginPath();
+        ctx.rect(0, 0, W, H);
+        holes.forEach((r) => ctx.rect(r.left, r.top, r.width, r.height));
+        ctx.clip("evenodd");
+      }
       for (const f of flakes) {
         f.y += f.vy * dt;
         f.ph += 0.01 * dt;
@@ -580,6 +601,7 @@
         ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
         ctx.fill();
       }
+      ctx.restore();
       ctx.globalAlpha = 1;
     }
     requestAnimationFrame(tick);

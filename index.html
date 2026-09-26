@@ -6,7 +6,7 @@
 <title>KASUMI(かすみ)| 京都・四条河原町のクリスマスカフェ</title>
 <meta name="description" content="京都市中京区、四条河原町から徒歩3分。ドライフラワーカフェ KASUMI のクリスマスカフェ。2026年11月19日(木)〜12月27日(日)、朝から夜まで一日中クリスマス仕様でお待ちしています。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Zen+Old+Mincho:wght@500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=UnifrakturMaguntia&family=Zen+Old+Mincho:wght@500;700&display=swap">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="christmas.css">
 <link rel="stylesheet" href="christmas-deco.css">
@@ -87,9 +87,8 @@
   <div class="xm-lights xm-lights--header" data-deco="lights"></div>
 </header>
 
-<section class="hero" data-hero-image>
-  <div class="xm-canopy xm-canopy--hero" data-deco="canopy" data-h="170"></div>
-  <div class="xm-stars xm-stars--hero" data-deco="stars" data-count="3" data-len="170"></div>
+<section class="hero" id="top" data-hero-image>
+  <!-- 写真の上には飾りを重ねない(2026-09-26 オーナー指示) -->
   <div class="hero-inner">
     <p class="hero-eyebrow">Kyoto / Shijo-Kawaramachi — Christmas Cafe</p>
     <h1>花とツリーに包まれて、<br>KASUMIのクリスマス。</h1>
@@ -149,7 +148,11 @@
   <div class="xm-stars xm-stars--hours" data-deco="stars" data-count="2" data-len="90"></div>
   <div class="xm-skyline xm-skyline--hours" data-deco="skyline" data-h="170"></div>
   <div class="wrap xm-bighut">
-    <div class="xm-bighut-roof" aria-hidden="true"><div class="xm-hut-eave" data-deco="lights"></div></div>
+    <div class="xm-roof xm-roof--big" aria-hidden="true">
+      <div class="xm-valance"></div>
+      <div class="xm-hut-eave" data-deco="lights"></div>
+      <div class="xm-roof-garland" data-deco="garland" data-flat="1"></div>
+    </div>
     <div class="section-head">
       <p class="eyebrow"><span class="xm-holly" data-deco="holly"></span>Hours<span class="xm-holly xm-holly--flip" data-deco="holly"></span></p>
       <h2>営業時間</h2>
