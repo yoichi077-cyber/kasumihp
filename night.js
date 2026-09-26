@@ -5,7 +5,7 @@
  * → 「20:30から、夜カフェ。」 → 夜の店内(月のライト)の写真へ → 夜カフェのメニュー
  *
  * 星と月はコードで描く(AI生成の絵は使わない)。
- * prefers-reduced-motion の時は静止表示(.night--static)にする。
+ * スマホの「動きを減らす」設定がオンでも演出は出す(2026-09-26 オーナー判断。入口と同じ理由)。
  */
 (function () {
   const sec = document.getElementById("night");
@@ -17,11 +17,6 @@
   const moon = sec.querySelector(".night-moon");
   const cap = sec.querySelector(".night-caption");
   const interior = sec.querySelector(".night-interior");
-
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    sec.classList.add("night--static");
-    return;
-  }
 
   // 画面4つ分スクロールする間に演出が進む
   const SCREENS = 4;
