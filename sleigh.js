@@ -148,9 +148,9 @@
 
   function render(p) {
     // 明るい画面 → 夜 (0〜0.14)、最後に明るい画面へ戻る (0.9〜1)
-    // 入りは上の営業時間(タータンの深緑)から、出口は下のメニュー(生成り)へつなぐ
+    // 上下の区画も夜の色なので、夜の紺でつなぐ
     dusk.style.opacity = Math.max(1 - ramp(p, 0, 0.14), ramp(p, 0.9, 1)).toFixed(3);
-    dusk.style.backgroundColor = p < 0.5 ? "#1d4a35" : "";
+    dusk.style.backgroundColor = "#0f1428";
 
     // カメラが上がる: 屋根は下へ流れ、空と月はゆっくり下りてくる(奥ほど動きが小さい)
     const cam = ease(ramp(p, 0.05, 0.8));

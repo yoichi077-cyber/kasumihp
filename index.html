@@ -88,9 +88,8 @@
 </header>
 
 <section class="hero" data-hero-image>
-  <div class="xm-bunting xm-bunting--hero" data-deco="bunting"></div>
-  <div class="xm-hang xm-hang--hero" data-deco="hang" data-count="7" data-len="230"></div>
-  <div class="xm-gifts xm-gifts--hero" data-deco="gifts"></div>
+  <div class="xm-canopy xm-canopy--hero" data-deco="canopy" data-h="170"></div>
+  <div class="xm-hearts xm-hearts--hero" data-deco="hearts" data-count="3" data-len="170"></div>
   <div class="hero-inner">
     <p class="hero-eyebrow">Kyoto / Shijo-Kawaramachi — Christmas Cafe</p>
     <h1>花とツリーに包まれて、<br>KASUMIのクリスマス。</h1>
@@ -99,21 +98,27 @@
   </div>
 </section>
 
-<!-- 期間と臨時休業は 07_共通知識/営業情報.md(版6)の変更予定に合わせる -->
-<div class="xmas-dates">
-  <div class="xm-lights xm-lights--dates" data-deco="lights"></div>
-  <div class="wrap">
-    <p><span class="xmas-dates-label">開催期間</span><b>2026年11月19日(木)〜12月27日(日)</b></p>
-    <p><span class="xmas-dates-label">臨時休業</span>11月16日(月)〜18日(水)は飾り付けのためお休みします</p>
+<!-- 期間と臨時休業は 07_共通知識/営業情報.md(版6)の変更予定に合わせる。
+     看板はドレスデンのクリスマスマーケットの入口にある「ろうそくの木のアーチ」の形 -->
+<div class="xmas-dates xm-night" id="dates">
+  <div class="xm-canopy" data-deco="canopy" data-h="120"></div>
+  <div class="xm-archsign">
+    <div class="xm-arch" data-deco="arch"></div>
+    <div class="xm-archsign-text">
+      <span class="xm-archsign-kasumi">KASUMI KYOTO</span>
+      <span class="xm-archsign-en">Christmas Market</span>
+      <b>2026.11.19 <small>THU</small> — 12.27 <small>SUN</small></b>
+      <span class="xm-archsign-note">11月16日(月)〜18日(水)は飾り付けのため臨時休業</span>
+    </div>
   </div>
+  <div class="xm-skyline" data-deco="skyline" data-h="150"></div>
 </div>
 
-<section id="concept" class="xm-concept">
+<section id="concept" class="xm-concept xm-night">
   <div class="xm-garland" data-deco="garland"></div>
-  <div class="xm-hang xm-hang--right" data-deco="hang" data-count="4" data-len="200"></div>
+  <div class="xm-hearts xm-hearts--right" data-deco="hearts" data-count="2" data-len="120"></div>
   <div class="xm-hang xm-hang--left" data-deco="hang" data-count="3" data-len="140"></div>
-  <div class="xm-gifts xm-gifts--concept" data-deco="gifts"></div>
-  <div class="xm-ginger xm-ginger--concept" data-deco="ginger"></div>
+  <div class="xm-tree xm-tree--concept" data-deco="tree"></div>
   <div class="wrap concept">
     <img src="images/christmas/photos/tree-presents.jpg" alt="雪のツリーと赤いプレゼントの箱。奥にクリスマスの小物が並ぶ棚">
     <div class="concept-text">
@@ -138,12 +143,13 @@
   </div>
 </section>
 
-<section id="hours" class="hours xm-tartan">
-  <div class="xm-lights" data-deco="lights"></div>
-  <div class="xm-cane xm-cane--a" data-deco="cane"></div>
-  <div class="xm-cane xm-cane--b" data-deco="cane"></div>
-  <div class="xm-ginger xm-ginger--hours" data-deco="ginger"></div>
-  <div class="wrap">
+<section id="hours" class="hours xm-night xm-hours">
+  <div class="xm-canopy" data-deco="canopy" data-h="130"></div>
+  <div class="xm-pyramid xm-pyramid--hours" data-deco="pyramid"></div>
+  <div class="xm-hearts xm-hearts--hours" data-deco="hearts" data-count="2" data-len="90"></div>
+  <div class="xm-skyline xm-skyline--hours" data-deco="skyline" data-h="170"></div>
+  <div class="wrap xm-bighut">
+    <div class="xm-bighut-roof" aria-hidden="true"><div class="xm-hut-eave" data-deco="lights"></div></div>
     <div class="section-head">
       <p class="eyebrow"><span class="xm-holly" data-deco="holly"></span>Hours<span class="xm-holly xm-holly--flip" data-deco="holly"></span></p>
       <h2>営業時間</h2>
@@ -236,17 +242,18 @@
   </div>
 </section>
 
-<section id="menu" class="xmas-menu">
+<section id="menu" class="xmas-menu xm-night">
   <div class="xm-awning" aria-hidden="true"></div>
   <div class="xm-lights xm-lights--awning" data-deco="lights"></div>
   <div class="xm-sign" aria-hidden="true">
     <span class="xm-sign-en">Christmas Market</span>
     <span class="xm-sign-sub">KASUMI KYOTO · 2026</span>
   </div>
-  <div class="xm-hang xm-hang--left" data-deco="hang" data-count="4" data-len="260"></div>
-  <div class="xm-hang xm-hang--right" data-deco="hang" data-count="4" data-len="260"></div>
-  <div class="xm-cane xm-cane--menu" data-deco="cane"></div>
-  <div class="xm-gifts xm-gifts--menu" data-deco="gifts"></div>
+  <div class="xm-canopy xm-canopy--menu" data-deco="canopy" data-h="160"></div>
+  <div class="xm-hearts xm-hearts--menuL" data-deco="hearts" data-count="2" data-len="220"></div>
+  <div class="xm-hearts xm-hearts--menuR" data-deco="hearts" data-count="2" data-len="260"></div>
+  <div class="xm-tree xm-tree--menu" data-deco="tree"></div>
+  <div class="xm-pyramid xm-pyramid--menu" data-deco="pyramid"></div>
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow"><span class="xm-holly" data-deco="holly"></span>Christmas Menu<span class="xm-holly xm-holly--flip" data-deco="holly"></span></p>
@@ -328,7 +335,9 @@
 
 <section id="access" class="access">
   <div class="xm-garland" data-deco="garland"></div>
-  <div class="xm-bunting xm-bunting--access" data-deco="bunting"></div>
+  <div class="xm-canopy xm-canopy--access" data-deco="canopy" data-h="130"></div>
+  <div class="xm-tree xm-tree--access" data-deco="tree"></div>
+  <div class="xm-skyline xm-skyline--access" data-deco="skyline" data-h="160"></div>
   <div class="wrap access-grid">
     <div>
       <p class="eyebrow"><span class="xm-holly" data-deco="holly"></span>Access<span class="xm-holly xm-holly--flip" data-deco="holly"></span></p>

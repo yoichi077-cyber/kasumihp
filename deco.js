@@ -1,21 +1,26 @@
 /**
- * クリスマス版: クリスマスマーケットの飾り(コードで描く)
+ * クリスマス版: 夜のクリスマスマーケットの飾り(コードで描く)
  *
- * data-deco="..." を付けた要素の中に、SVG の飾りを描き込む。
- *   lights   … またたく電球のストリングライト
- *   garland  … もみの木のガーランド(リボン・オーナメント・赤い実つき)
- *   bunting  … 三角の旗
- *   hang     … 上からぶら下がって揺れるオーナメント(data-count で本数)
- *   holly / divider / gifts / cane / ginger / star … 小さな飾り
- * さらに、画面全体に雪を降らせる(.xm-snow)。
+ * 参考: 海外(ドイツ・フランスなど)のクリスマスマーケットの写真
+ *   - 夜。灯りは暖かい電球色だけ(カラフルな電球は使わない)
+ *   - 頭上に電球のひもが何本も交差する / 木の屋台(雪の三角屋根・赤白の縞の布屋根)
+ *   - レープクーヘンのハート、木のクリスマスピラミッド、ろうそくの木のアーチ、古い街並み
+ *   (調査メモ: 第2の脳/リサーチ/店舗ネタ/2026-09-26_海外のクリスマスマーケットの見た目)
+ *
+ * data-deco="..." を付けた要素の中に SVG を描き込む。
+ *   canopy … 頭上で交差する電球のひも      lights  … 1本の電球のひも
+ *   garland … もみの木のガーランド         hearts  … 吊るしたレープクーヘンのハート
+ *   pyramid … 木のクリスマスピラミッド     tree    … 電球色の灯りの大きなツリー
+ *   skyline … 古い街並みの影絵             arch    … ろうそくの木のアーチ(看板)
+ *   hang    … 揺れるオーナメント           holly / divider … 小さな飾り
+ * さらに .xmas-menu のメニューカードを「木の屋台」にし、画面全体に雪を降らせる。
  * 乱数は種を固定しているので、読み込み直しても同じ形になる。
  */
 (function () {
   const NS = "http://www.w3.org/2000/svg";
-  const RED = ["#b3202c", "#9c1622", "#c7303a"];
-  const GREEN = ["#16392a", "#1d4a33", "#2a6444", "#3b7a52"];
-  const BAUBLE = ["#b3202c", "#d4a94a", "#1f5a3f", "#efe6d2", "#8c1c3a", "#c99a3c"];
-  const BULB = ["#ff5a4f", "#ffd36b", "#7fe08a", "#fff3d1", "#ff9f43", "#8fc7ff"];
+  const GREEN = ["#123024", "#1a3d2c", "#24533b", "#2f6547"];
+  const BAUBLE = ["#a3202b", "#d4a94a", "#8c1c2a", "#c99a3c", "#e7d7b0"];
+  const WARM = ["#ffd98f", "#ffe7b3", "#ffcf7a", "#fff1cf"];
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function rng(seed) {
@@ -31,48 +36,59 @@
     if (cls) el.setAttribute("class", cls);
     return el;
   }
-  function add(parent, tag, attrs) {
+  function add(parent, tag, attrs, text) {
     const el = document.createElementNS(NS, tag);
     for (const k in attrs) el.setAttribute(k, attrs[k]);
+    if (text) el.textContent = text;
     parent.appendChild(el);
     return el;
   }
-  // 共通のグラデーション(オーナメントの光沢・電球の光)を1回だけ用意
+
+  // 共通のグラデーションとぼかし(1回だけ用意)
   let defsDone = false;
   function ensureDefs() {
     if (defsDone) return;
     defsDone = true;
     const s = svg(0, 0, "xm-defs");
-    s.style.position = "absolute";
-    s.style.width = s.style.height = "0";
+    s.style.cssText = "position:absolute;width:0;height:0";
     const d = add(s, "defs", {});
     BAUBLE.forEach((c, i) => {
       const g = add(d, "radialGradient", { id: "xmb" + i, cx: "35%", cy: "32%", r: "70%" });
-      add(g, "stop", { offset: "0", "stop-color": "#fff", "stop-opacity": "0.85" });
-      add(g, "stop", { offset: "0.18", "stop-color": c });
-      add(g, "stop", { offset: "1", "stop-color": c, "stop-opacity": "1" });
-      add(g, "stop", { offset: "1", "stop-color": "#000", "stop-opacity": "0.35" });
+      add(g, "stop", { offset: "0", "stop-color": "#fff", "stop-opacity": "0.9" });
+      add(g, "stop", { offset: "0.2", "stop-color": c });
+      add(g, "stop", { offset: "1", "stop-color": c });
     });
-    const f = add(d, "filter", { id: "xmglow", x: "-100%", y: "-100%", width: "300%", height: "300%" });
-    add(f, "feGaussianBlur", { stdDeviation: "3.2" });
-    const pat = add(d, "pattern", { id: "xmdots", width: "8", height: "8", patternUnits: "userSpaceOnUse" });
-    add(pat, "rect", { width: "8", height: "8", fill: "#f3ead6" });
-    add(pat, "circle", { cx: "4", cy: "4", r: "1.6", fill: "#b3202c" });
-    const pat2 = add(d, "pattern", { id: "xmcheck", width: "10", height: "10", patternUnits: "userSpaceOnUse" });
-    add(pat2, "rect", { width: "10", height: "10", fill: "#1f5a3f" });
-    add(pat2, "rect", { width: "5", height: "10", fill: "#b3202c", opacity: "0.55" });
-    add(pat2, "rect", { width: "10", height: "5", fill: "#b3202c", opacity: "0.55" });
+    const f = add(d, "filter", { id: "xmglow", x: "-150%", y: "-150%", width: "400%", height: "400%" });
+    add(f, "feGaussianBlur", { stdDeviation: "3" });
+    const hg = add(d, "linearGradient", { id: "xmginger", x1: "0", y1: "0", x2: "0", y2: "1" });
+    add(hg, "stop", { offset: "0", "stop-color": "#b8743a" });
+    add(hg, "stop", { offset: "1", "stop-color": "#7e4a20" });
+    const wg = add(d, "linearGradient", { id: "xmwood", x1: "0", y1: "0", x2: "0", y2: "1" });
+    add(wg, "stop", { offset: "0", "stop-color": "#8a5a30" });
+    add(wg, "stop", { offset: "1", "stop-color": "#5a3719" });
+    const fl = add(d, "radialGradient", { id: "xmflame", cx: "50%", cy: "65%", r: "60%" });
+    add(fl, "stop", { offset: "0", "stop-color": "#fff6d8" });
+    add(fl, "stop", { offset: "0.5", "stop-color": "#ffc861" });
+    add(fl, "stop", { offset: "1", "stop-color": "#ff9a2e", "stop-opacity": "0" });
     document.body.prepend(s);
   }
 
   // ---- 部品 ----
-  function bauble(g, x, y, r, ci, rot) {
-    const b = add(g, "g", { transform: `translate(${x} ${y}) rotate(${rot || 0})` });
+  function bulb(g, x, y, R, size) {
+    const r = size || 1;
+    const c = WARM[Math.floor(R() * WARM.length)];
+    const glow = add(g, "circle", { cx: x, cy: y + 5 * r, r: 7 * r, fill: c, filter: "url(#xmglow)", class: "xm-twinkle" });
+    glow.style.animationDelay = (R() * 3).toFixed(2) + "s";
+    glow.style.animationDuration = (1.8 + R() * 2.4).toFixed(2) + "s";
+    add(g, "circle", { cx: x, cy: y + 5 * r, r: 2.3 * r, fill: "#fff6dc" });
+  }
+  function catenary(x0, y0, x1, y1, sag, t) {
+    return { x: x0 + (x1 - x0) * t, y: y0 + (y1 - y0) * t + sag * 4 * t * (1 - t) };
+  }
+  function bauble(g, x, y, r, ci) {
+    const b = add(g, "g", { transform: `translate(${x} ${y})` });
     add(b, "circle", { cx: 0, cy: r, r, fill: `url(#xmb${ci % BAUBLE.length})` });
-    add(b, "rect", { x: -r * 0.32, y: -r * 0.18, width: r * 0.64, height: r * 0.34, rx: 1, fill: "#caa04e" });
-    add(b, "circle", { cx: 0, cy: -r * 0.3, r: r * 0.16, fill: "none", stroke: "#caa04e", "stroke-width": 1.2 });
-    if (r > 9 && ci % 3 === 0) add(b, "path", { d: `M${-r * 0.85} ${r * 1.05} q${r * 0.85} ${r * 0.4} ${r * 1.7} 0`, stroke: "#f6e2a6", "stroke-width": 1.2, fill: "none", opacity: 0.8 });
-    return b;
+    add(b, "rect", { x: -r * 0.3, y: -r * 0.16, width: r * 0.6, height: r * 0.3, rx: 1, fill: "#caa04e" });
   }
   function star(g, x, y, r, fill) {
     let d = "";
@@ -81,35 +97,97 @@
       const rr = i % 2 ? r * 0.45 : r;
       d += (i ? "L" : "M") + (x + Math.cos(a) * rr).toFixed(1) + " " + (y + Math.sin(a) * rr).toFixed(1);
     }
-    return add(g, "path", { d: d + "Z", fill: fill || "#e3bb5c", stroke: "#a97c33", "stroke-width": 0.8 });
+    return add(g, "path", { d: d + "Z", fill: fill || "#f0c865", stroke: "#a97c33", "stroke-width": 0.8 });
   }
   function bow(g, x, y, s) {
     const b = add(g, "g", { transform: `translate(${x} ${y}) scale(${s})` });
-    add(b, "path", { d: "M0 0 C-14 -12 -22 -2 -16 6 C-12 10 -4 6 0 0 Z", fill: "#b3202c", stroke: "#7a1019", "stroke-width": 1 });
-    add(b, "path", { d: "M0 0 C14 -12 22 -2 16 6 C12 10 4 6 0 0 Z", fill: "#b3202c", stroke: "#7a1019", "stroke-width": 1 });
-    add(b, "path", { d: "M-2 2 L-9 22 L-4 19 L-1 24 L1 3 Z", fill: "#9c1622" });
-    add(b, "path", { d: "M2 2 L9 22 L4 19 L1 24 L-1 3 Z", fill: "#9c1622" });
-    add(b, "circle", { cx: 0, cy: 1, r: 3.6, fill: "#c7303a", stroke: "#7a1019", "stroke-width": 1 });
-    return b;
+    add(b, "path", { d: "M0 0 C-14 -12 -22 -2 -16 6 C-12 10 -4 6 0 0 Z", fill: "#a3202b", stroke: "#6d1018", "stroke-width": 1 });
+    add(b, "path", { d: "M0 0 C14 -12 22 -2 16 6 C12 10 4 6 0 0 Z", fill: "#a3202b", stroke: "#6d1018", "stroke-width": 1 });
+    add(b, "path", { d: "M-2 2 L-9 22 L-4 19 L-1 24 L1 3 Z", fill: "#8c1622" });
+    add(b, "path", { d: "M2 2 L9 22 L4 19 L1 24 L-1 3 Z", fill: "#8c1622" });
+    add(b, "circle", { cx: 0, cy: 1, r: 3.6, fill: "#b8303a" });
   }
   function berries(g, x, y, r) {
     [[0, 0], [r * 1.7, r * 0.4], [r * 0.8, r * 1.5]].forEach(([dx, dy]) => {
-      add(g, "circle", { cx: x + dx, cy: y + dy, r, fill: "#c7202e", stroke: "#7a1019", "stroke-width": 0.6 });
-      add(g, "circle", { cx: x + dx - r * 0.3, cy: y + dy - r * 0.35, r: r * 0.28, fill: "#fff", opacity: 0.7 });
+      add(g, "circle", { cx: x + dx, cy: y + dy, r, fill: "#c0202c", stroke: "#6d1018", "stroke-width": 0.6 });
     });
   }
   function hollyLeaf(g, x, y, s, rot) {
     add(g, "path", {
       transform: `translate(${x} ${y}) rotate(${rot}) scale(${s})`,
       d: "M0 0 C4 -4 6 -2 8 -6 C9 -3 12 -3 14 -6 C15 -2 18 -2 21 -4 C20 0 22 3 26 3 C22 5 20 7 21 10 C18 8 15 8 14 12 C12 9 9 9 8 12 C6 8 4 9 0 6 C2 4 2 2 0 0 Z",
-      fill: "#1f5a3f",
-      stroke: "#123524",
-      "stroke-width": 0.8,
+      fill: "#24533b", stroke: "#0f2a1d", "stroke-width": 0.8,
     });
-    add(g, "path", { transform: `translate(${x} ${y}) rotate(${rot}) scale(${s})`, d: "M1 3 L24 3.5", stroke: "#3b7a52", "stroke-width": 0.8, fill: "none" });
+  }
+  function candle(g, x, y, h, R) {
+    add(g, "rect", { x: x - 3, y: y - h, width: 6, height: h, rx: 1, fill: "#f3ead6" });
+    const f = add(g, "g", { class: "xm-flicker" });
+    f.style.transformOrigin = `${x}px ${y - h}px`;
+    f.style.animationDelay = (R() * 2).toFixed(2) + "s";
+    add(f, "circle", { cx: x, cy: y - h - 7, r: 12, fill: "#ffc861", opacity: 0.35, filter: "url(#xmglow)" });
+    add(f, "path", { d: `M${x} ${y - h - 13} C${x + 4} ${y - h - 6} ${x + 3} ${y - h - 1} ${x} ${y - h - 1} C${x - 3} ${y - h - 1} ${x - 4} ${y - h - 6} ${x} ${y - h - 13} Z`, fill: "url(#xmflame)" });
   }
 
-  // ---- ガーランド ----
+  // ---- 頭上で交差する電球のひも ----
+  function canopy(el, seed) {
+    const W = Math.max(320, el.clientWidth);
+    const H = Number(el.dataset.h) || 150;
+    const R = rng(seed);
+    const s = svg(W, H);
+    const strands = [];
+    // 左右の高い所から、斜めに交差するように張る
+    const n = Math.max(4, Math.round(W / 260));
+    for (let i = 0; i < n; i++) {
+      const xa = (i / n) * W - W * 0.1;
+      const xb = xa + W * (0.35 + R() * 0.3);
+      strands.push([xa, R() * 20, xb, 10 + R() * 30, 30 + R() * 60]);
+      strands.push([xb, R() * 20, xa + W * 0.05, 14 + R() * 26, 34 + R() * 55]);
+    }
+    strands.push([0, 6, W, 6, H * 0.55]);
+    strands.forEach(([x0, y0, x1, y1, sag]) => {
+      let d = "";
+      for (let t = 0; t <= 1.0001; t += 0.05) {
+        const p = catenary(x0, y0, x1, y1, sag, t);
+        d += (t ? "L" : "M") + p.x.toFixed(1) + " " + p.y.toFixed(1);
+      }
+      add(s, "path", { d, fill: "none", stroke: "rgba(20,14,8,.75)", "stroke-width": 1.1 });
+      const len = Math.hypot(x1 - x0, y1 - y0);
+      const cnt = Math.round(len / 26);
+      for (let k = 1; k < cnt; k++) {
+        const p = catenary(x0, y0, x1, y1, sag, k / cnt);
+        if (p.x < -10 || p.x > W + 10) continue;
+        bulb(s, p.x, p.y, R, 0.9);
+      }
+    });
+    el.replaceChildren(s);
+  }
+
+  // ---- 1本の電球のひも(屋台の軒など) ----
+  function lights(el, seed) {
+    const W = Math.max(80, el.clientWidth);
+    const H = 30;
+    const R = rng(seed);
+    const s = svg(W, H);
+    const spans = Math.max(1, Math.round(W / 120));
+    const seg = W / spans;
+    for (let i = 0; i < spans; i++) {
+      const x0 = i * seg;
+      let d = "";
+      for (let t = 0; t <= 1.0001; t += 0.1) {
+        const p = catenary(x0, 3, x0 + seg, 3, 10, t);
+        d += (t ? "L" : "M") + p.x.toFixed(1) + " " + p.y.toFixed(1);
+      }
+      add(s, "path", { d, fill: "none", stroke: "rgba(20,14,8,.7)", "stroke-width": 1 });
+      const cnt = Math.max(3, Math.round(seg / 20));
+      for (let k = 1; k < cnt; k++) {
+        const p = catenary(x0, 3, x0 + seg, 3, 10, k / cnt);
+        bulb(s, p.x, p.y, R, 0.8);
+      }
+    }
+    el.replaceChildren(s);
+  }
+
+  // ---- ガーランド(電球色の灯りを編み込む) ----
   function garland(el, seed) {
     const W = Math.max(320, el.clientWidth);
     const H = 96;
@@ -134,128 +212,216 @@
             stroke: GREEN[Math.floor(R() * GREEN.length)], "stroke-width": 2.2,
           });
         }
-        if (R() < 0.12) berries(deco, x + (R() - 0.5) * 12, y + (R() - 0.5) * 8, 2.6);
-        if (R() < 0.05) star(deco, x, y + 4, 5, "#e3bb5c");
+        if (R() < 0.1) berries(deco, x + (R() - 0.5) * 12, y + (R() - 0.5) * 8, 2.4);
+        if (R() < 0.22) bulb(deco, x + (R() - 0.5) * 14, y - 4 + (R() - 0.5) * 8, R, 0.8);
       }
-      // くぼみにオーナメント、つなぎ目にリボン
       const mx = x0 + seg / 2;
       const my = 12 + sag;
       const len = 6 + R() * 16;
       add(deco, "line", { x1: mx, y1: my, x2: mx, y2: my + len, stroke: "#caa04e", "stroke-width": 1 });
       bauble(deco, mx, my + len, 9 + R() * 4, Math.floor(R() * BAUBLE.length));
-      [0.25, 0.75].forEach((f) => {
-        const bx = x0 + seg * f;
-        const by = 12 + sag * 4 * f * (1 - f);
-        const l2 = 4 + R() * 8;
-        add(deco, "line", { x1: bx, y1: by, x2: bx, y2: by + l2, stroke: "#caa04e", "stroke-width": 1 });
-        bauble(deco, bx, by + l2, 6 + R() * 3, Math.floor(R() * BAUBLE.length));
-      });
       bow(deco, x0, 14, 0.95);
     }
     bow(deco, W, 14, 0.95);
     el.replaceChildren(s);
   }
 
-  // ---- ストリングライト ----
-  function lights(el, seed) {
-    const W = Math.max(320, el.clientWidth);
-    const H = 44;
-    const R = rng(seed);
-    const s = svg(W, H);
-    const spans = Math.max(2, Math.round(W / 190));
-    const seg = W / spans;
-    let d = "";
-    const pts = [];
-    for (let i = 0; i < spans; i++) {
-      const x0 = i * seg;
-      const sag = 14;
-      d += `M${x0} 6 Q${x0 + seg / 2} ${6 + sag * 2} ${x0 + seg} 6 `;
-      const n = Math.max(3, Math.round(seg / 38));
-      for (let k = 1; k <= n; k++) {
-        const t = k / (n + 1);
-        const x = x0 + seg * t;
-        const y = 6 + sag * 4 * t * (1 - t);
-        const slope = sag * 4 * (1 - 2 * t) / seg;
-        pts.push({ x, y, a: (Math.atan(slope) * 180) / Math.PI });
-      }
-    }
-    add(s, "path", { d, fill: "none", stroke: "#1b2a1f", "stroke-width": 1.6 });
-    pts.forEach((p, i) => {
-      const c = BULB[i % BULB.length];
-      const g = add(s, "g", { transform: `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) rotate(${(p.a + (R() - 0.5) * 16).toFixed(1)})` });
-      const glow = add(g, "circle", { cx: 0, cy: 10, r: 9, fill: c, filter: "url(#xmglow)", class: "xm-twinkle" });
-      glow.style.animationDelay = (R() * 3).toFixed(2) + "s";
-      glow.style.animationDuration = (1.6 + R() * 2.2).toFixed(2) + "s";
-      add(g, "rect", { x: -2.6, y: 0, width: 5.2, height: 5, rx: 1, fill: "#23402d" });
-      add(g, "ellipse", { cx: 0, cy: 10, rx: 3.8, ry: 6, fill: c });
-      add(g, "ellipse", { cx: -1.2, cy: 8, rx: 1.1, ry: 2.2, fill: "#fff", opacity: 0.7 });
+  // ---- レープクーヘンのハート ----
+  const HEART_WORDS = ["KASUMI", "Kyoto", "Noël", "Merry X'mas", "Liebe", "2026"];
+  function heartShape(g, x, y, w, word, ribbon) {
+    const h = w * 0.92;
+    const p = `M${x} ${y + h * 0.28} C${x - w * 0.02} ${y + h * 0.05} ${x - w * 0.5} ${y - h * 0.05} ${x - w * 0.5} ${y + h * 0.3} C${x - w * 0.5} ${y + h * 0.6} ${x - w * 0.15} ${y + h * 0.78} ${x} ${y + h} C${x + w * 0.15} ${y + h * 0.78} ${x + w * 0.5} ${y + h * 0.6} ${x + w * 0.5} ${y + h * 0.3} C${x + w * 0.5} ${y - h * 0.05} ${x + w * 0.02} ${y + h * 0.05} ${x} ${y + h * 0.28} Z`;
+    add(g, "path", { d: `M${x - w * 0.18} ${y + h * 0.1} Q${x} ${y - h * 0.4} ${x + w * 0.18} ${y + h * 0.1}`, fill: "none", stroke: ribbon, "stroke-width": 3 });
+    add(g, "path", { d: p, fill: "url(#xmginger)", stroke: "#5c3413", "stroke-width": 1.2 });
+    add(g, "path", { d: p, fill: "none", stroke: "#fffaf0", "stroke-width": 2.2, "stroke-dasharray": "1 4.5", "stroke-linecap": "round", transform: `translate(${x} ${y + h * 0.5}) scale(0.86) translate(${-x} ${-(y + h * 0.5)})` });
+    [[-0.26, 0.24], [0.26, 0.24]].forEach(([dx, dy]) => {
+      add(g, "circle", { cx: x + w * dx, cy: y + h * dy, r: w * 0.05, fill: "#c0202c" });
+      add(g, "circle", { cx: x + w * dx + w * 0.07, cy: y + h * dy + 2, r: w * 0.03, fill: "#2f7a4f" });
     });
-    el.replaceChildren(s);
+    add(g, "text", {
+      x, y: y + h * 0.52, "text-anchor": "middle",
+      "font-family": "Pinyon Script, cursive", "font-size": (w * (word.length > 7 ? 0.17 : 0.22)).toFixed(1),
+      fill: "#fffaf0",
+    }, word);
   }
-
-  // ---- 三角の旗 ----
-  function bunting(el, seed) {
-    const W = Math.max(320, el.clientWidth);
-    const H = 70;
+  function hearts(el, seed) {
+    const W = Math.max(60, el.clientWidth);
+    const n = Number(el.dataset.count) || 3;
     const R = rng(seed);
-    const s = svg(W, H);
-    const spans = Math.max(1, Math.round(W / 420));
-    const seg = W / spans;
-    const fills = ["#b3202c", "url(#xmdots)", "#1f5a3f", "#d4a94a", "url(#xmcheck)", "#efe6d2"];
-    let fi = Math.floor(R() * fills.length);
-    for (let i = 0; i < spans; i++) {
-      const x0 = i * seg;
-      const sag = 18;
-      add(s, "path", { d: `M${x0} 4 Q${x0 + seg / 2} ${4 + sag * 2} ${x0 + seg} 4`, fill: "none", stroke: "#8a6a3a", "stroke-width": 1.4 });
-      const n = Math.max(5, Math.round(seg / 34));
-      for (let k = 0; k < n; k++) {
-        const t = (k + 0.5) / n;
-        const x = x0 + seg * t;
-        const y = 4 + sag * 4 * t * (1 - t);
-        const slope = (sag * 4 * (1 - 2 * t)) / seg;
-        const a = (Math.atan(slope) * 180) / Math.PI;
-        const w = 13;
-        const g = add(s, "g", { transform: `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${a.toFixed(1)})`, class: "xm-flag" });
-        g.style.animationDelay = (R() * 2).toFixed(2) + "s";
-        add(g, "path", { d: `M${-w} 0 L${w} 0 L0 30 Z`, fill: fills[fi++ % fills.length], stroke: "#caa04e", "stroke-width": 1 });
-      }
+    const maxLen = Number(el.dataset.len) || 150;
+    const s = svg(W, maxLen + 110);
+    const ribbons = ["#a3202b", "#1f5a3f", "#d4a94a"];
+    for (let i = 0; i < n; i++) {
+      const x = ((i + 0.5) / n) * W;
+      const len = 20 + R() * (maxLen - 20);
+      const w = 62 + R() * 30;
+      const g = add(s, "g", { class: "xm-sway" });
+      g.style.transformOrigin = `${x.toFixed(1)}px 0px`;
+      g.style.animationDelay = (-R() * 4).toFixed(2) + "s";
+      const rb = ribbons[i % ribbons.length];
+      add(g, "line", { x1: x, y1: 0, x2: x, y2: len, stroke: rb, "stroke-width": 3 });
+      heartShape(g, x, len + 6, w, HEART_WORDS[Math.floor(R() * HEART_WORDS.length)], rb);
     }
     el.replaceChildren(s);
   }
 
-  // ---- ぶら下がるオーナメント ----
+  // ---- 木のクリスマスピラミッド ----
+  function pyramid(el, seed) {
+    const R = rng(seed);
+    const s = svg(200, 330);
+    // 上の羽根(回る)
+    const top = add(s, "g", { class: "xm-spin" });
+    top.style.transformOrigin = "100px 38px";
+    for (let k = 0; k < 8; k++) {
+      add(top, "path", { d: "M100 38 L162 30 L164 40 Z", fill: "#c99a58", stroke: "#6b4420", "stroke-width": 0.8, transform: `rotate(${k * 45} 100 38)`, opacity: 0.9 });
+    }
+    add(s, "circle", { cx: 100, cy: 38, r: 6, fill: "#d4a94a" });
+    add(s, "rect", { x: 97, y: 38, width: 6, height: 260, fill: "#6b4420" });
+    // 3段の台と柱
+    const tiers = [[110, 70], [180, 88], [250, 106]];
+    tiers.forEach(([y, hw], ti) => {
+      add(s, "rect", { x: 100 - hw, y, width: hw * 2, height: 8, rx: 2, fill: "url(#xmwood)" });
+      [-1, 1].forEach((sgn) => add(s, "rect", { x: 100 + sgn * (hw - 6) - 2, y: y - 62, width: 4, height: 62, fill: "#7a4f28" }));
+      add(s, "rect", { x: 100 - hw, y: y - 64, width: hw * 2, height: 5, rx: 2, fill: "url(#xmwood)" });
+      // 回っているように、人形が左右に行き来する
+      const figs = add(s, "g", { class: ti % 2 ? "xm-walk xm-walk--rev" : "xm-walk" });
+      figs.style.setProperty("--walk", (hw - 22) + "px");
+      for (let k = -1; k <= 1; k++) {
+        const fx = 100 + k * (hw * 0.55);
+        add(figs, "circle", { cx: fx, cy: y - 34, r: 6, fill: "#f0dcc0", stroke: "#6b4420", "stroke-width": 0.8 });
+        add(figs, "path", { d: `M${fx - 9} ${y} L${fx - 5} ${y - 28} L${fx + 5} ${y - 28} L${fx + 9} ${y} Z`, fill: ["#a3202b", "#1f5a3f", "#d4a94a"][(k + 1 + ti) % 3], stroke: "#4a2a12", "stroke-width": 0.8 });
+        if (ti === 0 && k === 0) star(figs, fx, y - 48, 6);
+      }
+      // 台の上のろうそく
+      [-1, 1].forEach((sgn) => candle(s, 100 + sgn * (hw + 2), y, 16, R));
+    });
+    add(s, "rect", { x: 10, y: 300, width: 180, height: 16, rx: 3, fill: "url(#xmwood)" });
+    add(s, "rect", { x: 22, y: 316, width: 156, height: 10, rx: 2, fill: "#4a2a12" });
+    el.replaceChildren(s);
+  }
+
+  // ---- 電球色の灯りの大きなツリー ----
+  function tree(el, seed) {
+    const R = rng(seed);
+    const s = svg(220, 340);
+    const layers = [[70, 150, 110], [120, 210, 160], [170, 272, 210]];
+    add(s, "rect", { x: 100, y: 290, width: 20, height: 36, fill: "#4a2a12" });
+    layers.forEach(([top, bottom, width]) => {
+      add(s, "path", { d: `M110 ${top - 40} L${110 + width / 2} ${bottom} Q110 ${bottom + 14} ${110 - width / 2} ${bottom} Z`, fill: "#163826", stroke: "#0d2519", "stroke-width": 1 });
+    });
+    // 雪
+    add(s, "path", { d: "M78 150 Q110 160 142 150 Q130 146 110 148 Q90 146 78 150 Z", fill: "#f4f1ea", opacity: 0.9 });
+    add(s, "path", { d: "M58 210 Q110 224 162 210 Q140 205 110 207 Q80 205 58 210 Z", fill: "#f4f1ea", opacity: 0.9 });
+    // 灯りを散らす(三角形の中だけ)
+    for (let i = 0; i < 90; i++) {
+      const y = 50 + R() * 225;
+      const half = ((y - 30) / 245) * 105;
+      const x = 110 + (R() * 2 - 1) * half * 0.92;
+      bulb(s, x, y - 5, R, 0.55);
+    }
+    for (let i = 0; i < 9; i++) {
+      const y = 90 + R() * 180;
+      const half = ((y - 30) / 245) * 95;
+      bauble(s, 110 + (R() * 2 - 1) * half * 0.8, y, 5 + R() * 2, Math.floor(R() * BAUBLE.length));
+    }
+    const st = add(s, "g", { class: "xm-twinkle" });
+    add(st, "circle", { cx: 110, cy: 26, r: 18, fill: "#ffd98f", opacity: 0.5, filter: "url(#xmglow)" });
+    star(st, 110, 26, 15);
+    el.replaceChildren(s);
+  }
+
+  // ---- 古い街並みの影絵(切妻屋根・木組み・教会の塔) ----
+  function skyline(el, seed) {
+    const W = Math.max(320, el.clientWidth);
+    const H = Number(el.dataset.h) || 180;
+    const R = rng(seed);
+    const s = svg(W, H);
+    // 奥の列 → 教会の塔 → 手前の列 の順に重ねる(雪と窓も、その列の中で描く)
+    function house(g, x, w, h, lit, timber, body) {
+      const roof = w * (0.32 + R() * 0.3);
+      const y = H - h;
+      add(g, "path", { d: `M${x} ${H} V${y} L${x + w / 2} ${y - roof} L${x + w} ${y} V${H} Z`, fill: body });
+      // 屋根の雪(屋根の線に沿った細い帯)
+      add(g, "path", { d: `M${x - 3} ${y + 2} L${x + w / 2} ${y - roof - 1} L${x + w + 3} ${y + 2} L${x + w - 2} ${y + 4} L${x + w / 2} ${y - roof + 5} L${x + 2} ${y + 4} Z`, fill: "#e6ebf5", opacity: 0.85 });
+      if (timber) {
+        add(g, "path", { d: `M${x + 3} ${y + h * 0.33} H${x + w - 3} M${x + 3} ${y + h * 0.66} H${x + w - 3} M${x + w * 0.25} ${y + 4} V${H} M${x + w * 0.75} ${y + 4} V${H} M${x + 3} ${y + 6} L${x + w * 0.25} ${y + h * 0.33}`, stroke: "#3a3150", "stroke-width": 1.3, fill: "none" });
+      }
+      const rows = Math.max(1, Math.floor((h - 14) / 26));
+      const cols = Math.max(1, Math.floor(w / 20));
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          if (R() > lit) continue;
+          const wx = x + (w / cols) * (c + 0.5) - 4;
+          const wy = y + 12 + r * 26;
+          add(g, "rect", { x: wx, y: wy, width: 8, height: 11, rx: 1, fill: R() < 0.8 ? "#ffcf7a" : "#ffe6ad", opacity: 0.9 });
+        }
+      }
+    }
+    const back = add(s, "g", {});
+    let x = -20;
+    while (x < W) {
+      const w = 46 + R() * 44;
+      house(back, x, w, H * (0.42 + R() * 0.3), 0.3, false, "#262d58");
+      x += w - 4;
+    }
+    const tower = add(s, "g", {});
+    const cx = W * (0.3 + R() * 0.4);
+    add(tower, "path", { d: `M${cx - 14} ${H} V${H * 0.34} L${cx} ${H * 0.02} L${cx + 14} ${H * 0.34} V${H} Z`, fill: "#141934" });
+    add(tower, "circle", { cx, cy: H * 0.46, r: 5, fill: "#ffe6ad", opacity: 0.85 });
+    const front = add(s, "g", {});
+    x = -30;
+    while (x < W) {
+      const w = 56 + R() * 46;
+      house(front, x, w, H * (0.24 + R() * 0.2), 0.5, R() < 0.5, "#0d1128");
+      x += w + 2 + R() * 6;
+    }
+    el.replaceChildren(s);
+  }
+
+  // ---- ろうそくの木のアーチ(ドレスデンの看板の形) ----
+  function arch(el, seed) {
+    const R = rng(seed);
+    const W = 640;
+    const H = 260;
+    const s = svg(W, H);
+    s.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    s.removeAttribute("width");
+    s.removeAttribute("height");
+    const outer = `M20 250 V150 A300 190 0 0 1 620 150 V250 Z`;
+    const inner = `M52 250 V156 A268 160 0 0 1 588 156 V250 Z`;
+    add(s, "path", { d: outer + " " + inner, fill: "url(#xmwood)", "fill-rule": "evenodd", stroke: "#3d220d", "stroke-width": 2 });
+    add(s, "path", { d: `M36 250 V152 A284 175 0 0 1 604 152 V250`, fill: "none", stroke: "#d4a94a", "stroke-width": 1.6, "stroke-dasharray": "2 6" });
+    // アーチの上に並ぶろうそく
+    for (let i = 0; i <= 10; i++) {
+      const a = Math.PI - (Math.PI * i) / 10;
+      const x = 320 + Math.cos(a) * 300;
+      const y = 150 - Math.sin(a) * 190 + (i === 0 || i === 10 ? 0 : 0);
+      if (i === 0 || i === 10) candle(s, x, 150, 18, R);
+      else candle(s, x, y, 18, R);
+    }
+    el.replaceChildren(s);
+  }
+
+  // ---- 揺れるオーナメント ----
   function hang(el, seed) {
     const W = Math.max(60, el.clientWidth);
     const n = Number(el.dataset.count) || 5;
     const R = rng(seed);
     const maxLen = Number(el.dataset.len) || 170;
-    const H = maxLen + 40;
-    const s = svg(W, H);
+    const s = svg(W, maxLen + 40);
     for (let i = 0; i < n; i++) {
       const x = ((i + 0.5) / n) * W + (R() - 0.5) * (W / n) * 0.5;
       const len = 30 + R() * (maxLen - 30);
-      const g = add(s, "g", { class: "xm-sway", style: `transform-origin:${x.toFixed(1)}px 0px; animation-delay:${(-R() * 4).toFixed(2)}s; animation-duration:${(3.5 + R() * 2.5).toFixed(2)}s` });
+      const g = add(s, "g", { class: "xm-sway" });
+      g.style.transformOrigin = `${x.toFixed(1)}px 0px`;
+      g.style.animationDelay = (-R() * 4).toFixed(2) + "s";
       add(g, "line", { x1: x, y1: 0, x2: x, y2: len, stroke: "#b8913f", "stroke-width": 1 });
-      const kind = R();
-      if (kind < 0.62) bauble(g, x, len, 11 + R() * 7, Math.floor(R() * BAUBLE.length));
-      else if (kind < 0.85) star(g, x, len + 12, 13 + R() * 4);
-      else {
-        // 雪の結晶
-        const f = add(g, "g", { transform: `translate(${x} ${len + 14})`, stroke: "#f4efe3", "stroke-width": 1.8, "stroke-linecap": "round" });
-        for (let k = 0; k < 6; k++) {
-          const r = (k * 60 * Math.PI) / 180;
-          const ex = Math.cos(r) * 13;
-          const ey = Math.sin(r) * 13;
-          add(f, "line", { x1: 0, y1: 0, x2: ex, y2: ey });
-          add(f, "line", { x1: ex * 0.55, y1: ey * 0.55, x2: ex * 0.55 + Math.cos(r + 0.8) * 5, y2: ey * 0.55 + Math.sin(r + 0.8) * 5 });
-          add(f, "line", { x1: ex * 0.55, y1: ey * 0.55, x2: ex * 0.55 + Math.cos(r - 0.8) * 5, y2: ey * 0.55 + Math.sin(r - 0.8) * 5 });
-        }
-      }
+      if (R() < 0.7) bauble(g, x, len, 11 + R() * 7, Math.floor(R() * BAUBLE.length));
+      else star(g, x, len + 12, 13 + R() * 4);
     }
     el.replaceChildren(s);
   }
 
-  // ---- 小さな飾り ----
   function holly(el) {
     const s = svg(60, 34);
     hollyLeaf(s, 30, 16, 1, 200);
@@ -265,65 +431,31 @@
   }
   function divider(el) {
     const s = svg(260, 24);
-    add(s, "line", { x1: 0, y1: 12, x2: 104, y2: 12, stroke: "#c9a45c", "stroke-width": 1.2 });
-    add(s, "line", { x1: 156, y1: 12, x2: 260, y2: 12, stroke: "#c9a45c", "stroke-width": 1.2 });
-    add(s, "circle", { cx: 112, cy: 12, r: 2.4, fill: "#c9a45c" });
-    add(s, "circle", { cx: 148, cy: 12, r: 2.4, fill: "#c9a45c" });
+    add(s, "line", { x1: 0, y1: 12, x2: 104, y2: 12, stroke: "#d4a94a", "stroke-width": 1.2 });
+    add(s, "line", { x1: 156, y1: 12, x2: 260, y2: 12, stroke: "#d4a94a", "stroke-width": 1.2 });
+    add(s, "circle", { cx: 112, cy: 12, r: 2.4, fill: "#d4a94a" });
+    add(s, "circle", { cx: 148, cy: 12, r: 2.4, fill: "#d4a94a" });
     star(s, 130, 12, 10);
     el.replaceChildren(s);
   }
-  function gifts(el, seed) {
-    const R = rng(seed);
-    const s = svg(200, 130);
-    const boxes = [
-      [8, 58, 78, 70], [74, 30, 70, 98], [134, 70, 58, 58], [34, 16, 46, 42],
-    ];
-    const cols = [["#b3202c", "#e3bb5c"], ["#1f5a3f", "#c7303a"], ["#e9dfc8", "#b3202c"], ["#c99a3c", "#1f5a3f"]];
-    boxes.forEach(([x, y, w, h], i) => {
-      const [c, rb] = cols[(i + Math.floor(R() * 4)) % 4];
-      add(s, "rect", { x, y, width: w, height: h, rx: 2, fill: c, stroke: "rgba(0,0,0,.25)", "stroke-width": 1 });
-      add(s, "rect", { x: x - 2, y, width: w + 4, height: h * 0.18, rx: 2, fill: c, stroke: "rgba(0,0,0,.25)", "stroke-width": 1 });
-      add(s, "rect", { x: x + w / 2 - 4, y, width: 8, height: h, fill: rb });
-      add(s, "rect", { x: x - 2, y: y + h * 0.45, width: w + 4, height: 7, fill: rb, opacity: i === 1 ? 0 : 1 });
-      bow(s, x + w / 2, y, 0.8);
+
+  // ---- メニューのカードを木の屋台にする ----
+  function makeHuts() {
+    document.querySelectorAll(".xmas-menu .menu-card").forEach((card, i) => {
+      if (card.querySelector(".xm-hut-roof")) return;
+      const roof = document.createElement("div");
+      roof.className = "xm-hut-roof" + (i % 3 === 1 ? " xm-hut-roof--stripe" : "");
+      roof.setAttribute("aria-hidden", "true");
+      const eave = document.createElement("div");
+      eave.className = "xm-hut-eave";
+      eave.dataset.deco = "lights";
+      roof.appendChild(eave);
+      card.prepend(roof);
     });
-    el.replaceChildren(s);
-  }
-  function cane(el) {
-    const s = svg(40, 90);
-    const d = "M14 86 V26 a11 11 0 0 1 22 0 v4";
-    add(s, "path", { d, fill: "none", stroke: "#f7f1e4", "stroke-width": 9, "stroke-linecap": "round" });
-    add(s, "path", { d, fill: "none", stroke: "#c7202e", "stroke-width": 9, "stroke-dasharray": "5 6", "stroke-linecap": "butt" });
-    add(s, "path", { d, fill: "none", stroke: "rgba(0,0,0,.15)", "stroke-width": 9.5, "stroke-linecap": "round", opacity: 0.4, transform: "translate(1 1)" });
-    el.replaceChildren(s);
-  }
-  function ginger(el) {
-    const s = svg(70, 84);
-    const g = add(s, "g", { fill: "#b8743a", stroke: "#8a5325", "stroke-width": 1.2 });
-    add(g, "circle", { cx: 35, cy: 17, r: 13 });
-    add(g, "rect", { x: 22, y: 26, width: 26, height: 34, rx: 10 });
-    add(g, "rect", { x: 4, y: 32, width: 62, height: 13, rx: 6.5 });
-    add(g, "rect", { x: 20, y: 48, width: 13, height: 32, rx: 6.5, transform: "rotate(12 26 52)" });
-    add(g, "rect", { x: 37, y: 48, width: 13, height: 32, rx: 6.5, transform: "rotate(-12 44 52)" });
-    add(s, "rect", { x: 23, y: 27, width: 24, height: 32, rx: 9, fill: "#b8743a" });
-    add(s, "rect", { x: 5.5, y: 33.5, width: 59, height: 10, rx: 5, fill: "#b8743a" });
-    const w = add(s, "g", { fill: "none", stroke: "#fff8ee", "stroke-width": 1.8, "stroke-linecap": "round" });
-    add(w, "path", { d: "M29 21 q6 5 12 0" });
-    add(w, "path", { d: "M8 38 l3 -3 l3 3 l3 -3" });
-    add(w, "path", { d: "M53 38 l3 -3 l3 3 l3 -3" });
-    add(s, "circle", { cx: 30, cy: 14, r: 1.8, fill: "#3a2210" });
-    add(s, "circle", { cx: 40, cy: 14, r: 1.8, fill: "#3a2210" });
-    [36, 44, 52].forEach((y, i) => add(s, "circle", { cx: 35, cy: y, r: 2.4, fill: ["#c7202e", "#1f8a4f", "#e3bb5c"][i] }));
-    bow(s, 35, 29, 0.45);
-    el.replaceChildren(s);
-  }
-  function starOne(el) {
-    const s = svg(40, 40);
-    star(s, 20, 21, 17);
-    el.replaceChildren(s);
   }
 
-  const DRAW = { garland, lights, bunting, hang, holly, divider, gifts, cane, ginger, star: starOne };
+  const DRAW = { canopy, lights, garland, hearts, pyramid, tree, skyline, arch, hang, holly, divider };
+  makeHuts();
   let seedBase = 7;
   const items = Array.from(document.querySelectorAll("[data-deco]")).map((el) => ({ el, seed: (seedBase += 97), w: -1 }));
   function drawAll() {
@@ -361,7 +493,7 @@
     cv.width = Math.round(W * dpr);
     cv.height = Math.round(H * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const n = Math.round((W * H) / 16000);
+    const n = Math.round((W * H) / 12000);
     flakes = [];
     for (let i = 0; i < n; i++) {
       flakes.push({ x: Math.random() * W, y: Math.random() * H, r: 0.8 + Math.random() * 2.4, vy: 0.3 + Math.random() * 0.8, ph: Math.random() * 6.28, a: 0.45 + Math.random() * 0.45 });
