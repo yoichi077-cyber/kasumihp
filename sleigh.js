@@ -24,8 +24,8 @@
   const caption = sec.querySelector(".xs-caption");
   const dusk = sec.querySelector(".xs-dusk");
 
-  // 空を昇っていく時間を取るため、画面7つ分
-  const SCREENS = 7;
+  // 空を昇っていく時間と、金色の文字を読む時間を取るため、画面8つ分
+  const SCREENS = 8;
   // 空の上のほうほど深い紺にする重ね(昇るほど濃くなる)
   const deep = document.createElement("div");
   deep.className = "xs-deep";
@@ -153,15 +153,16 @@
 
   function render(p) {
     // 入りと出口は夜の紺でつなぐ(上下の区画も夜の色)
-    dusk.style.opacity = Math.max(1 - ramp(p, 0, 0.08), ramp(p, 0.95, 1)).toFixed(3);
+    // 出口では暗くしない(金色の文字を残したまま、次のメニューへ自然に流れる)
+    dusk.style.opacity = (1 - ramp(p, 0, 0.07)).toFixed(3);
     dusk.style.backgroundColor = "#0f1428";
 
     // 流れ:
-    //   0.00〜0.45 屋根の上から、ソリが夜の街を横切る(カメラは少しだけ上がる)
-    //   0.42〜0.85 カメラがそのまま雪の降る星空をずっと昇っていく(街・月・雲が下へ流れ去る)
-    //   0.80〜0.90 金色の文字が浮かぶ → 0.95〜 次のメニューへ
-    const near = ease(ramp(p, 0.02, 0.45));
-    const rise = ease(ramp(p, 0.42, 0.88));
+    //   0.00〜0.42 屋根の上から、ソリが夜の街を横切る(カメラは少しだけ上がる)
+    //   0.40〜0.72 カメラがそのまま雪の降る星空をずっと昇っていく(街・月・雲が下へ流れ去る)
+    //   0.64〜0.74 金色の文字が浮かび、そのあとは最後まで消えずに残る(読む時間を取る。2026-09-26 オーナー指示)
+    const near = ease(ramp(p, 0.02, 0.42));
+    const rise = ease(ramp(p, 0.4, 0.72));
     roofs.style.transform = `translateY(${(near * 16 + rise * 110).toFixed(2)}%)`;
     skyEl.style.transform = `translateY(${(-6 + near * 3 + rise * 8).toFixed(2)}%) scale(1.12)`;
     moon.style.transform = `translate(-50%, -50%) translateY(${(-10 + near * 8 + rise * 95).toFixed(2)}vh)`;
@@ -170,8 +171,8 @@
     deep.style.opacity = rise.toFixed(3);
     starShift = (near * 0.15 + rise * 1.6) * H;
 
-    // ソリ (0.08〜0.46): 左下から右上へ、月の前を横切る
-    const st = ramp(p, 0.08, 0.46);
+    // ソリ (0.07〜0.42): 左下から右上へ、月の前を横切る
+    const st = ramp(p, 0.07, 0.42);
     const pos = sleighPos(st);
     const w = sleigh.offsetWidth;
     const h = sleigh.offsetHeight;
@@ -187,10 +188,10 @@
     }
 
     // 金色の文字 (昇りきった星空で 0.80〜0.90 に浮かび、最後まで残る)
-    const cap = Math.min(ramp(p, 0.8, 0.9), 1 - ramp(p, 0.97, 1));
+    const cap = ramp(p, 0.64, 0.74);
     caption.style.opacity = cap.toFixed(3);
     caption.style.transform = `translate(-50%, -50%) translateY(${((1 - cap) * 18).toFixed(1)}px) scale(${(0.94 + 0.06 * cap).toFixed(3)})`;
-    caption.style.setProperty("--shine", ramp(p, 0.84, 0.95).toFixed(3));
+    caption.style.setProperty("--shine", ramp(p, 0.7, 0.82).toFixed(3));
   }
 
   let lastLoop = 0;
