@@ -1,0 +1,312 @@
+/* ============================================================
+   クリスマス版: クリスマスマーケットの飾り(deco.js が描く SVG の置き場所)
+   余白を埋めて、海外のクリスマスマーケットのようなにぎやかさにする
+   ============================================================ */
+
+[data-deco] { pointer-events: none; }
+[data-deco] svg { display: block; overflow: visible; }
+
+/* 画面全体に降る雪 */
+.xm-snow {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 40;
+  pointer-events: none;
+}
+
+/* 電球のまたたき・旗の揺れ・オーナメントの揺れ */
+.xm-twinkle { animation: xm-twinkle 2.4s ease-in-out infinite alternate; }
+@keyframes xm-twinkle {
+  0% { opacity: 0.25; }
+  60% { opacity: 0.95; }
+  100% { opacity: 0.55; }
+}
+.xm-sway { animation: xm-sway 4.5s ease-in-out infinite alternate; }
+@keyframes xm-sway {
+  from { transform: rotate(-3.5deg); }
+  to { transform: rotate(3.5deg); }
+}
+.xm-flag { transform-box: fill-box; }
+@media (prefers-reduced-motion: reduce) {
+  .xm-twinkle, .xm-sway { animation: none; }
+}
+
+/* 金の星がちりばめられた生成りの背景 */
+body.xmas {
+  --star-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cg fill='%23c9a45c' opacity='.28'%3E%3Cpath d='M20 12l2.2 5 5.3.4-4 3.4 1.3 5.2L20 23.3 15.2 26l1.3-5.2-4-3.4 5.3-.4z'/%3E%3Cpath d='M98 70l1.5 3.4 3.7.3-2.8 2.4.9 3.6L98 77.8l-3.3 1.9.9-3.6-2.8-2.4 3.7-.3z'/%3E%3Ccircle cx='60' cy='40' r='1.6'/%3E%3Ccircle cx='120' cy='20' r='1.2'/%3E%3Ccircle cx='30' cy='100' r='1.4'/%3E%3Ccircle cx='80' cy='120' r='1.2'/%3E%3C/g%3E%3Cg fill='%23b3202c' opacity='.14'%3E%3Ccircle cx='50' cy='80' r='2'/%3E%3Ccircle cx='125' cy='110' r='1.8'/%3E%3C/g%3E%3C/svg%3E");
+  background-color: var(--oat);
+  background-image: var(--star-pattern);
+}
+
+/* ---------- ヘッダーの電球 ---------- */
+.site-header { position: sticky; }
+.xm-lights {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 44px;
+  z-index: 3;
+}
+.xm-lights--header { top: 100%; margin-top: -8px; }
+
+/* ---------- トップ ---------- */
+.hero { position: relative; overflow: hidden; }
+.xm-bunting { position: absolute; left: 0; right: 0; height: 70px; z-index: 2; }
+.xm-bunting--hero { top: 30px; }
+.xm-hang { position: absolute; top: 0; z-index: 2; }
+.xm-hang--hero { right: 2%; width: min(34vw, 420px); }
+.xm-gifts { position: absolute; z-index: 2; width: 200px; height: 130px; }
+.xm-gifts--hero { right: 3%; bottom: 0; transform: scale(1.1); transform-origin: bottom right; }
+
+/* ---------- 期間の帯 ---------- */
+.xmas-dates { position: relative; padding-top: 20px; }
+.xm-lights--dates { top: -2px; }
+
+/* ---------- 見出しまわり ---------- */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--xred);
+}
+.xm-holly { display: inline-block; width: 46px; height: 26px; flex: none; }
+.xm-holly svg { width: 100%; height: 100%; }
+.xm-holly--flip { transform: scaleX(-1); }
+.xm-divider { width: 220px; height: 22px; margin: 4px 0 14px; }
+.xm-divider svg { width: 100%; height: 100%; }
+.section-head h2,
+.concept-text h2 {
+  font-family: "Zen Old Mincho", serif;
+  font-weight: 700;
+  color: var(--xred);
+  letter-spacing: 0.04em;
+}
+.section-head h2 { font-size: clamp(26px, 3.6vw, 36px); }
+
+/* ---------- お店紹介 ---------- */
+.xm-concept { position: relative; padding-top: 130px; overflow: hidden; }
+.xm-garland { position: absolute; left: 0; right: 0; top: 0; height: 96px; z-index: 2; }
+.xm-hang--right { right: 1%; width: 220px; top: 60px; }
+.xm-hang--left { left: 1%; width: 160px; top: 60px; }
+.xm-gifts--concept { left: 1%; bottom: 0; }
+.xm-ginger { position: absolute; width: 70px; height: 84px; z-index: 2; }
+.xm-ginger--concept { right: 4%; bottom: 24px; transform: rotate(10deg); }
+.concept img { border: 6px solid #fffdf8; outline: 2px solid var(--xgold); box-shadow: 0 24px 48px -20px rgba(90, 14, 23, 0.45); }
+.concept-strip img { border: 5px solid #fffdf8; outline: 1.5px solid var(--xgold); }
+.concept-steps .num { background: var(--xred); color: #f7ecd2; border-color: var(--xgold); }
+
+/* ---------- 営業時間: タータンチェック ---------- */
+.xm-tartan {
+  position: relative;
+  overflow: hidden;
+  padding-top: 110px;
+  background-color: #1d4a35 !important;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(150, 18, 30, 0.55) 0 22px, transparent 22px 74px),
+    repeating-linear-gradient(90deg, rgba(150, 18, 30, 0.55) 0 22px, transparent 22px 74px),
+    repeating-linear-gradient(0deg, rgba(10, 30, 20, 0.35) 0 8px, transparent 8px 37px),
+    repeating-linear-gradient(90deg, rgba(10, 30, 20, 0.35) 0 8px, transparent 8px 37px),
+    repeating-linear-gradient(0deg, rgba(232, 200, 120, 0.4) 0 2px, transparent 2px 74px),
+    repeating-linear-gradient(90deg, rgba(232, 200, 120, 0.4) 0 2px, transparent 2px 74px) !important;
+  border: none !important;
+}
+.xm-tartan > .xm-lights { top: 0; }
+.xm-tartan .wrap {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 252, 244, 0.96);
+  border: 2px solid var(--xgold);
+  outline: 6px solid rgba(255, 252, 244, 0.96);
+  border-radius: 6px;
+  padding-top: 36px;
+  padding-bottom: 36px;
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.6);
+  max-width: 1000px;
+}
+.xm-tartan .hours-card { background: #fffaf0; }
+.xm-tartan .hours-card .time { color: var(--xred); font-family: "Zen Old Mincho", serif; }
+.xm-cane { position: absolute; width: 40px; height: 90px; z-index: 3; }
+.xm-cane--a { left: 4%; bottom: 22px; transform: rotate(-12deg); }
+.xm-cane--b { left: calc(4% + 30px); bottom: 18px; transform: rotate(8deg) scaleX(-1); }
+.xm-ginger--hours { right: 4%; bottom: 22px; transform: rotate(-8deg) scale(1.2); }
+
+/* ---------- メニュー: 屋台の屋根と看板 ---------- */
+.xmas-menu { position: relative; overflow: hidden; padding-top: 0; }
+.xm-awning {
+  position: relative;
+  height: 74px;
+  background:
+    repeating-linear-gradient(90deg, #b3202c 0 44px, #f6efe0 44px 88px);
+  box-shadow: 0 10px 18px -8px rgba(0, 0, 0, 0.35);
+  -webkit-mask: radial-gradient(circle 22px at 22px 52px, #000 98%, transparent) 0 0 / 44px 100% repeat-x,
+    linear-gradient(#000, #000) 0 0 / 100% 52px no-repeat;
+  mask: radial-gradient(circle 22px at 22px 52px, #000 98%, transparent) 0 0 / 44px 100% repeat-x,
+    linear-gradient(#000, #000) 0 0 / 100% 52px no-repeat;
+}
+.xm-awning::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 14px;
+  background: linear-gradient(#6b3f1f, #4a2a12);
+  border-bottom: 2px solid var(--xgold);
+}
+.xm-lights--awning { top: 58px; }
+.xm-sign {
+  position: relative;
+  z-index: 3;
+  width: fit-content;
+  margin: 46px auto 10px;
+  padding: 16px 44px 14px;
+  text-align: center;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0 2px, transparent 2px 7px),
+    linear-gradient(180deg, #6b3f1f, #4a2a12);
+  border: 3px solid var(--xgold);
+  border-radius: 10px;
+  box-shadow: 0 18px 30px -14px rgba(0, 0, 0, 0.55), inset 0 0 0 5px #4a2a12, inset 0 0 0 6px rgba(236, 208, 142, 0.5);
+}
+.xm-sign::before,
+.xm-sign::after {
+  content: "";
+  position: absolute;
+  top: -48px;
+  width: 2px;
+  height: 48px;
+  background: repeating-linear-gradient(#caa04e 0 5px, transparent 5px 8px);
+}
+.xm-sign::before { left: 22%; }
+.xm-sign::after { right: 22%; }
+.xm-sign-en {
+  display: block;
+  font-family: "Pinyon Script", cursive;
+  font-size: clamp(38px, 6vw, 60px);
+  line-height: 1.1;
+  background: var(--gold-text);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.xm-sign-sub {
+  display: block;
+  margin-top: 4px;
+  font-family: "Zen Old Mincho", serif;
+  font-size: 12px;
+  letter-spacing: 0.4em;
+  color: #ecd08e;
+}
+.xmas-menu .xm-hang { top: 70px; z-index: 1; }
+.xmas-menu .xm-hang--left { left: 0; width: 12vw; min-width: 90px; }
+.xmas-menu .xm-hang--right { right: 0; width: 12vw; min-width: 90px; }
+.xmas-menu > .wrap { position: relative; z-index: 2; padding-top: 30px; padding-bottom: 20px; }
+.xm-cane--menu { left: 3%; bottom: 40px; transform: rotate(-16deg) scale(1.2); }
+.xm-gifts--menu { right: 2%; bottom: 0; }
+
+/* メニューのカード: 金の二重枠・雪の帽子・角のヒイラギ */
+.xmas-menu .menu-card {
+  position: relative;
+  overflow: visible;
+  background: #fffdf8;
+  border: 2px solid var(--xgold);
+  border-radius: 8px;
+  box-shadow: 0 0 0 5px #fffdf8, 0 0 0 6px rgba(179, 32, 44, 0.45), 0 22px 40px -24px rgba(90, 14, 23, 0.55);
+}
+.xmas-menu .menu-card .thumb { border-radius: 6px 6px 0 0; }
+.xmas-menu .menu-card::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  right: -6px;
+  top: -12px;
+  height: 22px;
+  z-index: 3;
+  background:
+    radial-gradient(ellipse 22px 12px at 12% 70%, #fff 96%, transparent),
+    radial-gradient(ellipse 30px 14px at 32% 62%, #fff 96%, transparent),
+    radial-gradient(ellipse 26px 12px at 55% 72%, #fff 96%, transparent),
+    radial-gradient(ellipse 32px 14px at 78% 60%, #fff 96%, transparent),
+    radial-gradient(ellipse 20px 11px at 94% 74%, #fff 96%, transparent),
+    linear-gradient(#fff, #fff) 0 100% / 100% 7px no-repeat;
+  filter: drop-shadow(0 2px 2px rgba(60, 70, 110, 0.25));
+}
+.xm-card-holly {
+  position: absolute;
+  right: -10px;
+  top: -18px;
+  width: 62px;
+  height: 36px;
+  z-index: 4;
+  transform: rotate(18deg);
+}
+.xm-card-holly svg { width: 100%; height: 100%; }
+.xmas-menu .menu-card:nth-child(even) .xm-card-holly { right: auto; left: -12px; transform: rotate(-18deg) scaleX(-1); }
+.xmas-menu .menu-card h3 { font-family: "Zen Old Mincho", serif; color: var(--xred); }
+.xmas-menu .menu-card .price {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 2px 12px 2px 16px;
+  color: #fff8ea;
+  background: var(--xred);
+  border-radius: 2px 14px 14px 2px;
+  box-shadow: inset 4px 0 0 var(--xgold);
+}
+.xmas-menu .menu-card .price--tbd { background: #efe4cc; color: var(--ink-soft); box-shadow: inset 4px 0 0 var(--xgold); }
+.xmas-menu .menu-more {
+  background: #fffdf8;
+  border: 1.5px dashed var(--xgold);
+  border-radius: 8px;
+  padding: 18px 22px;
+}
+
+/* ---------- アクセス ---------- */
+.access { position: relative; overflow: hidden; padding-top: 150px; }
+.access .xm-garland { top: 0; }
+.xm-bunting--access { top: 84px; opacity: 0.95; }
+.access .eyebrow { color: var(--xgold-lt); }
+.access h2 { font-family: "Zen Old Mincho", serif; color: #f7ecd2; }
+
+/* ---------- フッター: 雪の積もった地面 ---------- */
+.xm-footer {
+  position: relative;
+  background: #1f3a2f;
+  color: rgba(247, 236, 210, 0.75);
+  padding-top: 52px;
+}
+.xm-snowbank {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 36px;
+  background:
+    radial-gradient(ellipse 90px 26px at 8% 0, #fff 96%, transparent),
+    radial-gradient(ellipse 140px 30px at 30% 0, #fff 96%, transparent),
+    radial-gradient(ellipse 110px 24px at 55% 0, #fff 96%, transparent),
+    radial-gradient(ellipse 150px 32px at 80% 0, #fff 96%, transparent),
+    radial-gradient(ellipse 90px 22px at 98% 0, #fff 96%, transparent),
+    linear-gradient(#fff, #fff) 0 0 / 100% 10px no-repeat;
+}
+
+/* ---------- スマホ ---------- */
+@media (max-width: 860px) {
+  .xm-hang--hero { width: 44vw; }
+  .xmas-menu .xm-hang { display: none; }
+  .xm-hang--left { display: none; }
+}
+@media (max-width: 600px) {
+  .xm-gifts { transform: scale(0.6); transform-origin: bottom left; }
+  .xm-gifts--hero { transform: scale(0.65); transform-origin: bottom right; }
+  .xm-gifts--menu { transform-origin: bottom right; }
+  .xm-concept { padding-top: 110px; }
+  .xm-tartan { padding-top: 90px; padding-bottom: 110px; }
+  .xm-tartan .wrap { margin: 0 12px; }
+  .xm-sign { padding: 12px 24px 10px; }
+  .xm-card-holly { width: 46px; height: 27px; }
+  .xm-ginger--concept, .xm-hang--right { display: none; }
+  .access { padding-top: 130px; }
+}
