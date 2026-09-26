@@ -642,3 +642,31 @@ body.xmas .hero {
   animation: xe-shimmer 5s linear infinite;
 }
 .xs-caption { top: 44%; }
+
+/* 封筒の表: KASUMI KYOTO を主役に、To. our dear guest は小さく(2026-09-26 オーナー指示) */
+.xe-address { gap: calc(var(--ew) * 0.006); top: 44%; }
+.xe-to { font-size: calc(var(--ew) * 0.04); opacity: 0.85; }
+.xe-from {
+  font-size: calc(var(--ew) * 0.082);
+  letter-spacing: 0.16em;
+  padding-left: 0;
+  line-height: 1.15;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+}
+.xe-from-sub {
+  font-family: "Pinyon Script", cursive;
+  font-size: calc(var(--ew) * 0.05);
+  background: var(--gold-text);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.xe-line--small { font-size: calc(var(--lw) * 0.07); letter-spacing: 0.08em; }
+.xe-line--small { font-family: "Zen Old Mincho", serif; font-weight: 700; font-size: calc(var(--lw) * 0.034); letter-spacing: 0.4em; padding-left: 0.4em; }
+/* 手紙の本文(2026-09-26 文面変更に合わせて、1行が便せんに収まる大きさに) */
+.xe-line { font-size: calc(var(--lw) * 0.031); }
+.xe-line--lead { font-size: calc(var(--lw) * 0.043); }
+.xe-line--en { font-size: calc(var(--lw) * 0.1); }
+.xe-line--date { font-size: calc(var(--lw) * 0.042); }
+.xe-line--small { font-size: calc(var(--lw) * 0.034); }
