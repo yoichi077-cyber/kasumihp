@@ -44,3 +44,15 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
     window.scrollTo({ top: y, behavior: "smooth" });
   });
 });
+
+// お知らせ: data-until の日を過ぎたものは消す(その日の終わりまでは表示)。全部消えたら欄ごと隠す
+(function () {
+  const box = document.getElementById("notice");
+  if (!box) return;
+  const now = new Date();
+  box.querySelectorAll("[data-until]").forEach((el) => {
+    const end = new Date(el.dataset.until + "T23:59:59+09:00");
+    if (now > end) el.remove();
+  });
+  if (!box.querySelector(".notice-item")) box.classList.add("is-empty");
+})();

@@ -4,7 +4,49 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KASUMI(かすみ)| 京都・四条河原町のドライフラワーカフェ</title>
-<meta name="description" content="京都市中京区、四条河原町から徒歩3分。店内一面のドライフラワーに包まれたカフェ KASUMI。モーニングからグランドメニュー、夜カフェまで一日中同じメニューでお過ごしいただけます。">
+<meta name="description" content="京都市中京区、四条河原町から徒歩3分。店内一面のドライフラワーに包まれたカフェ KASUMI。朝8時のモーニングから、20:30までのグランドメニュー、20:30からの夜カフェまで。年中無休・予約不要。">
+<!-- LINE・SNSで共有したときのカード(OGP)とアイコン(課題リスト#1) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="KASUMI KYOTO">
+<meta property="og:title" content="KASUMI(かすみ)｜京都・四条河原町のドライフラワーカフェ">
+<meta property="og:description" content="四条河原町から徒歩3分。天井いっぱいのドライフラワーの下で、朝のモーニングから夜カフェまで。年中無休・予約不要。">
+<meta property="og:url" content="https://yoichi077-cyber.github.io/kasumihp/">
+<meta property="og:image" content="https://yoichi077-cyber.github.io/kasumihp/images/og/og-kasumi.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="images/og/favicon.png">
+<link rel="apple-touch-icon" href="images/og/apple-touch-icon.png">
+<!-- AI検索・Google向けのお店情報(課題リスト#4)。07_共通知識の店舗基本情報・営業情報(版7)と一致させる -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CafeOrCoffeeShop",
+  "name": "KASUMI",
+  "alternateName": ["かすみ", "KASUMI KYOTO"],
+  "url": "https://yoichi077-cyber.github.io/kasumihp/",
+  "image": "https://yoichi077-cyber.github.io/kasumihp/images/og/og-kasumi.jpg",
+  "telephone": "+81-75-231-2922",
+  "address": {
+    "@type": "PostalAddress",
+    "postalCode": "604-8046",
+    "addressRegion": "京都府",
+    "addressLocality": "京都市中京区",
+    "streetAddress": "新京極通蛸薬師下る東側町508 2F",
+    "addressCountry": "JP"
+  },
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "08:00",
+    "closes": "23:00"
+  }],
+  "acceptsReservations": false,
+  "hasMap": "https://maps.app.goo.gl/QVpJ8UWYc7qEV3ALA",
+  "sameAs": ["https://www.instagram.com/kasumi_kyoto/", "https://www.tiktok.com/@ayuko_cafegirl"]
+}
+</script>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -51,10 +93,19 @@
       <a href="#hours">営業時間</a>
       <a href="#menu">メニュー</a>
       <a href="#night-menu">夜カフェ</a>
+      <a href="#faq">よくある質問</a>
       <a href="#access">アクセス</a>
     </nav>
   </div>
 </header>
+
+<!-- お知らせ(課題リスト#5)。data-until の日を過ぎると自動で消える。内容は 07_共通知識/営業情報.md の変更予定と一致させる -->
+<div class="notice" id="notice">
+  <div class="wrap">
+    <p class="notice-item" data-until="2026-10-14"><span class="notice-label">臨時休業</span>10月14日(水)は終日お休みします。</p>
+    <p class="notice-item" data-until="2026-11-18"><span class="notice-label">お知らせ</span>11月16日(月)〜18日(水)は飾り付けのため臨時休業。11月19日(木)〜12月27日(日)はクリスマスカフェを開催します。</p>
+  </div>
+</div>
 
 <section class="hero" data-hero-image>
   <div class="hero-inner">
@@ -116,6 +167,16 @@
       </div>
     </div>
     <p class="hours-note">定休日はありません。ご予約は承っておりませんので、そのままお越しください。</p>
+    <!-- 英語の案内(課題リスト#6)。内容は 07_共通知識/営業情報.md 版7・店舗基本情報.md と一致させる -->
+    <div class="english-info" lang="en">
+      <p class="english-title">For our guests from abroad</p>
+      <ul>
+        <li><b>Open every day:</b> 8:00 &ndash; 23:00 (last entry 22:00)</li>
+        <li><b>Morning menu</b> 8:00 &ndash; 11:00 / <b>Food</b> until 20:30 / <b>Night Cafe</b> from 20:30</li>
+        <li><b>No reservations</b> &mdash; please just walk in. All menu items are written in English.</li>
+        <li>3 min walk from Kyoto-Kawaramachi Station (Hankyu Line). Entrance on the 1st floor; the cafe is upstairs (2F).</li>
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -156,7 +217,7 @@
         <div class="thumb"><img src="images/menu-hamburg.jpg" alt="ハンバーグセット" loading="lazy"></div>
         <div class="body">
           <h3>ハンバーグセット</h3>
-          <p>熱々の鉄板で楽しむ、ハンバーグの定食。</p>
+          <p>熱々の鉄板で楽しむハンバーグ。サラダ・フライドポテト・ごはん・味噌汁つき。</p>
           <p class="price">¥1,650</p>
         </div>
       </div>
@@ -164,7 +225,7 @@
         <div class="thumb"><img src="images/menu-wagyu.jpg" alt="黒毛和牛ステーキセット" loading="lazy"></div>
         <div class="body">
           <h3>黒毛和牛ステーキセット</h3>
-          <p>黒毛和牛のステーキを、ご飯とお椀とともに。</p>
+          <p>A4ランクの黒毛和牛サーロインだけを使ったステーキ。わさびとポン酢で。サラダ・フライドポテト・ごはん・味噌汁つき。</p>
           <p class="price">¥4,700</p>
         </div>
       </div>
@@ -279,6 +340,25 @@
           <p class="price">各¥850</p>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- よくある質問(課題リスト#4)。文面は 03_広報/GoogleQ&A下書き_2026-09-25.md(2026-09-26 オーナー承認済み)から選んだもの -->
+<section id="faq" class="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">FAQ</p>
+      <h2>よくある質問</h2>
+    </div>
+    <div class="faq-list">
+      <details><summary>予約はできますか？</summary><p>ご予約は承っておりません。ご予約なしでそのままお越しください。席数は32席です。</p></details>
+      <details><summary>何時まで営業していますか？ラストオーダーは？</summary><p>23:00まで営業し、最終入店は22:00です。お食事（グランドメニュー）のご注文は20:30までで、20:30以降は夜カフェメニューをご注文いただけます。</p></details>
+      <details><summary>定休日はありますか？</summary><p>定休日はありません。年中無休で、朝8時から23時まで営業しています（最終入店22:00）。季節企画の飾り付けなどで臨時休業する場合は、事前にお知らせします。</p></details>
+      <details><summary>KASUMIのモーニングは何時からですか？何が食べられますか？</summary><p>毎日朝8時から営業しており、モーニングメニューのご注文は8:00〜11:00です。【モーニング限定】フルーツたっぷりフレンチトースト1,200円（税込）、チーズフォンデュトーストとサラダとコーンポタージュのセット ハーフ1,200円・倍量1,500円（税込）をご用意しています。</p></details>
+      <details><summary>最寄り駅はどこですか？行き方を教えてください。</summary><p>阪急京都線 京都河原町駅から徒歩約3分です。住所は京都市中京区新京極通蛸薬師下る東側町508の2階。1階に専用の階段入口があり、階段の踊り場に猫の壁画があります。</p></details>
+      <details><summary>英語のメニューはありますか？ / Do you have an English menu?</summary><p>すべてのメニューに英語表記があります（英語版の冊子はありません）。All items on our menu are also written in English. We are open every day from 8:00 to 23:00 (last entry 22:00). Seating for 32, non-smoking, no reservations needed.</p></details>
+      <details><summary>店内で喫煙できますか？予算はどれくらいですか？</summary><p>店内は完全禁煙です。ご予算はお一人あたり1,000〜2,000円ほどが目安です。</p></details>
     </div>
   </div>
 </section>

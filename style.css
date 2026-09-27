@@ -660,3 +660,48 @@ footer {
 
 /* JSが動く前・JS無効の時は、入口の絵を出さない(高さ0の入口から絵の切れ端がはみ出して見えていた) */
 .entrance:not(.is-ready) .entrance-sticky { display: none; }
+
+/* ---------- お知らせ(課題リスト#5) ---------- */
+.notice { background: #fbf3e4; border-bottom: 1px solid var(--border); }
+.notice .wrap { padding-top: 12px; padding-bottom: 12px; }
+.notice-item { margin: 4px 0; font-size: 13.5px; color: var(--ink); }
+.notice-label {
+  display: inline-block;
+  margin-right: 10px;
+  padding: 1px 10px;
+  border-radius: 999px;
+  background: var(--wood);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+.notice.is-empty { display: none; }
+
+/* ---------- 英語の案内(課題リスト#6) ---------- */
+.english-info {
+  margin-top: 24px;
+  padding: 16px 20px;
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  background: var(--oat);
+}
+.english-title { margin: 0 0 6px; font-family: "Zen Maru Gothic", sans-serif; font-weight: 700; color: var(--wood); }
+.english-info ul { margin: 0; padding-left: 1.1em; font-size: 13px; line-height: 1.8; color: var(--ink-soft); }
+.english-info b { color: var(--ink); }
+
+/* ---------- よくある質問(課題リスト#4) ---------- */
+.faq-list { max-width: 820px; }
+.faq-list details { border-bottom: 1px solid var(--border); padding: 4px 0; }
+.faq-list summary {
+  cursor: pointer;
+  list-style: none;
+  position: relative;
+  padding: 16px 36px 16px 0;
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-weight: 700;
+  font-size: 15.5px;
+}
+.faq-list summary::-webkit-details-marker { display: none; }
+.faq-list summary::after { content: "+"; position: absolute; right: 6px; top: 12px; font-size: 22px; color: var(--wood); transition: transform 0.2s; }
+.faq-list details[open] summary::after { transform: rotate(45deg); }
+.faq-list p { margin: 0 0 16px; font-size: 14px; color: var(--ink-soft); }
