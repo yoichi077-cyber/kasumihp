@@ -670,3 +670,27 @@ body.xmas .hero {
 .xe-line--en { font-size: calc(var(--lw) * 0.1); }
 .xe-line--date { font-size: calc(var(--lw) * 0.042); }
 .xe-line--small { font-size: calc(var(--lw) * 0.034); }
+
+/* 封筒の表: KASUMI KYOTO を上品に(大きすぎない・細め・字間を広く・上下に細い金の線) 2026-09-27 */
+.xe-address { top: 47%; gap: calc(var(--ew) * 0.012); }
+.xe-to { font-size: calc(var(--ew) * 0.036); }
+.xe-from {
+  position: relative;
+  font-weight: 500;
+  font-size: calc(var(--ew) * 0.052);
+  letter-spacing: 0.42em;
+  padding: calc(var(--ew) * 0.012) 0;
+  filter: none;
+}
+.xe-from::before,
+.xe-from::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 62%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(212, 169, 74, 0.9), rgba(212, 169, 74, 0));
+}
+.xe-from::before { top: 0; }
+.xe-from::after { bottom: 0; }
+.xe-from-sub { font-size: calc(var(--ew) * 0.044); }
