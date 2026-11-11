@@ -132,6 +132,16 @@
   <div class="xm-lights xm-lights--header" data-deco="lights"></div>
 </header>
 
+<!-- お知らせ。data-until の日を過ぎると自動で消える。内容は 07_共通知識/営業情報.md(版11)と一致させる。
+     クリスマス版を開催前(11/15まで)に出すため、それまでの営業と臨時休業をここで知らせる -->
+<div class="notice" id="notice">
+  <div class="wrap">
+    <p class="notice-item" data-until="2026-11-15"><span class="notice-label">お知らせ</span>11月15日(日)までは、いつものメニューと夜カフェで営業しています。</p>
+    <p class="notice-item" data-until="2026-11-18"><span class="notice-label">臨時休業</span>11月16日(月)〜18日(水)は飾り付けのためお休みします。11月19日(木)からクリスマスカフェです。</p>
+    <p class="notice-item" data-until="2026-11-18" lang="en"><span class="notice-label">Notice</span>Closed Nov 16 (Mon) &ndash; 18 (Wed) for Christmas decorating. Christmas Cafe from Nov 19 (Thu) to Dec 27 (Sun).</p>
+  </div>
+</div>
+
 <section class="hero" id="top" data-hero-image>
   <!-- 写真の上には飾りを重ねない(2026-09-26 オーナー指示) -->
   <div class="hero-inner">
@@ -241,12 +251,8 @@
          16:00のライトダウンの有無と、20:30以降の品目は未確認なので書かない -->
     <div class="hours-grid">
       <div class="hours-card">
-        <div class="time">8:00 – 11:00</div>
-        <div class="label">モーニングメニュー</div>
-      </div>
-      <div class="hours-card">
         <div class="time">8:00 – 20:30</div>
-        <div class="label">クリスマスメニュー(お食事)</div>
+        <div class="label">お食事(クリスマスメニュー)</div>
       </div>
       <div class="hours-card">
         <div class="time">20:30 – 23:00</div>
@@ -336,24 +342,8 @@
         <div class="thumb"><img src="images/christmas/photos/plate.jpg" alt="クリスマスプレート" loading="lazy"></div>
         <div class="body">
           <h3>クリスマスプレート</h3>
-          <p>和牛のローストビーフとローストポークに、選べるメイン(フライドチキン または 煮込みハンバーグ)。</p>
+          <p>メインを選べる、クリスマスの洋食プレート。メインの種類は近日公開します。</p>
           <p class="price">¥1,980</p>
-        </div>
-      </div>
-      <div class="menu-card"><span class="xm-card-holly" data-deco="holly"></span>
-        <div class="thumb thumb--soon"><span>Photo<br>coming soon</span><em class="thumb-note">イメージ</em></div>
-        <div class="body">
-          <h3>グラタン定食</h3>
-          <p>ミートソースとナス／チキンとほうれん草のホワイトソース。2種から選べるグラタンに、洋風のおかずを添えて。</p>
-          <p class="price">¥1,800</p>
-        </div>
-      </div>
-      <div class="menu-card"><span class="xm-card-holly" data-deco="holly"></span>
-        <div class="thumb thumb--soon"><span>Photo<br>coming soon</span><em class="thumb-note">イメージ</em></div>
-        <div class="body">
-          <h3>クリスマスのカツカレー</h3>
-          <p>盛り付けをクリスマス仕様にした、期間限定のカツカレー。</p>
-          <p class="price price--tbd">価格は近日公開</p>
         </div>
       </div>
       <div class="menu-card"><span class="xm-card-holly" data-deco="holly"></span>
@@ -367,37 +357,37 @@
       <div class="menu-card"><span class="xm-card-holly" data-deco="holly"></span>
         <div class="thumb"><img src="images/christmas/photos/dessert-set.jpg" alt="ティラミスのデザートプレートと、マシュマロのホットドリンク" loading="lazy"></div>
         <div class="body">
-          <h3>クリスマスのデザートプレート</h3>
+          <h3>Xmasティラミス</h3>
           <p>ティラミスに、トナカイのチョコと星のクッキーを添えて。ドリンクとのセットでご注文ください。</p>
-          <p class="price price--tbd">価格は近日公開</p>
+          <p class="price">¥900</p>
         </div>
       </div>
       <div class="menu-card"><span class="xm-card-holly" data-deco="holly"></span>
         <div class="thumb"><img src="images/christmas/photos/fondant.jpg" alt="フォンダンショコラとバニラアイス" loading="lazy"></div>
         <div class="body">
-          <h3>フォンダンショコラ&amp;アイスクリーム</h3>
-          <p>あたたかいフォンダンショコラに、バニラアイスとさくらんぼ。</p>
-          <p class="price price--tbd">価格は近日公開</p>
+          <h3>Xmasフォンダンショコラ&amp;アイスクリーム</h3>
+          <p>あたたかいフォンダンショコラに、バニラアイスを添えて。ドリンクとのセットでご注文ください。</p>
+          <p class="price">¥900</p>
         </div>
       </div>
       <div class="menu-card"><span class="xm-card-holly" data-deco="holly"></span>
         <div class="thumb"><img src="images/christmas/photos/hot-marshmallow.jpg" alt="スノーマンのマシュマロを浮かべたホットドリンク" loading="lazy"></div>
         <div class="body">
-          <h3>マシュマロのホットドリンク</h3>
-          <p>スノーマンのマシュマロを浮かべた、あたたかい一杯。アイスもあります。</p>
-          <p class="price price--tbd">価格は近日公開</p>
+          <h3>Xmasマシュマロドリンク</h3>
+          <p>抹茶ラテ／チョコミルク／カフェオレ。ホットとアイス、どちらもお選びいただけます。</p>
+          <p class="price">各¥800</p>
         </div>
       </div>
       <div class="menu-card"><span class="xm-card-holly" data-deco="holly"></span>
         <div class="thumb"><img src="images/christmas/photos/acai.jpg" alt="クリスマスのアサイーボウル" loading="lazy"></div>
         <div class="body">
-          <h3>クリスマスのアサイーボウル</h3>
+          <h3>Xmasアサイーボウル</h3>
           <p>フルーツとアイスに、ジンジャーマンと星のクッキーを飾って。</p>
-          <p class="price price--tbd">価格は近日公開</p>
+          <p class="price">¥1,690</p>
         </div>
       </div>
     </div>
-    <p class="menu-more"><b>モーニング(8:00〜11:00)</b>は期間中もご用意しています。フルーツたっぷりフレンチトースト(¥1,200)と、チーズフォンデュトーストとサラダとコーンポタージュのセット(¥1,200／¥1,500)。<br><b>期間中お休みするメニュー：</b>おばんざいのセット、鶏の唐揚げのセット。</p>
+    <p class="menu-more"><b>いつものメニューも：</b>アサイーボウル(5種)、クリームソーダ(7種)、コーヒー・紅茶・ソフトドリンクなどは期間中もご注文いただけます。<br><b>期間中お休みするメニュー：</b>おばんざいのセット、鶏の唐揚げのセット、モーニング。<br>写真は2025年のクリスマスカフェのものです。今年のメニューの写真は、準備ができしだい入れ替えます。</p>
   </div>
 </section>
 
@@ -417,7 +407,7 @@
       <details><summary>予約はできますか？</summary><p>ご予約は承っておりません。そのままお越しください。席数は32席です。混み合う時間は、お待ちいただくことがあります。</p></details>
       <details><summary>クリスマスカフェの期間中は、何時まで営業していますか？</summary><p>朝8:00から夜23:00まで営業しています（最終入店22:00）。お食事のご注文は20:30までで、そのあとはドリンクとデザートをご注文いただけます。期間中は夜カフェはお休みです。</p></details>
       <details><summary>クリスマス当日も営業していますか？</summary><p>開催期間の11月19日（木）〜12月27日（日）は、定休日なしで営業しています。直前の11月16日（月）〜18日（水）は、飾り付けのため臨時休業です。</p></details>
-      <details><summary>おばんざいのセットは食べられますか？</summary><p>クリスマスカフェの期間中は、おばんざいのセットをお休みして、グラタン定食やクリスマスプレートなどの洋食をご用意しています。</p></details>
+      <details><summary>おばんざいのセットは食べられますか？</summary><p>クリスマスカフェの期間中（11月19日〜12月27日）は、おばんざいのセットとモーニングをお休みして、クリスマスプレートをご用意しています。11月15日まではいつものメニューです。</p></details>
       <details><summary>英語のメニューはありますか？ / Do you have an English menu?</summary><p>すべてのメニューに英語表記があります。All items on our menu are also written in English.</p></details>
     </div>
   </div>
