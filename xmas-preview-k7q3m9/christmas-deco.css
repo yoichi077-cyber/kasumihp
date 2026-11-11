@@ -857,3 +857,6 @@ body.xmas .site-header .nav a:hover { color: #ffd08a; }
 .xm-faq { position: relative; }
 .xm-faq .xm-art--mailbox { right: 6%; left: auto; bottom: auto; top: 50%; transform: translateY(-40%); width: 190px; height: 250px; z-index: 1; }
 @media (max-width: 1100px) { .xm-faq .xm-art--mailbox { display: none !important; } }
+/* クリスマスプレートのメイン7種 */
+.xm-mains { margin: 8px 0 0; padding-left: 1.2em; font-size: 12.5px; line-height: 1.75; color: var(--ink-soft); }
+.xm-mains li::marker { color: #b8403a; }
