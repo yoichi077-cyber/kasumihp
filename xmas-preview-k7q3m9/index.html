@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<!-- スマホ確認用のコピー(公開前のクリスマス版)。本番ではない -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KASUMI(かすみ)| 京都・四条河原町のクリスマスカフェ</title>
+<meta name="description" content="京都市中京区、四条河原町から徒歩3分。ドライフラワーカフェ KASUMI のクリスマスカフェ。2026年11月19日(木)〜12月27日(日)、朝から夜まで一日中クリスマス仕様でお待ちしています。">
+<!-- LINE・SNSで共有したときのカード(OGP)とアイコン(2026-09-27 広報チェックの提案①) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="KASUMI KYOTO">
+<meta property="og:title" content="KASUMIのクリスマスカフェ 2026｜京都・四条河原町">
+<meta property="og:description" content="2026年11月19日(木)〜12月27日(日)。ドライフラワーのカフェKASUMIが、朝から夜までクリスマスカフェになります。予約不要。">
+<meta property="og:image" content="https://yoichi077-cyber.github.io/kasumihp/images/christmas/og/og-christmas.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="images/christmas/og/favicon.png">
+<link rel="apple-touch-icon" href="images/christmas/og/apple-touch-icon.png">
+<!-- AI検索・Google向けのお店情報(課題リスト#4)。07_共通知識の店舗基本情報・営業情報(版7)と一致させる -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CafeOrCoffeeShop",
+  "name": "KASUMI",
+  "alternateName": ["かすみ", "KASUMI KYOTO"],
+  "url": "https://yoichi077-cyber.github.io/kasumihp/",
+  "image": "https://yoichi077-cyber.github.io/kasumihp/images/christmas/og/og-christmas.jpg",
+  "telephone": "+81-75-231-2922",
+  "address": {
+    "@type": "PostalAddress",
+    "postalCode": "604-8046",
+    "addressRegion": "京都府",
+    "addressLocality": "京都市中京区",
+    "streetAddress": "新京極通蛸薬師下る東側町508 2F",
+    "addressCountry": "JP"
+  },
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "08:00",
+    "closes": "23:00"
+  }],
+  "acceptsReservations": false,
+  "hasMap": "https://maps.app.goo.gl/QVpJ8UWYc7qEV3ALA",
+  "sameAs": ["https://www.instagram.com/kasumi_kyoto/", "https://www.tiktok.com/@ayuko_cafegirl"]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=UnifrakturMaguntia&family=Zen+Old+Mincho:wght@500;700&display=swap">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="christmas.css">
+<link rel="stylesheet" href="christmas-deco.css">
+</head>
+<body class="xmas">
+
+<!-- ===== クリスマス版(2026)。基本版は Git の目印 base-v1 に保存 =====
+     設計: 第2の脳/06_ホームページ/クリスマス版_設計メモ.md
+     絵は Codex が images/christmas/ に保存したものを自動で使う。まだ無い絵は、コードで描いた仮の図形で表示する -->
+
+<!-- ===== 入口: 赤い封筒の招待状 =====
+     封筒の表 → 裏返す → 封ろうが外れてふたが開く → 手紙が出る → 金の文字が光る → 光が広がって店内写真へ
+     高さは envelope.js が画面7つ分(px)で付ける。JS無効/動きを減らす設定の時は高さ0のまま(本編から表示) -->
+<div class="entrance xe" id="entrance">
+  <button class="entrance-skip" type="button" id="entranceSkip">スキップ →</button>
+  <div class="entrance-sticky xe-sticky">
+    <div class="xe-bokeh" aria-hidden="true"></div>
+
+    <div class="xe-env" aria-hidden="true">
+      <!-- 表 -->
+      <div class="xe-front" data-art="images/christmas/envelope-front.png">
+        <div class="xe-address">
+          <span class="xe-to">To. our dear guest</span>
+          <span class="xe-from">KASUMI KYOTO</span>
+          <span class="xe-from-sub">Christmas Cafe 2026</span>
+        </div>
+        <div class="xe-stamps">
+          <div class="xe-stamp xe-stamp--santa" data-art="images/christmas/stamp-santa.png"><span>Santa</span></div>
+          <div class="xe-stamp xe-stamp--reindeer" data-art="images/christmas/stamp-reindeer.png"><span>Noël</span></div>
+          <svg class="xe-postmark" viewBox="0 0 120 120"><circle cx="60" cy="60" r="44" /><circle cx="60" cy="60" r="36" /><path id="pm" d="M60 60 m-40 0 a40 40 0 1 1 80 0" fill="none" stroke="none"/><text><textPath href="#pm" startOffset="50%" text-anchor="middle">KYOTO · 2026</textPath></text><text x="60" y="72" text-anchor="middle" class="pm-mid">XMAS</text></svg>
+        </div>
+      </div>
+      <!-- 裏(本体・手紙・ポケット・ふた) -->
+      <div class="xe-back">
+        <div class="xe-body" data-art="images/christmas/envelope-back.png"></div>
+        <div class="xe-card"></div>
+        <div class="xe-pocket" data-art="images/christmas/envelope-back.png"></div>
+        <div class="xe-flap" data-art="images/christmas/envelope-flap.png"></div>
+        <div class="xe-seal" data-art="images/christmas/wax-seal.png"></div>
+      </div>
+    </div>
+
+    <!-- 手紙(文字は絵に描かず、ここで金色の文字として重ねる) -->
+    <div class="xe-letter" data-art="images/christmas/letter-paper.png">
+      <div class="xe-letter-inner">
+        <!-- 「ご招待」は無料招待と誤解されるので使わない。署名(ヤイチ班長)も入れない(2026-09-26 オーナー指示) -->
+        <p class="xe-line xe-line--en">Christmas Cafe</p>
+        <p class="xe-line xe-line--lead">今年も、KASUMIは<br>クリスマスカフェを開催します。</p>
+        <p class="xe-line">店内を、クリスマスの飾りでいっぱいにして、<br>あたたかい飲み物とごちそうを用意しました。</p>
+        <p class="xe-line">階段の上で、お待ちしております。</p>
+        <p class="xe-line xe-line--date">2026.11.19 <small>THU</small> — 12.27 <small>SUN</small></p>
+        <p class="xe-line xe-line--en xe-line--small">KASUMI KYOTO</p>
+      </div>
+    </div>
+
+    <canvas class="xe-dust" aria-hidden="true"></canvas>
+    <div class="xe-flash" aria-hidden="true"></div>
+
+    <!-- 光が消えたあとの店内写真(2025年クリスマスの店内) -->
+    <div class="xe-photo">
+      <img src="images/christmas/photos/interior-tree.jpg" alt="雪のツリーとリースで飾られた、クリスマスのKASUMIの店内">
+    </div>
+    <p class="scene-caption xe-caption">ようこそ、KASUMIのクリスマスへ。</p>
+
+    <p class="scroll-hint">スクロールして封を開ける ↓</p>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="logo">KASUMI<span> KYOTO</span><em class="logo-xmas" aria-hidden="true">Christmas</em></div>
+    <nav class="nav">
+      <a href="#concept">お店紹介</a>
+      <a href="#hours">営業時間</a>
+      <a href="#menu">クリスマスメニュー</a>
+      <a href="#faq">よくある質問</a>
+      <a href="#access">アクセス</a>
+    </nav>
+  </div>
+  <div class="xm-lights xm-lights--header" data-deco="lights"></div>
+</header>
+
+<section class="hero" id="top" data-hero-image>
+  <!-- 写真の上には飾りを重ねない(2026-09-26 オーナー指示) -->
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Kyoto / Shijo-Kawaramachi — Christmas Cafe</p>
+    <h1>花とツリーに包まれて、<br>KASUMIのクリスマス。</h1>
+    <p>四条河原町から徒歩3分。天井いっぱいのドライフラワーに、雪のツリーとオーナメント。期間中は朝から夜まで、一日中クリスマスカフェです。</p>
+    <a class="btn" href="#menu">クリスマスメニューを見る →</a>
+  </div>
+</section>
+
+<!-- 期間と臨時休業は 07_共通知識/営業情報.md(版6)の変更予定に合わせる。
+     看板はドレスデンのクリスマスマーケットの入口にある「ろうそくの木のアーチ」の形 -->
+<div class="xmas-dates xm-night" id="dates">
+  <div class="xm-canopy" data-deco="canopy" data-h="120"></div>
+  <div class="xm-archsign">
+    <!-- 大聖堂はアーチ看板の奥に立ち、看板の上へそびえる(文字の後ろは暗くして読めるように) -->
+    <div class="xm-art xm-art--cathedral xm-sparkle" data-art="images/christmas/cathedral.png" aria-hidden="true"></div>
+    <!-- 手描きの広場の1枚絵(square.png)が届いたら、大聖堂・陶器の家・影絵の代わりにこれだけを出す -->
+    <div class="xm-art xm-art--square xm-sparkle" data-art="images/christmas/square.png" aria-hidden="true"></div>
+    <div class="xm-arch" data-deco="arch"></div>
+    <div class="xm-archsign-text">
+      <span class="xm-archsign-kasumi">KASUMI KYOTO</span>
+      <span class="xm-archsign-en">Christmas Cafe</span>
+      <b>2026.11.19 <small>THU</small> — 12.27 <small>SUN</small></b>
+      <span class="xm-archsign-note">11月16日(月)〜18日(水)は飾り付けのため臨時休業</span>
+    </div>
+  </div>
+  <p class="xm-period-note">期間中は<b>夜カフェはお休み</b>。お食事は20:30まで、そのあとはドリンクとデザートをご用意しています。<span lang="en">Christmas Cafe Nov 19 &ndash; Dec 27 &middot; No reservations</span></p>
+  <div class="xm-skyline" data-deco="skyline" data-h="150"></div>
+  <div class="xm-lanterns" data-deco="lanterns"></div>
+</div>
+
+<section id="concept" class="xm-concept xm-night">
+  <div class="xm-art xm-art--snowman" data-art="images/christmas/snowman.png" aria-hidden="true"></div>
+  <div class="xm-garland" data-deco="garland"></div>
+  <div class="xm-stars xm-stars--right" data-deco="stars" data-count="2" data-len="120"></div>
+  <div class="xm-hang xm-hang--left" data-deco="hang" data-count="3" data-len="140"></div>
+  <div class="wrap concept">
+    <img src="images/christmas/photos/tree-presents.jpg" alt="雪のツリーと赤いプレゼントの箱。奥にクリスマスの小物が並ぶ棚">
+    <div class="concept-text">
+      <p class="eyebrow"><span class="xm-holly" data-deco="holly"></span>Concept<span class="xm-holly xm-holly--flip" data-deco="holly"></span></p>
+      <h2>階段を上がった先は、<br>クリスマスの店内。</h2>
+      <div class="xm-divider" data-deco="divider"></div>
+      <p>KASUMIは1階の専用入口から階段を上がった2階にあるお店です。この季節は、天井のドライフラワーに雪のツリーやガーランド、棚いっぱいのクリスマスの小物が加わります。</p>
+      <ul class="concept-steps">
+        <li><span class="num">1</span>1階の専用階段からお入りください</li>
+        <li><span class="num">2</span>階段を上がると、踊り場で大きい猫のイラストがお出迎え</li>
+        <li><span class="num">3</span>2階の扉を開けると、クリスマスの店内へ</li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap">
+    <!-- 写真は 2025年クリスマスカフェ(写っているのはスタッフ。2026-09-26 オーナーが使用可と回答) -->
+    <ul class="concept-strip">
+      <li><figure><img src="images/christmas/photos/xmas-card.jpg" alt="ツリーの灯りの前で、猫の絵のKASUMIのクリスマスカードを持つ手" loading="lazy"><figcaption>クリスマスのカード</figcaption></figure></li>
+      <li><figure><img src="images/christmas/photos/tree-hotdrink.jpg" alt="雪のツリーとプレゼントの前で、マシュマロのホットドリンクを持つ手" loading="lazy"><figcaption>ツリーの下で、あたたかい一杯</figcaption></figure></li>
+      <li><figure><img src="images/christmas/photos/staff-tree.jpg" alt="雪のツリーの前のスタッフ" loading="lazy"><figcaption>雪のツリーの前で</figcaption></figure></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== 去年のクリスマスカフェ(動画) =====
+     動画はスタッフが編集した2025年のリール3本(KASUMI_photos/クリスマスカフェ/HP用動画)。
+     去年の「クリスマス限定メニューは12月25日まで」の文字が入る終わりの数秒は切ってある(今年は12/27まで)。
+     音なし・自動再生・くり返し。動画の上には飾りを重ねない -->
+<section id="last-xmas" class="xm-night xm-lastxmas">
+  <div class="xm-canopy" data-deco="canopy" data-h="120"></div>
+  <div class="wrap xm-lx">
+    <!-- 窓は1つ。3本を順番にくり返し流す(3つ並べるとうるさい、とオーナー指示 2026-09-26) -->
+    <div class="xm-vhut">
+      <video class="xm-playlist" muted playsinline preload="auto"
+        data-list="images/christmas/video/last-xmas-1.mp4 images/christmas/video/last-xmas-2.mp4 images/christmas/video/last-xmas-3.mp4"
+        src="images/christmas/video/last-xmas-1.mp4" poster="images/christmas/video/last-xmas-1.jpg"
+        aria-label="去年のクリスマスカフェの様子。ツリーの横のクリスマスプレート、雪のツリーの店内、入口のポインセチア"></video>
+      <div class="xm-vdots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+    </div>
+    <div class="xm-lx-text">
+      <p class="eyebrow"><span class="xm-holly" data-deco="holly"></span>Last Christmas<span class="xm-holly xm-holly--flip" data-deco="holly"></span></p>
+      <p class="xm-lx-en">Christmas<br>Memories</p>
+      <h2>去年の、KASUMIのクリスマス。</h2>
+      <div class="xm-divider" data-deco="divider"></div>
+      <p class="xm-lx-ja">天井いっぱいのドライフラワーに、雪のツリー。<br>あたたかいマグと、クリスマスのプレート。<br>今年も、この景色の中でお待ちしています。</p>
+      <p class="xm-lx-en-body">Dried flowers overhead, snowy trees and warm mugs &mdash; a glimpse of our Christmas cafe last winter. We look forward to welcoming you again this season.</p>
+      <p class="xm-videos-note">※映像は2025年のものです。メニューの内容・価格は今年と異なります。</p>
+    </div>
+  </div>
+</section>
+
+<section id="hours" class="hours xm-night xm-hours">
+  <div class="xm-art xm-art--lantern xm-sparkle" data-art="images/christmas/lantern.png" aria-hidden="true"></div>
+  <div class="xm-canopy" data-deco="canopy" data-h="130"></div>
+  <div class="xm-stars xm-stars--hours" data-deco="stars" data-count="2" data-len="90"></div>
+  <div class="xm-skyline xm-skyline--hours" data-deco="skyline" data-h="170"></div>
+  <div class="wrap xm-bighut">
+    <div class="xm-roof xm-roof--big" aria-hidden="true">
+      <div class="xm-valance"></div>
+      <div class="xm-hut-eave" data-deco="lights"></div>
+      <div class="xm-roof-garland" data-deco="garland" data-flat="1"></div>
+    </div>
+    <div class="section-head">
+      <p class="eyebrow"><span class="xm-holly" data-deco="holly"></span>Hours<span class="xm-holly xm-holly--flip" data-deco="holly"></span></p>
+      <h2>営業時間</h2>
+      <div class="xm-divider" data-deco="divider"></div>
+      <p>期間中も朝8:00から夜23:00まで。夜カフェはお休みして、閉店まで一日中クリスマスカフェです。</p>
+    </div>
+    <!-- 期間中の営業形態は 07_共通知識/営業情報.md(版6)の変更予定「クリスマスカフェ期間の営業形態」に合わせる。
+         16:00のライトダウンの有無と、20:30以降の品目は未確認なので書かない -->
+    <div class="hours-grid">
+      <div class="hours-card">
+        <div class="time">8:00 – 11:00</div>
+        <div class="label">モーニングメニュー</div>
+      </div>
+      <div class="hours-card">
+        <div class="time">8:00 – 20:30</div>
+        <div class="label">クリスマスメニュー(お食事)</div>
+      </div>
+      <div class="hours-card">
+        <div class="time">20:30 – 23:00</div>
+        <div class="label">ドリンクとデザート(最終入店 22:00)</div>
+      </div>
+      <div class="hours-card">
+        <div class="time">11/16 – 11/18</div>
+        <div class="label">飾り付けのため臨時休業</div>
+      </div>
+    </div>
+    <p class="hours-note">ご予約は承っておりません。混み合う時間は、お待ちいただくことがあります。</p>
+    <!-- 英語の案内(広報チェックの提案⑥)。内容は 07_共通知識/営業情報.md 版7・店舗基本情報.md と一致させる -->
+    <div class="xm-english" lang="en">
+      <p class="xm-english-title">For our guests from abroad</p>
+      <ul>
+        <li><b>Christmas Cafe:</b> Nov 19 (Thu) &ndash; Dec 27 (Sun), 2026</li>
+        <li><b>Open:</b> 8:00 &ndash; 23:00 (last entry 22:00). Food until 20:30, drinks &amp; desserts after 20:30.</li>
+        <li><b>Closed:</b> Nov 16 &ndash; 18 for Christmas decorating.</li>
+        <li><b>No reservations</b> &mdash; please just walk in. All menu items are written in English.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ソリの演出: 夜空をサンタとトナカイのソリが駆ける =====
+     ヨーロッパの旧市街の屋根の上から、カメラがゆっくり夜空へ上がり、ソリが月の前を横切って、金の光の粉が残る → 「Christmas Menu」
+     星と月はコードで描く。夜空・雲・ソリは Codex の水彩画。街並みは Codex の絵が届くまでコードで描く。高さは sleigh.js が付ける -->
+<section class="xs" id="sleigh" aria-label="サンタのソリが夜空を駆ける演出">
+  <div class="xs-sticky">
+    <div class="xs-sky" data-art="images/christmas/sleigh-sky.jpg"></div>
+    <canvas class="xs-stars" aria-hidden="true"></canvas>
+    <div class="xs-moon" aria-hidden="true"></div>
+    <div class="xs-cloud xs-cloud--a" data-art="images/christmas/sleigh-cloud-a.png" aria-hidden="true"></div>
+    <div class="xs-cloud xs-cloud--b" data-art="images/christmas/sleigh-cloud-b.png" aria-hidden="true"></div>
+    <canvas class="xs-trail" aria-hidden="true"></canvas>
+    <div class="xs-sleigh" data-art="images/christmas/sleigh.png" aria-hidden="true">
+      <svg class="xs-fallback" viewBox="0 0 400 150">
+        <!-- 仮のソリ(金の線画)。Codex の sleigh.png が届いたら自動で差し替わる -->
+        <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 118 q8 14 30 14 h70 q14 0 20 -12" />
+          <path d="M22 118 v-26 q0 -16 18 -18 h40 q20 0 30 -20 q4 -8 12 -6" />
+          <path d="M30 92 h70" />
+          <path d="M50 74 q-6 -18 8 -26 q14 -6 20 8 q2 10 -6 18" />
+          <circle cx="66" cy="44" r="7" />
+          <path d="M60 38 q6 -12 16 -4" />
+          <path d="M92 56 l10 -18 q10 -6 18 2 l-6 16" />
+          <path d="M112 70 C 160 66, 200 66, 240 60" />
+          <path d="M112 76 C 170 80, 250 78, 330 60" />
+        </g>
+        <g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <g transform="translate(222 26)"><path d="M0 34 q10 -6 30 -4 q8 -8 14 -18 m-4 4 l-6 -12 m8 8 l4 -10 M4 34 l-8 22 m12 -20 l6 20 m18 -22 l-4 22 m10 -22 l10 18" /></g>
+          <g transform="translate(300 12)"><path d="M0 34 q10 -6 30 -4 q8 -8 14 -18 m-4 4 l-6 -12 m8 8 l4 -10 M4 34 l-8 22 m12 -20 l6 20 m18 -22 l-4 22 m10 -22 l10 18" /></g>
+        </g>
+      </svg>
+    </div>
+    <!-- 手前: クリスマス一色のヨーロッパの旧市街(和の要素は入れない。2026-09-26 オーナー指示)。
+         Codex の sleigh-town.png が届いたら自動で差し替わる。届くまではコードで描いた街並み -->
+    <div class="xs-roofs" data-art="images/christmas/sleigh-town.png" data-deco="skyline" data-town="1" aria-hidden="true"></div>
+    <p class="xs-caption"><span class="xs-caption-en">Merry Christmas</span><span class="xs-caption-ja">クリスマスのごちそうを、どうぞ。</span></p>
+    <div class="xs-dusk" aria-hidden="true"></div>
+  </div>
+</section>
+
+<section id="menu" class="xmas-menu xm-night">
+  <div class="xm-art xm-art--globe" data-art="images/christmas/snowglobe.png" aria-hidden="true"></div>
+  <div class="xm-art xm-art--wreath" data-art="images/christmas/wreath.png" aria-hidden="true"></div>
+  <div class="xm-awning" aria-hidden="true"></div>
+  <div class="xm-lights xm-lights--awning" data-deco="lights"></div>
+  <div class="xm-art xm-art--nutL" data-art="images/christmas/nutcracker.png" aria-hidden="true"></div>
+  <div class="xm-art xm-art--nutR" data-art="images/christmas/nutcracker.png" aria-hidden="true"></div>
+  <div class="xm-marquee" data-deco="marquee" data-text="Christmas Menu" aria-hidden="true"></div>
+  <p class="xm-marquee-sub" aria-hidden="true">KASUMI KYOTO · 2026</p>
+  <div class="xm-canopy xm-canopy--menu" data-deco="canopy" data-h="160"></div>
+  <div class="xm-stars xm-stars--menuL" data-deco="stars" data-count="2" data-len="90"></div>
+  <div class="xm-stars xm-stars--menuR" data-deco="stars" data-count="2" data-len="260"></div>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow"><span class="xm-holly" data-deco="holly"></span>Christmas Menu<span class="xm-holly xm-holly--flip" data-deco="holly"></span></p>
+      <h2>クリスマスメニュー</h2>
+      <div class="xm-divider" data-deco="divider"></div>
+      <p>期間中は、おばんざいのセットをお休みして、クリスマスの洋食をご用意します。デザートとドリンクは、去年ご好評いただいたクリスマスの特別メニューです。価格はすべて税込です。</p>
+    </div>
+    <!-- 名前と価格は「クリスマス/2026_目標と作戦.md」のオーナー決定(2026-09-26)と 07_共通知識/メニュー・価格.md に合わせる。
+         未決定の価格は「近日公開」。写真は2025年クリスマスのもの(今年の料理は10月の試作で撮影して差し替える) -->
+    <div class="menu-grid menu-grid--2col">
+      <div class="menu-card"><span class="xm-card-holly" data-deco="holly"></span>
+        <div class="thumb"><img src="images/christmas/photos/plate.jpg" alt="クリスマスプレート" loading="lazy"></div>
+        <div class="body">
+          <h3>クリスマスプレート</h3>
+          <p>和牛のローストビーフとローストポークに、選べるメイン(フライドチキン または 煮込みハンバーグ)。</p>
+          <p class="price">¥1,980</p>
+        </div>
+      </div>
+      <div class="menu-card"><span class="xm-card-holly" data-deco="holly"></span>
+        <div class="thumb thumb--soon"><span>Photo<br>coming soon</span><em class="thumb-note">イメージ</em></div>
+        <div class="body">
+          <h3>グラタン定食</h3>
+          <p>ミートソースとナス／チキンとほうれん草のホワイトソース。2種から選べるグラタンに、洋風のおかずを添えて。</p>
+          <p class="price">¥1,800</p>
+        </div>
+      </div>
+      <div class="menu-card"><span class="xm-card-holly" data-deco="holly"></span>
+        <div class="thumb thumb--soon"><span>Photo<br>coming soon</span><em class="thumb-note">イメージ</em></div>
+        <div class="body">
+          <h3>クリスマスのカツカレー</h3>
+          <p>盛り付けをクリスマス仕様にした、期間限定のカツカレー。</p>
+          <p class="price price--tbd">価格は近日公開</p>
+        </div>
+      </div>
+      <div class="menu-card"><span class="xm-card-holly" data-deco="holly"></span>
+        <div class="thumb"><img src="images/menu-wagyu.jpg" alt="黒毛和牛ステーキセット" loading="lazy"></div>
+        <div class="body">
+          <h3>黒毛和牛ステーキセット</h3>
+          <p>黒毛和牛のステーキを、ご飯とお椀とともに。期間中もご用意しています。</p>
+          <p class="price">¥4,700</p>
+        </div>
+      </div>
+      <div class="menu-card"><span class="xm-card-holly" data-deco="holly"></span>
+        <div class="thumb"><img src="images/christmas/photos/dessert-set.jpg" alt="ティラミスのデザートプレートと、マシュマロのホットドリンク" loading="lazy"></div>
+        <div class="body">
+          <h3>クリスマスのデザートプレート</h3>
+          <p>ティラミスに、トナカイのチョコと星のクッキーを添えて。ドリンクとのセットでご注文ください。</p>
+          <p class="price price--tbd">価格は近日公開</p>
+        </div>
+      </div>
+      <div class="menu-card"><span class="xm-card-holly" data-deco="holly"></span>
+        <div class="thumb"><img src="images/christmas/photos/fondant.jpg" alt="フォンダンショコラとバニラアイス" loading="lazy"></div>
+        <div class="body">
+          <h3>フォンダンショコラ&amp;アイスクリーム</h3>
+          <p>あたたかいフォンダンショコラに、バニラアイスとさくらんぼ。</p>
+          <p class="price price--tbd">価格は近日公開</p>
+        </div>
+      </div>
+      <div class="menu-card"><span class="xm-card-holly" data-deco="holly"></span>
+        <div class="thumb"><img src="images/christmas/photos/hot-marshmallow.jpg" alt="スノーマンのマシュマロを浮かべたホットドリンク" loading="lazy"></div>
+        <div class="body">
+          <h3>マシュマロのホットドリンク</h3>
+          <p>スノーマンのマシュマロを浮かべた、あたたかい一杯。アイスもあります。</p>
+          <p class="price price--tbd">価格は近日公開</p>
+        </div>
+      </div>
+      <div class="menu-card"><span class="xm-card-holly" data-deco="holly"></span>
+        <div class="thumb"><img src="images/christmas/photos/acai.jpg" alt="クリスマスのアサイーボウル" loading="lazy"></div>
+        <div class="body">
+          <h3>クリスマスのアサイーボウル</h3>
+          <p>フルーツとアイスに、ジンジャーマンと星のクッキーを飾って。</p>
+          <p class="price price--tbd">価格は近日公開</p>
+        </div>
+      </div>
+    </div>
+    <p class="menu-more"><b>モーニング(8:00〜11:00)</b>は期間中もご用意しています。フルーツたっぷりフレンチトースト(¥1,200)と、チーズフォンデュトーストとサラダとコーンポタージュのセット(¥1,200／¥1,500)。<br><b>期間中お休みするメニュー：</b>おばんざいのセット、鶏の唐揚げのセット。</p>
+  </div>
+</section>
+
+<!-- ===== よくある質問(広報チェックの提案④) =====
+     答えは 07_共通知識(営業情報 版7・店舗基本情報・メニュー・価格)とクリスマスの作戦のオーナー決定だけに基づく。
+     「ご招待」「無料」と誤解される書き方はしない -->
+<section id="faq" class="xm-night xm-faq">
+  <!-- 赤い封筒がのぞくポスト。最初の封筒の招待状とつながる -->
+  <div class="xm-art xm-art--mailbox" data-art="images/christmas/mailbox.png" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow"><span class="xm-holly" data-deco="holly"></span>FAQ<span class="xm-holly xm-holly--flip" data-deco="holly"></span></p>
+      <h2>よくある質問</h2>
+      <div class="xm-divider" data-deco="divider"></div>
+    </div>
+    <div class="xm-faq-list">
+      <details><summary>予約はできますか？</summary><p>ご予約は承っておりません。そのままお越しください。席数は32席です。混み合う時間は、お待ちいただくことがあります。</p></details>
+      <details><summary>クリスマスカフェの期間中は、何時まで営業していますか？</summary><p>朝8:00から夜23:00まで営業しています（最終入店22:00）。お食事のご注文は20:30までで、そのあとはドリンクとデザートをご注文いただけます。期間中は夜カフェはお休みです。</p></details>
+      <details><summary>クリスマス当日も営業していますか？</summary><p>開催期間の11月19日（木）〜12月27日（日）は、定休日なしで営業しています。直前の11月16日（月）〜18日（水）は、飾り付けのため臨時休業です。</p></details>
+      <details><summary>おばんざいのセットは食べられますか？</summary><p>クリスマスカフェの期間中は、おばんざいのセットをお休みして、グラタン定食やクリスマスプレートなどの洋食をご用意しています。</p></details>
+      <details><summary>英語のメニューはありますか？ / Do you have an English menu?</summary><p>すべてのメニューに英語表記があります。All items on our menu are also written in English.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="access" class="access">
+  <div class="xm-garland" data-deco="garland"></div>
+  <div class="xm-canopy xm-canopy--access" data-deco="canopy" data-h="130"></div>
+  <div class="wrap access-grid">
+    <div>
+      <p class="eyebrow"><span class="xm-holly" data-deco="holly"></span>Access<span class="xm-holly xm-holly--flip" data-deco="holly"></span></p>
+      <h2>アクセス</h2>
+      <div class="xm-divider" data-deco="divider"></div>
+      <!-- 住所・電話は Googleビジネスプロフィールの登録値(07_共通知識/店舗基本情報.md、公開案内に使ってよい) -->
+      <dl>
+        <dt>住所</dt><dd>〒604-8046<br>京都府京都市中京区新京極通蛸薬師下る東側町508 2F</dd>
+        <dt>電話</dt><dd><a href="tel:0752312922">075-231-2922</a></dd>
+        <dt>最寄駅</dt><dd>阪急京都線 京都河原町駅(四条河原町)より徒歩3分</dd>
+        <dt>営業時間</dt><dd>8:00 – 23:00(お食事の注文は20:30まで、最終入店22:00)</dd>
+        <dt>定休日</dt><dd>なし(11月16日〜18日は臨時休業)</dd>
+        <dt>席数</dt><dd>32席・完全禁煙</dd>
+        <dt>予約</dt><dd>承っておりません(予約なしでお越しください)</dd>
+        <dt>メニュー</dt><dd>すべてのメニューに英語表記があります</dd>
+      </dl>
+    </div>
+    <div>
+      <p class="eyebrow"><span class="xm-holly" data-deco="holly"></span>Follow<span class="xm-holly xm-holly--flip" data-deco="holly"></span></p>
+      <h2>SNS</h2>
+      <div class="xm-divider" data-deco="divider"></div>
+      <p style="font-size:14.5px; color:rgba(255,255,255,0.75); margin-top:12px;">クリスマスの店内やメニューの様子は SNS で発信しています。</p>
+      <div class="sns-row">
+        <a href="https://www.instagram.com/kasumi_kyoto/" target="_blank" rel="noopener" data-sns="instagram">Instagram</a>
+        <a href="https://www.tiktok.com/@ayuko_cafegirl" target="_blank" rel="noopener" data-sns="tiktok">TikTok</a>
+        <a href="https://maps.app.goo.gl/QVpJ8UWYc7qEV3ALA" target="_blank" rel="noopener">Google マップ</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="xm-footer">
+  <div class="xm-snowbank" aria-hidden="true"></div>
+  © KASUMI, Kyoto — 京都府京都市中京区新京極通蛸薬師下る東側町508 2F
+</footer>
+
+<script src="christmas-art.js"></script>
+<script src="deco.js"></script>
+<script src="envelope.js"></script>
+<script src="sleigh.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
