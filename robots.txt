@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /kasumihp/xmas-preview-k7q3m9/
 
 Sitemap: https://yoichi077-cyber.github.io/kasumihp/sitemap.xml
