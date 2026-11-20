@@ -601,7 +601,7 @@ body.xmas {
 body.xmas .hero {
   background-position: center 45%;
   background-image: linear-gradient(to top, rgba(30, 10, 12, 0.78) 0%, rgba(30, 10, 12, 0.15) 55%, rgba(30, 10, 12, 0.3) 100%),
-    url("images/christmas/photos/interior-shelves.jpg");
+    url("images/christmas/photos2026/interior-a.jpg");
 }
 
 /* 手紙の文字は生成りの紙の上なので、濃いめの金にする(明るい金だと紙に溶けて読めない) */
