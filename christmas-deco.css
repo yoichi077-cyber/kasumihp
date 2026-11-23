@@ -868,3 +868,9 @@ body.xmas .site-header .nav a:hover { color: #ffd08a; }
 .xm-small { margin-top: 6px !important; font-size: 11.5px !important; line-height: 1.6; }
 .xm-mains b { color: #8a1c26; }
 @media (max-width: 600px) { .xm-mains--photo { grid-template-columns: repeat(2, 1fr); } }
+
+/* 英語の名前(2026-11-24 インバウンド向け) */
+.xm-en { display: block; margin-top: 2px; font-family: "Zen Old Mincho", serif; font-style: italic; font-weight: 500; font-size: 0.72em; letter-spacing: 0.02em; color: #8a6a3a; }
+h3 .xm-en { font-size: 12.5px; }
+.xm-mains--photo .xm-en { font-size: 10.5px; color: #8a6a3a; }
+.xm-en-line { display: inline-block; margin-top: 4px; font-family: "Zen Old Mincho", serif; font-style: italic; font-size: 11.5px; line-height: 1.6; color: #8a6a3a; }
